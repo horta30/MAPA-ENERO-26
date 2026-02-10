@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://horta30.github.io/MAPA-ENERO-26/sitemap.xml
