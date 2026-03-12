@@ -338,7 +338,7 @@ body {
   cursor: pointer;
   transition: all var(--transition-base);
   position: relative;
- overflow: visible;
+overflow: hidden;
   min-height: 220px;
 }
 
@@ -366,9 +366,11 @@ body {
 }
 
 .ruta-card.active {
-  border-color: var(--color-accent);
-  background: rgba(0, 229, 160, 0.08);
-  box-shadow: 0 0 0 2px rgba(0, 229, 160, 0.3);
+    border-color: var(--color-accent);
+    background: rgba(0, 229, 160, 0.08);
+    box-shadow: 0 0 0 2px rgba(0, 229, 160, 0.3);
+    height: auto;
+    overflow: visible;
 }
 
 .ruta-card.active::before {
