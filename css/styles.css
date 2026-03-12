@@ -1887,3 +1887,32 @@ body {
     transform: translateX(-50%) translateY(0);
   }
 }
+/* ============================================================================
+   MINI LISTA DE PISTAS EN TARJETA BIKE PARK
+   ============================================================================ */
+
+.trails-list-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.trail-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text-bright);
+}
+
+.trail-mini-icon {
+  color: var(--color-accent);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.trail-mini-name {
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+}
