@@ -338,7 +338,7 @@ body {
   cursor: pointer;
   transition: all var(--transition-base);
   position: relative;
-  overflow: hidden;
+ overflow: visible;
   min-height: 220px;
 }
 
