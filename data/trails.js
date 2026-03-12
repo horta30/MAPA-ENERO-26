@@ -74,20 +74,27 @@ const TRAILS = [
     gpx: "gpx/fundo-manco-negro.gpx",
     startCoords: [-73.1500, -37.0167]
   },
-  {
+ {
     id: "ruta-006",
-    name: "DH ANTIGUA",
-    type: "DH",
+    name: "BikePark Penco",
+    type: "BIKE PARK",
     club: "HIJOS DE PENCO",
-    difficulty: "negro",
-    distanceKm: 1.88,
-    ascent: 59,
-    descent: 297,
+    difficulty: "",
+    distanceKm: 0,
+    ascent: 0,
+    descent: 0,
     location: "PENCO",
     region: "Biobío",
     kmz: "kmz/HIJOS_DE_PENCO_DH_PENCO_BIKE_PARK_NEGRO.kmz",
     gpx: "gpx/penco-bike-park-negro.gpx",
-    startCoords: [-72.9950, -36.7400]
+    startCoords: [-72.9894, -36.7479],
+    trails: [
+      { name: "DH Antigua",    startCoords: [-72.989423, -36.747942] },
+      { name: "DH Nueva",      startCoords: [-72.973110, -36.753756] },
+      { name: "Mirador",       startCoords: [-72.977719, -36.755249] },
+      { name: "Esquizofrenia", startCoords: [-72.948893, -36.746998] }
+    ],
+    description: "4 pistas DH. Incluye: DH Antigua, DH Nueva, Mirador, Esquizofrenia."
   },
   {
     id: "ruta-007",
