@@ -1059,18 +1059,11 @@ function createRutaCard(trail) {
      ${difficultyRow}
       ${statsRow}
       ${trailsListHTML}
-      ${navigationHTML}
-```
-
-Es decir, solo agregar `${trailsListHTML}` entre `${statsRow}` y `${navigationHTML}`.
-
-Búscalo con Ctrl+F usando exactamente este texto:
-```
-${statsRow}
-      ${navigationHTML}
+          ${navigationHTML}
     </div>
   `;
 
+  
   // Click en tarjeta carga rutas + centra
   card.addEventListener('click', async () => {
     await loadRoutesIfNeeded();
