@@ -32,18 +32,23 @@ const TRAILS = [
   },
   {
     id: "ruta-002",
-    name: "Villa Esperanza",
-    type: "DH",
+    name: "Los Lagos Bike Park",
+    type: "BIKE PARK",
     club: "ADRENALINA DOWNHILL",
-    difficulty: "negro",
-    distanceKm: 0.91,
+    difficulty: "",
+    distanceKm: 0,
     ascent: 0,
     descent: 0,
     location: "LOS LAGOS",
     region: "Los Ríos",
-    kmz: "kmz/ADRENALINA_DOWNHILL_DH_LOS_LAGOS_Villa_Esperanza_NEGRO.kmz",
-    gpx: "gpx/adrenalina-downhill-los-lagos-villa-esperanza.gpx",
-    startCoords: [-72.8167, -39.8500]
+    kmz: "kmz/LOS_LAGOS_BIKE_PARK.kmz",
+    gpx: "gpx/los-lagos-bike-park.gpx",
+    startCoords: [-72.81857, -39.86870],
+    trails: [
+      { name: "Villa Esperanza",     startCoords: [-72.81857, -39.86870] },
+      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199] }
+    ],
+    description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
   },
   {
     id: "ruta-003",
