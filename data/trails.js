@@ -32,7 +32,7 @@ const TRAILS = [
   },
   {
     id: "ruta-002",
-    name: "Los Lagos Bike Park",
+    name: "Bosque Los Lagos",
     type: "BIKE PARK",
     club: "ADRENALINA DOWNHILL",
     difficulty: "",
@@ -41,7 +41,7 @@ const TRAILS = [
     descent: 0,
     location: "LOS LAGOS",
     region: "Los Ríos",
-    kmz: "kmz/LOS_LAGOS_BIKE_PARK.kmz",
+    kmz: "kmz/Los Lagos Bike Park.kmz",
     gpx: "gpx/los-lagos-bike-park.gpx",
     startCoords: [-72.81857, -39.86870],
     trails: [
@@ -394,6 +394,22 @@ const TRAILS = [
   // ========================================================================
   // NUEVAS RUTAS - MARZO 2026
   // ========================================================================
+
+  {
+    id: "ruta-108",
+    name: "Circuito XCO Yungay",
+    type: "XC",
+    club: "CD Cholguan",
+    difficulty: "azul",
+    distanceKm: 3.85,
+    ascent: 125,
+    descent: 127,
+    location: "YUNGAY",
+    region: "Biobío",
+    kmz: "kmz/YUNGAY_XCO_MTB.kmz",
+    gpx: "gpx/circuito-xco-yungay.gpx",
+    startCoords: [-72.071464, -37.118327]
+  },
 
   {
     id: "ruta-107",
