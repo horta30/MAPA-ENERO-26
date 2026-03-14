@@ -8,6 +8,7 @@
 // - 1 ruta actualizada (Ruka Race reemplaza RukaFest)
 // - 2 NUEVOS BIKE PARKS: Lota y Santa Juana (Enero 20, 2026)
 // - Total: 23 ubicaciones
+// - ruta-107: Cumbres de Nahuelbuta (Marzo 2026)
 // ============================================================================
 
 const TRAILS = [
@@ -74,7 +75,7 @@ const TRAILS = [
     gpx: "gpx/fundo-manco-negro.gpx",
     startCoords: [-73.1500, -37.0167]
   },
- {
+  {
     id: "ruta-006",
     name: "BikePark Penco",
     type: "BIKE PARK",
@@ -236,15 +237,10 @@ const TRAILS = [
   // ========================================================================
   // NUEVAS PISTAS DH - V8.0
   // ========================================================================
-  
-  // TEMUCO - Araucanía DH - Club Araucanía DH
+
   {
     id: "ruta-017",
     name: "Araucanía DH",
-    type: "DH",
-    club: "CLUB ARAUCANÍA DH",
-    difficulty: "negro",
-    distanceKm: 2.3,
     type: "DH",
     club: "CLUB ARAUCANÍA DH",
     difficulty: "negro",
@@ -257,8 +253,6 @@ const TRAILS = [
     gpx: "gpx/araucania-dh-temuco.gpx",
     startCoords: [-72.6710, -38.5867]
   },
-
-  // PAILLACO - El Ñadi - Club El Ñadi
   {
     id: "ruta-018",
     name: "El Ñadi",
@@ -274,8 +268,6 @@ const TRAILS = [
     gpx: "gpx/el-nadi-paillaco-dh.gpx",
     startCoords: [-73.0123, -40.1172]
   },
-
-  // COELEMU - Ruka Race - Club Ruka (REEMPLAZA ruta-015 original)
   {
     id: "ruta-015",
     name: "Ruka Race",
@@ -293,10 +285,9 @@ const TRAILS = [
   },
 
   // ========================================================================
-  // BIKE PARKS Y PARQUES - V8.0 (sin dificultad)
+  // BIKE PARKS Y PARQUES - V8.0
   // ========================================================================
 
-  // BUSTAMANTE BIKE PARK - Coihueco
   {
     id: "ruta-101",
     name: "Bustamante Bike Park",
@@ -312,8 +303,6 @@ const TRAILS = [
     gpx: "gpx/bustamante-bike-park.gpx",
     startCoords: [-71.7471, -36.5887]
   },
-
-  // COLORADO BIKE PARK - Curanilahue
   {
     id: "ruta-102",
     name: "Colorado Bike Park",
@@ -329,8 +318,6 @@ const TRAILS = [
     gpx: "gpx/colorado-bike-park.gpx",
     startCoords: [-73.3279, -37.4926]
   },
-
-  // LA MISIÓN BIKE PARK - Osorno
   {
     id: "ruta-103",
     name: "La Misión Bike Park",
@@ -346,8 +333,6 @@ const TRAILS = [
     gpx: "gpx/la-mision-bike-park.gpx",
     startCoords: [-73.2973, -40.5322]
   },
-
-  // PARQUE COLLICO - Valdivia
   {
     id: "ruta-104",
     name: "Parque Collico",
@@ -368,7 +353,6 @@ const TRAILS = [
   // NUEVOS BIKE PARKS - ENERO 20, 2026
   // ========================================================================
 
-  // BIKEPARK LOTA
   {
     id: "ruta-105",
     name: "BikePark Lota",
@@ -385,8 +369,6 @@ const TRAILS = [
     startCoords: [-73.1239, -37.0821],
     description: "16 rutas MTB y 36 puntos de interés. Incluye: Perro Muerto, Windows 21, DH Clásico, Raíces Trail, 840, Smoke, Portal, Skills y más."
   },
-
-  // BIKEPARK SANTA JUANA
   {
     id: "ruta-106",
     name: "BikePark Santa Juana",
@@ -402,11 +384,39 @@ const TRAILS = [
     gpx: "gpx/santa-juana-bikepark.gpx",
     startCoords: [-72.9310, -37.1940],
     description: "5 rutas MTB y 10 puntos de interés. Incluye: Pista EnduHuaso, Pista Anfiteatro, Lanzador DH, Pista Sultan, Clásica DH."
+  },
+
+  // ========================================================================
+  // NUEVAS RUTAS - MARZO 2026
+  // ========================================================================
+
+  {
+    id: "ruta-107",
+    name: "Cumbres de Nahuelbuta",
+    type: "XC",
+    club: "MTB Curanilahue",
+    difficulty: "",
+    distanceKm: 0,
+    ascent: 0,
+    descent: 0,
+    location: "CURANILAHUE",
+    region: "Biobío",
+    kmz: "kmz/Cumbres_de_Nahuelbuta.kmz",
+    gpx: "gpx/cumbres-de-nahuelbuta.gpx",
+    startCoords: [-73.351359, -37.690323],
+    trails: [
+      { name: "Caramavida 1",              startCoords: [-73.351359, -37.690323] },
+      { name: "Desafío Completo XCM",      startCoords: [-73.356682, -37.692766] },
+      { name: "Caramavida - Cuyinco Alto", startCoords: [-73.362784, -37.684873] },
+      { name: "Vuelta 2",                  startCoords: [-73.360974, -37.691117] },
+      { name: "Tres-Río Caramavida",       startCoords: [-73.403723, -37.626700] }
+    ],
+    description: "5 rutas XC. Incluye: Caramavida 1, Desafío Completo XCM, Cuyinco Alto, Vuelta 2, Tres-Río."
   }
 ];
 
 // ============================================================================
-// FUNCIONES DE NAVEGACIÓN (sin cambios)
+// FUNCIONES DE NAVEGACIÓN
 // ============================================================================
 
 function getGoogleMapsUrl(lat, lng, name = '') {
