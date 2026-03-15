@@ -406,7 +406,7 @@ const TRAILS = [
     descent: 127,
     location: "YUNGAY",
     region: "Biobío",
-    kmz: "kmz/YUNGAY_XCO_MTB.kmz",
+    kmz: "kmz/Yungay_XCO_MTB.kmz",
     gpx: "gpx/circuito-xco-yungay.gpx",
     startCoords: [-72.071464, -37.118327]
   },
@@ -422,7 +422,7 @@ const TRAILS = [
     descent: 0,
     location: "CURANILAHUE",
     region: "Biobío",
-    kmz: "kmz/Cumbres_de_Nahuelbuta.kmz",
+    kmz: "kmz/CUMBRES_DE_NAHUELBUTA.KMZ",
     gpx: "gpx/cumbres-de-nahuelbuta.gpx",
     startCoords: [-73.351359, -37.690323],
     trails: [
