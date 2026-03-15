@@ -32,10 +32,10 @@ const TRAILS = [
   },
   {
     id: "ruta-002",
-    name: "Bosque Los Lagos",
+    name: "Los Lagos",
     type: "BIKE PARK",
     club: "ADRENALINA DOWNHILL",
-    difficulty: "",
+    difficulty: "negro",
     distanceKm: 0,
     ascent: 0,
     descent: 0,
