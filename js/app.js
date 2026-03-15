@@ -947,7 +947,14 @@ function renderRutasList() {
 
   list.innerHTML = '';
 
-  TRAILS.forEach(trail => {
+  // Ordenar norte a sur (latitud descendente: menos negativo → más negativo)
+  const sortedTrails = [...TRAILS].sort((a, b) => {
+    const latA = a.startCoords ? a.startCoords[1] : 0;
+    const latB = b.startCoords ? b.startCoords[1] : 0;
+    return latB - latA;
+  });
+
+  sortedTrails.forEach(trail => {
     const card = createRutaCard(trail);
     list.appendChild(card);
   });
@@ -1523,8 +1530,14 @@ function closeDownloadMenuOutside(event) {
 function updateHeaderStats() {
   const count = document.getElementById('ruta-count');
   if (count) {
-    const stats = getTotalStats();
-    count.textContent = `${stats.trails} rutas · ${stats.kilometers} km`;
+    // Calcular pistas totales sumando sub-pistas de bike parks
+    const totalPistas = TRAILS.reduce((sum, trail) => {
+      if (trail.trails && trail.trails.length > 0) {
+        return sum + trail.trails.length;
+      }
+      return sum + 1;
+    }, 0);
+    count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas`;
   }
 }
 
