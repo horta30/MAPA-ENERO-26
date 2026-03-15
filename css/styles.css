@@ -1918,3 +1918,15 @@ min-height: unset;
   font-weight: 600;
   font-family: 'Space Grotesk', sans-serif;
 }
+/* STATS POR PISTA EN BIKE PARK */
+.trail-mini-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.trail-mini-stats {
+  font-size: 11px;
+  color: var(--color-accent);
+  font-family: 'Space Grotesk', sans-serif;
+  opacity: 0.8;
+}
