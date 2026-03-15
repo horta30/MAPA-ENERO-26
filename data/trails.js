@@ -41,12 +41,12 @@ const TRAILS = [
     descent: 0,
     location: "LOS LAGOS",
     region: "Los Ríos",
-    kmz: "kmz/Los Lagos Bike Park.kmz",
+    kmz: "kmz/LOS_LAGOS_BIKE_PARK.kmz",
     gpx: "gpx/los-lagos-bike-park.gpx",
     startCoords: [-72.81857, -39.86870],
     trails: [
-      { name: "Villa Esperanza",     startCoords: [-72.81857, -39.86870] },
-      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199] }
+      { name: "Villa Esperanza",       startCoords: [-72.81857, -39.86870], distanceKm: 0.91, ascent: 0,   descent: 0 },
+      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199], distanceKm: 3.19, ascent: 426, descent: 8 }
     ],
     description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
   },
