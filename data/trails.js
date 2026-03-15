@@ -46,7 +46,7 @@ const TRAILS = [
     startCoords: [-72.81857, -39.86870],
     trails: [
       { name: "Villa Esperanza",       startCoords: [-72.81857, -39.86870], distanceKm: 0.932, ascent: 165, descent: 4 },
-      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199], distanceKm: 3.19, ascent: 426, descent: 8 }
+      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199], distanceKm: 3.19,  ascent: 426, descent: 8 }
     ],
     description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
   },
@@ -308,11 +308,11 @@ const TRAILS = [
     gpx: "gpx/bustamante-bike-park.gpx",
     startCoords: [-71.73776, -36.596287],
     trails: [
-      { name: "El Boldo",              startCoords: [-71.737760, -36.596287], distanceKm: 1.33, ascent: 1,   descent: 163 },
-      { name: "Downtrail Bustamante",  startCoords: [-71.737681, -36.596252], distanceKm: 1.32, ascent: 0,   descent: 166 },
-      { name: "La Resfalosa",          startCoords: [-71.737473, -36.595991], distanceKm: 1.31, ascent: 1,   descent: 165 },
-      { name: "Hardline Plus",         startCoords: [-71.726231, -36.598460], distanceKm: 0.99, ascent: 3,   descent: 151 },
-      { name: "Calabozo 2.0",          startCoords: [-71.738461, -36.603660], distanceKm: 1.34, ascent: 0,   descent: 0   }
+      { name: "El Boldo",             startCoords: [-71.737760, -36.596287], distanceKm: 1.33, ascent: 1, descent: 163 },
+      { name: "Downtrail Bustamante", startCoords: [-71.737681, -36.596252], distanceKm: 1.32, ascent: 0, descent: 166 },
+      { name: "La Resfalosa",         startCoords: [-71.737473, -36.595991], distanceKm: 1.31, ascent: 1, descent: 165 },
+      { name: "Hardline Plus",        startCoords: [-71.726231, -36.598460], distanceKm: 0.99, ascent: 3, descent: 151 },
+      { name: "Calabozo 2.0",         startCoords: [-71.738461, -36.603660], distanceKm: 1.34, ascent: 0, descent: 0   }
     ],
     description: "5 pistas DH. Incluye: El Boldo, Downtrail Bustamante, La Resfalosa, Hardline Plus, Calabozo 2.0."
   },
@@ -386,17 +386,24 @@ const TRAILS = [
     id: "ruta-106",
     name: "BikePark Santa Juana",
     type: "BIKE PARK",
-    club: "GUARDIANES DEL BOSQUE",
+    club: "Mountain BUSTA",
     difficulty: "",
-    distanceKm: 8.3,
-    ascent: 245,
-    descent: 260,
+    distanceKm: 6.96,
+    ascent: 28,
+    descent: 742,
     location: "SANTA JUANA",
     region: "Biobío",
     kmz: "kmz/BIKE_PARK_SANTA_JUANA.kmz",
     gpx: "gpx/santa-juana-bikepark.gpx",
     startCoords: [-72.9310, -37.1940],
-    description: "5 rutas MTB y 10 puntos de interés. Incluye: Pista EnduHuaso, Pista Anfiteatro, Lanzador DH, Pista Sultan, Clásica DH."
+    trails: [
+      { name: "Clásica DH",       startCoords: [-72.93011, -37.18968], distanceKm: 1.57, ascent: 10, descent: 175 },
+      { name: "Pista EnduHuaso",  startCoords: [-72.93104, -37.19397], distanceKm: 1.30, ascent: 0,  descent: 166 },
+      { name: "Pista Anfiteatro", startCoords: [-72.93009, -37.18979], distanceKm: 1.55, ascent: 12, descent: 161 },
+      { name: "Pista EnduPaco",   startCoords: [-72.93010, -37.18969], distanceKm: 1.39, ascent: 1,  descent: 151 },
+      { name: "Pista Sultan",     startCoords: [-72.93079, -37.19395], distanceKm: 1.15, ascent: 5,  descent: 89  }
+    ],
+    description: "5 pistas DH. Incluye: Clásica DH, Pista EnduHuaso, Pista Anfiteatro, Pista EnduPaco, Pista Sultan."
   },
 
   // ========================================================================
