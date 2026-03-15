@@ -45,7 +45,7 @@ const TRAILS = [
     gpx: "gpx/los-lagos-bike-park.gpx",
     startCoords: [-72.81857, -39.86870],
     trails: [
-      { name: "Villa Esperanza",       startCoords: [-72.81857, -39.86870], distanceKm: 0.91, ascent: 0,   descent: 0 },
+      { name: "Villa Esperanza",       startCoords: [-72.81857, -39.86870], distanceKm: 0.932, ascent: 165, descent: 4 },
       { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199], distanceKm: 3.19, ascent: 426, descent: 8 }
     ],
     description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
