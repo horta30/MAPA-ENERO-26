@@ -995,19 +995,22 @@ function createRutaCard(trail) {
 
   // V38: Agregar botones de navegación
   const navigationHTML = getCompactNavigationHTML(trail.id);
-  const trailsListHTML = trail.trails ? `
-    <div class="ruta-detail-row">
-      <span class="detail-label">PISTAS</span>
-      <div class="trails-list-mini">
-        ${trail.trails.map(t => `
-          <div class="trail-mini-item">
-            <span class="trail-mini-icon">◆</span>
-            <span class="trail-mini-name">${escapeHtml(t.name)}</span>
-          </div>
-        `).join('')}
+ const trailsListHTML = trail.trails ? `
+      <div class="ruta-detail-row">
+        <span class="detail-label">PISTAS</span>
+        <div class="trails-list-mini">
+          ${trail.trails.map(t => `
+            <div class="trail-mini-item">
+              <span class="trail-mini-icon">◆</span>
+              <div class="trail-mini-content">
+                <span class="trail-mini-name">${escapeHtml(t.name)}</span>
+                ${t.distanceKm ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent ? ` · +${t.ascent}m` : ''}${t.descent ? `/-${t.descent}m` : ''}</span>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
       </div>
-    </div>
-  ` : '';
+    ` : '';
   // Fila de dificultad solo si corresponde
   const difficultyRow = showDifficulty ? `
       <div class="ruta-detail-row">
