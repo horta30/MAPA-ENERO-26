@@ -86,19 +86,19 @@ const TRAILS = [
     type: "BIKE PARK",
     club: "HIJOS DE PENCO",
     difficulty: "",
-    distanceKm: 0,
-    ascent: 0,
-    descent: 0,
+    distanceKm: 4.36,
+    ascent: 61,
+    descent: 683,
     location: "PENCO",
     region: "Biobío",
     kmz: "kmz/HIJOS_DE_PENCO_DH_PENCO_BIKE_PARK_NEGRO.kmz",
     gpx: "gpx/penco-bike-park-negro.gpx",
     startCoords: [-72.9894, -36.7479],
     trails: [
-      { name: "DH Antigua",    startCoords: [-72.989423, -36.747942] },
-      { name: "DH Nueva",      startCoords: [-72.973110, -36.753756] },
-      { name: "Mirador",       startCoords: [-72.977719, -36.755249] },
-      { name: "Esquizofrenia", startCoords: [-72.948893, -36.746998] }
+      { name: "DH Antigua",    startCoords: [-72.989423, -36.747942], distanceKm: 0.87, ascent: 2,  descent: 100 },
+      { name: "DH Nueva",      startCoords: [-72.973110, -36.753756], distanceKm: 1.13, ascent: 0,  descent: 213 },
+      { name: "Mirador",       startCoords: [-72.977719, -36.755249], distanceKm: 0.48, ascent: 0,  descent: 73  },
+      { name: "Esquizofrenia", startCoords: [-72.948893, -36.746998], distanceKm: 1.88, ascent: 59, descent: 297 }
     ],
     description: "4 pistas DH. Incluye: DH Antigua, DH Nueva, Mirador, Esquizofrenia."
   },
