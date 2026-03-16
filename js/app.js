@@ -1530,14 +1530,24 @@ function closeDownloadMenuOutside(event) {
 function updateHeaderStats() {
   const count = document.getElementById('ruta-count');
   if (count) {
-    // Calcular pistas totales sumando sub-pistas de bike parks
+    // Pistas totales sumando sub-pistas de bike parks
     const totalPistas = TRAILS.reduce((sum, trail) => {
       if (trail.trails && trail.trails.length > 0) {
         return sum + trail.trails.length;
       }
       return sum + 1;
     }, 0);
-    count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas`;
+
+    // KM totales: si tiene trails[] con distanceKm los suma, si no usa distanceKm del top level
+    const totalKm = TRAILS.reduce((sum, trail) => {
+      if (trail.trails && trail.trails.length > 0) {
+        const subKm = trail.trails.reduce((s, t) => s + (t.distanceKm || 0), 0);
+        if (subKm > 0) return sum + subKm;
+      }
+      return sum + (trail.distanceKm || 0);
+    }, 0);
+
+    count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas · ${totalKm.toFixed(0)} km`;
   }
 }
 
