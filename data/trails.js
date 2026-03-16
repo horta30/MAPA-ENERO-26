@@ -183,14 +183,14 @@ const TRAILS = [
     type: "DH",
     club: "PRO BIKE",
     difficulty: "negro",
-    distanceKm: 2.42,
-    ascent: 0,
-    descent: 0,
+    distanceKm: 2.56,
+    ascent: 16,
+    descent: 296,
     location: "CUREPTO",
     region: "Maule",
     kmz: "kmz/PRO_BIKE_DH_CUREPTO_DH_Series_NEGRO.kmz",
     gpx: "gpx/pro-bike-dh-curepto-negro.gpx",
-    startCoords: [-72.0167, -35.0833]
+    startCoords: [-72.019291, -35.104930]
   },
   {
     id: "ruta-013",
