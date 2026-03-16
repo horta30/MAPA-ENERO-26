@@ -45,6 +45,10 @@
   <!-- JSZip para leer archivos KMZ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a3a1a">
+
   <!-- Estilos -->
   <link rel="stylesheet" href="css/styles.css" />
 
@@ -175,5 +179,16 @@
   <!-- Scripts -->
   <script src="data/trails.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/MAPA-ENERO-26/service-worker.js')
+          .then(reg => console.log('[SW] Registrado:', reg.scope))
+          .catch(err => console.log('[SW] Error:', err));
+      });
+    }
+  </script>
 </body>
 </html>
