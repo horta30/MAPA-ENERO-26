@@ -1011,7 +1011,7 @@ function createRutaCard(trail) {
               <span class="trail-mini-icon">◆</span>
               <div class="trail-mini-content">
                 <span class="trail-mini-name">${escapeHtml(t.name)}</span>
-                ${t.distanceKm ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent ? ` · +${t.ascent}m` : ''}${t.descent ? `/-${t.descent}m` : ''}</span>` : ''}
+                ${t.distanceKm != null ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent != null ? ` · +${t.ascent}m` : ''}${t.descent != null ? `/-${t.descent}m` : ''}</span>` : ''}
               </div>
             </div>
           `).join('')}
