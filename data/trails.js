@@ -432,22 +432,22 @@ const TRAILS = [
     type: "XC",
     club: "MTB Curanilahue",
     difficulty: "",
-    distanceKm: 0,
-    ascent: 0,
-    descent: 0,
+    distanceKm: 137.69,
+    ascent: 4428,
+    descent: 4001,
     location: "CURANILAHUE",
     region: "Biobío",
     kmz: "kmz/CUMBRES_DE_NAHUELBUTA.KMZ",
     gpx: "gpx/cumbres-de-nahuelbuta.gpx",
     startCoords: [-73.351359, -37.690323],
     trails: [
-      { name: "Caramavida 1",              startCoords: [-73.351359, -37.690323] },
-      { name: "Desafío Completo XCM",      startCoords: [-73.356682, -37.692766] },
-      { name: "Caramavida - Cuyinco Alto", startCoords: [-73.362784, -37.684873] },
-      { name: "Vuelta 2",                  startCoords: [-73.360974, -37.691117] },
-      { name: "Tres-Río Caramavida",       startCoords: [-73.403723, -37.626700] }
+      { name: "Desafío Completo XCM",      startCoords: [-73.356682, -37.692766], distanceKm: 59.69, ascent: 1693, descent: 1693 },
+      { name: "Vuelta 2",                  startCoords: [-73.360974, -37.691117], distanceKm: 23.70, ascent: 848,  descent: 847  },
+      { name: "Tres-Río Caramavida",       startCoords: [-73.403723, -37.626700], distanceKm: 20.57, ascent: 486,  descent: 589  },
+      { name: "Caramavida 1",              startCoords: [-73.351359, -37.690323], distanceKm: 19.11, ascent: 673,  descent: 678  },
+      { name: "Caramavida - Cuyinco Alto", startCoords: [-73.362784, -37.684873], distanceKm: 14.62, ascent: 728,  descent: 194  }
     ],
-    description: "5 rutas XC. Incluye: Caramavida 1, Desafío Completo XCM, Cuyinco Alto, Vuelta 2, Tres-Río."
+    description: "5 rutas XC. Incluye: Desafío Completo XCM, Vuelta 2, Tres-Río Caramavida, Caramavida 1, Cuyinco Alto."
   }
 ];
 
