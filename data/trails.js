@@ -312,7 +312,7 @@ const TRAILS = [
       { name: "Downtrail Bustamante", startCoords: [-71.737681, -36.596252], distanceKm: 1.32, ascent: 0, descent: 166 },
       { name: "La Resfalosa",         startCoords: [-71.737473, -36.595991], distanceKm: 1.31, ascent: 1, descent: 165 },
       { name: "Hardline Plus",        startCoords: [-71.726231, -36.598460], distanceKm: 0.99, ascent: 3, descent: 151 },
-      { name: "Calabozo 2.0",         startCoords: [-71.738461, -36.603660], distanceKm: 1.34, ascent: 0, descent: 0   }
+      { name: "Calabozo 2.0",         startCoords: [-71.738461, -36.603660], distanceKm: 1.30, ascent: 6, descent: 145 }
     ],
     description: "5 pistas DH. Incluye: El Boldo, Downtrail Bustamante, La Resfalosa, Hardline Plus, Calabozo 2.0."
   },
