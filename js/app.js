@@ -490,8 +490,8 @@ async function loadKMZData() {
       try {
         console.log(`📍 [${trail.id}] ${trail.name}`);
         
-        const kmzUrl = encodeURI(trail.kmz).replace(/#/g, '%23');
-        const response = await fetch(kmzUrl);
+        const kmzUrl = encodeURI(trail.kmz).replace(/#/g, '%23') + '?v=2';
+        const response = await fetch(kmzUrl, { cache: 'no-store' });
         if (!response.ok) {
           console.error(`   ❌ HTTP ${response.status}`);
           return [];
