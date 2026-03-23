@@ -2,7 +2,7 @@
 
 ## Versión 9.1 - Marzo 23, 2026
 
-Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde el Maule hasta Los Lagos.
+Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde el Maule hasta Los Lagos (norte a sur).
 
 **Proyecto:** Guardianes del Bosque / Bosque Abierto MTB
 **Cliente:** Forestal ARAUCO
@@ -39,15 +39,15 @@ Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde 
 - Ubicación: Santa Juana, Región del Biobío
 - 5 rutas MTB
 - 10 puntos de interés
-- Rutas: Pista EnduHuaso, Pista Anfiteatro, Lanzador DH, Pista Sultan
+- Rutas: Clásica DH, Pista EnduHuaso, Pista Anfiteatro, Pista EnduPaco, Pista Sultan
 
 ---
 
 ## 📊 Estadísticas
 
 - **25 ubicaciones MTB** total
-- **6 Bike Parks** completos
-- **6 Regiones:** Biobío, Los Ríos, Los Lagos, Maule, Ñuble, La Araucanía
+- **8 Bike Parks** completos
+- **6 Regiones:** Maule, Biobío, Ñuble, La Araucanía, Los Ríos, Los Lagos
 
 ---
 
