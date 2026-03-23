@@ -1,11 +1,27 @@
 # 🚵 Mapa Interactivo MTB - Bosque Abierto ARAUCO
 
-## Versión 9.0 - Enero 20, 2026
+## Versión 9.1 - Marzo 23, 2026
 
-Mapa interactivo de rutas de Mountain Bike en Chile, región del Biobío y zonas aledañas.
+Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde el Maule hasta Los Lagos.
 
 **Proyecto:** Guardianes del Bosque / Bosque Abierto MTB
 **Cliente:** Forestal ARAUCO
+
+---
+
+## 🆕 NOVEDADES - Marzo 23, 2026
+
+### 2 Nuevas Rutas XC Agregadas
+
+**✅ Cumbres de Nahuelbuta**
+- Ubicación: Curanilahue, Región del Biobío
+- 137.69 km totales, 4.428 m de ascenso
+- 5 rutas: Desafío Completo XCM, Vuelta 2, Tres-Río Caramavida, Caramavida 1, Cuyinco Alto
+
+**✅ Circuito XCO Yungay**
+- Ubicación: Yungay, Región del Biobío
+- 3.85 km, 125 m de ascenso
+- Club: CD Cholguan
 
 ---
 
@@ -22,7 +38,7 @@ Mapa interactivo de rutas de Mountain Bike en Chile, región del Biobío y zonas
 **✅ BikePark Santa Juana**
 - Ubicación: Santa Juana, Región del Biobío
 - 5 rutas MTB
-- 10 puntos de interés  
+- 10 puntos de interés
 - Rutas: Pista EnduHuaso, Pista Anfiteatro, Lanzador DH, Pista Sultan
 
 ---
@@ -41,4 +57,4 @@ MIT License - Copyright (c) 2026 ARAUCO
 
 ---
 
-**Última actualización:** 20 de Enero, 2026
+**Última actualización:** 23 de Marzo, 2026
