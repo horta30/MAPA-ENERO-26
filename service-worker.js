@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v2";
+const VERSION = "bosque-abierto-v3";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -101,6 +101,11 @@ self.addEventListener("fetch", event => {
     url.hostname.includes("fonts.gstatic.com")
   ) {
     return; // Dejar pasar sin interceptar
+  }
+
+  // Archivos KMZ y GPX: siempre network, nunca cache
+  if (url.pathname.includes("/kmz/") || url.pathname.includes("/gpx/")) {
+    return;
   }
 
   // Para todo lo demás: stale-while-revalidate
