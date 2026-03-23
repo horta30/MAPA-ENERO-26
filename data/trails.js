@@ -220,7 +220,7 @@ const TRAILS = [
     region: "Maule",
     kmz: "kmz/PUTU_BIKE_XC_Constitucion_XCM_PUTU_PEDALES_AZUL.kmz",
     gpx: "gpx/putu-u-bike-xc-constitucio-un-pedals-azul.gpx",
-    startCoords: [-73.1712, -37.4082]
+    startCoords: [-72.2787, -35.1983]
   },
   // RUTA 015 - REEMPLAZADA POR RUKA RACE (ver abajo)
   {
