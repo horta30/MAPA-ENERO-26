@@ -911,6 +911,7 @@ function toggleMobileMenu() {
   const panel = document.getElementById('panel');
   const trigger = document.getElementById('mobile-menu-trigger');
   const menuHint = document.getElementById('menu-hint');
+  const interactionHint = document.getElementById('interaction-hint');
   if (!panel) return;
 
   const isHidden = panel.classList.contains('minimized') || 
@@ -922,11 +923,12 @@ function toggleMobileMenu() {
     panel.classList.remove('minimized-mobile');
     if (trigger) trigger.style.opacity = '0';
     if (menuHint) menuHint.classList.add('hidden');
+    if (interactionHint) interactionHint.classList.add('hidden');
   } else {
     // Cerrar panel
     panel.classList.add('minimized');
     if (trigger) trigger.style.opacity = '1';
-    // No volver a mostrar el hint una vez cerrado
+    // No volver a mostrar los hints una vez cerrados
   }
 
   const panelToggle = document.getElementById('panel-toggle');
@@ -945,7 +947,14 @@ function renderRutasList() {
 
   list.innerHTML = '';
 
-  TRAILS.forEach(trail => {
+  // Ordenar norte a sur (latitud descendente: menos negativo → más negativo)
+  const sortedTrails = [...TRAILS].sort((a, b) => {
+    const latA = a.startCoords ? a.startCoords[1] : 0;
+    const latB = b.startCoords ? b.startCoords[1] : 0;
+    return latB - latA;
+  });
+
+  sortedTrails.forEach(trail => {
     const card = createRutaCard(trail);
     list.appendChild(card);
   });
@@ -993,7 +1002,22 @@ function createRutaCard(trail) {
 
   // V38: Agregar botones de navegación
   const navigationHTML = getCompactNavigationHTML(trail.id);
-  
+ const trailsListHTML = trail.trails ? `
+      <div class="ruta-detail-row">
+        <span class="detail-label">PISTAS</span>
+        <div class="trails-list-mini">
+          ${trail.trails.map(t => `
+            <div class="trail-mini-item">
+              <span class="trail-mini-icon">◆</span>
+              <div class="trail-mini-content">
+                <span class="trail-mini-name">${escapeHtml(t.name)}</span>
+                ${t.distanceKm != null ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent != null ? ` · +${t.ascent}m` : ''}${t.descent != null ? `/-${t.descent}m` : ''}</span>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
   // Fila de dificultad solo si corresponde
   const difficultyRow = showDifficulty ? `
       <div class="ruta-detail-row">
@@ -1042,12 +1066,14 @@ function createRutaCard(trail) {
         </div>
       </div>
       
-      ${difficultyRow}
+     ${difficultyRow}
       ${statsRow}
-      ${navigationHTML}
+      ${trailsListHTML}
+          ${navigationHTML}
     </div>
   `;
 
+  
   // Click en tarjeta carga rutas + centra
   card.addEventListener('click', async () => {
     await loadRoutesIfNeeded();
@@ -1270,27 +1296,6 @@ function showPinPopup(e, feature) {
             </button>
           </div>
         </div>
-        <button class="share-route-btn" onclick="toggleRouteShareMenu('${props.id}', event)">
-          <span class="share-platform-icon">📤</span> Compartir Ruta
-        </button>
-        <div id="share-route-menu-${props.id}" class="share-route-menu hidden">
-          <div class="share-menu-header">Compartir Ruta</div>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'whatsapp', event)">
-            <span class="share-platform-icon">💬</span> WhatsApp
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'facebook', event)">
-            <span class="share-platform-icon">📘</span> Facebook
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'twitter', event)">
-            <span class="share-platform-icon">🐦</span> Twitter
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'telegram', event)">
-            <span class="share-platform-icon">✈️</span> Telegram
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'copy', event)">
-            <span class="share-platform-icon">🔗</span> Copiar Link
-          </button>
-        </div>
       ` : ''}
     </div>
   `;
@@ -1342,27 +1347,6 @@ function showPopup(e, feature) {
               🟧 Strava (Web)
             </button>
           </div>
-        </div>
-        <button class="share-route-btn" onclick="toggleRouteShareMenu('${props.id}', event)">
-          <span class="share-platform-icon">📤</span> Compartir Ruta
-        </button>
-        <div id="share-route-menu-${props.id}" class="share-route-menu hidden">
-          <div class="share-menu-header">Compartir Ruta</div>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'whatsapp', event)">
-            <span class="share-platform-icon">💬</span> WhatsApp
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'facebook', event)">
-            <span class="share-platform-icon">📘</span> Facebook
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'twitter', event)">
-            <span class="share-platform-icon">🐦</span> Twitter
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'telegram', event)">
-            <span class="share-platform-icon">✈️</span> Telegram
-          </button>
-          <button class="share-option" onclick="shareRoute('${props.id}', 'copy', event)">
-            <span class="share-platform-icon">🔗</span> Copiar Link
-          </button>
         </div>
       ` : ''}
     </div>
@@ -1546,8 +1530,24 @@ function closeDownloadMenuOutside(event) {
 function updateHeaderStats() {
   const count = document.getElementById('ruta-count');
   if (count) {
-    const stats = getTotalStats();
-    count.textContent = `${stats.trails} rutas · ${stats.kilometers} km`;
+    // Pistas totales sumando sub-pistas de bike parks
+    const totalPistas = TRAILS.reduce((sum, trail) => {
+      if (trail.trails && trail.trails.length > 0) {
+        return sum + trail.trails.length;
+      }
+      return sum + 1;
+    }, 0);
+
+    // KM totales: si tiene trails[] con distanceKm los suma, si no usa distanceKm del top level
+    const totalKm = TRAILS.reduce((sum, trail) => {
+      if (trail.trails && trail.trails.length > 0) {
+        const subKm = trail.trails.reduce((s, t) => s + (t.distanceKm || 0), 0);
+        if (subKm > 0) return sum + subKm;
+      }
+      return sum + (trail.distanceKm || 0);
+    }, 0);
+
+    count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas · ${totalKm.toFixed(0)} km`;
   }
 }
 
@@ -1585,6 +1585,7 @@ function getShareURL(platform, text, url) {
   const urls = {
     whatsapp: `https://wa.me/?text=${encodedText}%20${encodedURL}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}&quote=${encodedText}`,
+    instagram: null, // Instagram se maneja con copyToClipboard
     twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedURL}`,
     telegram: `https://t.me/share/url?url=${encodedURL}&text=${encodedText}`,
   };
@@ -1649,6 +1650,10 @@ function showToast(message, duration = 3000) {
 function handleShare(platform, text, url) {
   if (platform === 'copy') {
     copyToClipboard(`${text} ${url}`);
+  } else if (platform === 'instagram') {
+    // Instagram no permite compartir via URL, copiamos el texto
+    copyToClipboard(`${text} ${url}`);
+    showToast('📷 Texto copiado para Instagram - Pégalo en tu post');
   } else {
     const shareURL = getShareURL(platform, text, url);
     window.open(shareURL, '_blank', 'width=600,height=400');
@@ -1705,21 +1710,6 @@ function createRouteShareButton(trail) {
   menu.className = 'share-route-menu hidden';
   menu.innerHTML = `
     <div class="share-menu-header">Compartir Ruta</div>
-    <button class="share-option" data-platform="whatsapp">
-      <span class="share-platform-icon">💬</span> WhatsApp
-    </button>
-    <button class="share-option" data-platform="facebook">
-      <span class="share-platform-icon">📘</span> Facebook
-    </button>
-    <button class="share-option" data-platform="twitter">
-      <span class="share-platform-icon">🐦</span> Twitter
-    </button>
-    <button class="share-option" data-platform="telegram">
-      <span class="share-platform-icon">✈️</span> Telegram
-    </button>
-    <button class="share-option" data-platform="copy">
-      <span class="share-platform-icon">🔗</span> Copiar Link
-    </button>
   `;
   
   // Toggle menú
