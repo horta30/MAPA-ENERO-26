@@ -1168,12 +1168,31 @@ function centerOnTrail(trailId) {
   });
 
   if (!bounds.isEmpty()) {
-    map.fitBounds(bounds, {
-      padding: { top: 120, bottom: 120, left: 120, right: 120 },
-      duration: 2000,
-      maxZoom: 14,
-      easing: (t) => t * (2 - t)
-    });
+    const center = bounds.getCenter();
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+    const spanLng = Math.abs(ne.lng - sw.lng);
+    const spanLat = Math.abs(ne.lat - sw.lat);
+    const maxSpan = Math.max(spanLng, spanLat);
+
+    // Rutas muy largas (>0.3 grados ~30km): centrar en inicio a zoom fijo
+    if (maxSpan > 0.3) {
+      const trail = TRAILS.find(t => t.id === trailId);
+      const startCoord = trail ? trail.startCoords : [center.lng, center.lat];
+      map.flyTo({
+        center: startCoord,
+        zoom: 13,
+        duration: 2000,
+        easing: (t) => t * (2 - t)
+      });
+    } else {
+      map.fitBounds(bounds, {
+        padding: { top: 120, bottom: 120, left: 120, right: 120 },
+        duration: 2000,
+        maxZoom: 14,
+        easing: (t) => t * (2 - t)
+      });
+    }
   } else {
     console.warn(`⚠️ Bounds vacío para ${trailId}`);
   }
