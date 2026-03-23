@@ -377,8 +377,8 @@ const TRAILS = [
     descent: 354,
     location: "LOTA",
     region: "Biobío",
-    kmz: "kmz/LOTA_BIKEPARK_DEPURADO.kmz",
-    gpx: "gpx/LOTA_BIKEPARK_DEPURADO.gpx",
+    kmz: "kmz/LOTA_BIKEPARK_ORIGINAL.kmz",
+    gpx: "gpx/LOTA_Bikepark_Depurado.gpx",
     startCoords: [-73.123917, -37.082142],
     trails: [
       { name: "Perro Muerto",    type: "XC",   startCoords: [-73.123917, -37.082142], distanceKm: 0.87, ascent: 0,  descent: 0   },
