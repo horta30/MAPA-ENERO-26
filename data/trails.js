@@ -344,14 +344,19 @@ const TRAILS = [
     type: "BIKE PARK",
     club: "",
     difficulty: "",
-    distanceKm: 7.46,
-    ascent: 0,
-    descent: 0,
+    distanceKm: 7.39,
+    ascent: 267,
+    descent: 438,
     location: "OSORNO",
     region: "Los Lagos",
     kmz: "kmz/LA_MISION_BIKE_PARK.kmz",
     gpx: "gpx/la-mision-bike-park.gpx",
-    startCoords: [-73.2973, -40.5322]
+    startCoords: [-73.2973, -40.5322],
+    trails: [
+      { name: "Mirador - Las Teles",                 startCoords: [-73.297324, -40.532200], distanceKm: 1.46, ascent: 32,  descent: 137 },
+      { name: "Subida - Shorty - Amanita - Directa", startCoords: [-73.294695, -40.530256], distanceKm: 5.93, ascent: 235, descent: 301 }
+    ],
+    description: "2 pistas. Incluye: Mirador - Las Teles, Subida - Shorty - Amanita - Directa."
   },
   {
     id: "ruta-104",
