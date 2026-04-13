@@ -344,19 +344,14 @@ const TRAILS = [
     type: "BIKE PARK",
     club: "",
     difficulty: "",
-    distanceKm: 7.39,
-    ascent: 267,
-    descent: 438,
+    distanceKm: 7.46,
+    ascent: 0,
+    descent: 0,
     location: "OSORNO",
     region: "Los Lagos",
     kmz: "kmz/LA_MISION_BIKE_PARK.kmz",
     gpx: "gpx/la-mision-bike-park.gpx",
-    startCoords: [-73.2973, -40.5322],
-    trails: [
-      { name: "Mirador - Las Teles",                 startCoords: [-73.297324, -40.532200], distanceKm: 1.46, ascent: 32,  descent: 137 },
-      { name: "Subida - Shorty - Amanita - Directa", startCoords: [-73.294695, -40.530256], distanceKm: 5.93, ascent: 235, descent: 301 }
-    ],
-    description: "2 pistas. Incluye: Mirador - Las Teles, Subida - Shorty - Amanita - Directa."
+    startCoords: [-73.2973, -40.5322]
   },
   {
     id: "ruta-104",
@@ -459,25 +454,25 @@ const TRAILS = [
   {
     id: "ruta-107",
     name: "Cumbres de Nahuelbuta",
-    type: "XC",
+    type: "BIKE PARK",
     club: "MTB Curanilahue",
     difficulty: "",
-    distanceKm: 137.69,
-    ascent: 4428,
-    descent: 4001,
+    distanceKm: 158.42,
+    ascent: 4377,
+    descent: 3956,
     location: "CURANILAHUE",
     region: "Biobío",
     kmz: "kmz/CUMBRES_DE_NAHUELBUTA.KMZ",
     gpx: "gpx/cumbres-de-nahuelbuta.gpx",
     startCoords: [-73.351359, -37.690323],
     trails: [
-      { name: "Desafío Completo XCM",      startCoords: [-73.356682, -37.692766], distanceKm: 59.69, ascent: 1693, descent: 1693 },
-      { name: "Vuelta 2",                  startCoords: [-73.360974, -37.691117], distanceKm: 23.70, ascent: 848,  descent: 847  },
-      { name: "Tres-Río Caramavida",       startCoords: [-73.403723, -37.626700], distanceKm: 20.57, ascent: 486,  descent: 589  },
-      { name: "Caramavida 1",              startCoords: [-73.351359, -37.690323], distanceKm: 19.11, ascent: 673,  descent: 678  },
-      { name: "Caramavida - Cuyinco Alto", startCoords: [-73.362784, -37.684873], distanceKm: 14.62, ascent: 728,  descent: 194  }
+      { name: "Vuelta 2", startCoords: [-73.360974, -37.691117], distanceKm: 27.05, ascent: 828, descent: 830 }
+      { name: "Caramavida 1", startCoords: [-73.351359, -37.690323], distanceKm: 21.89, ascent: 665, descent: 668 }
+      { name: "Caramávida - Cuyinco Alto", startCoords: [-73.362784, -37.684873], distanceKm: 16.82, ascent: 725, descent: 193 }
+      { name: "Tres-Río Caramavida", startCoords: [-73.403723, -37.626700], distanceKm: 23.13, ascent: 473, descent: 579 }
+      { name: "Desafío COMPLETO XCM Caramavida", startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
     ],
-    description: "5 rutas XC. Incluye: Desafío Completo XCM, Vuelta 2, Tres-Río Caramavida, Caramavida 1, Cuyinco Alto."
+    description: "5 rutas XC en Nahuelbuta. Incluye: Vuelta 2, Caramavida 1, Caramávida - Cuyinco Alto, Tres-Río Caramavida, Desafío COMPLETO XCM Caramavida."
   }
 ];
 
