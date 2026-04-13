@@ -209,18 +209,25 @@ const TRAILS = [
   },
   {
     id: "ruta-014",
-    name: "XCM PUTÚ PEDALEA",
-    type: "XC",
+    name: "PUTÚ PEDALEA",
+    type: "BIKE PARK",
     club: "PUTU BIKE",
-    difficulty: "azul",
-    distanceKm: 56.62,
-    ascent: 2512,
-    descent: 2507,
+    difficulty: "",
+    distanceKm: 63.01,
+    ascent: 2456,
+    descent: 2470,
     location: "CONSTITUCIÓN",
     region: "Maule",
     kmz: "kmz/PUTU_BIKE_XC_Constitucion_XCM_PUTU_PEDALES_AZUL.kmz",
     gpx: "gpx/putu-u-bike-xc-constitucio-un-pedals-azul.gpx",
-    startCoords: [-72.2787, -35.1983]
+    startCoords: [-72.278685, -35.198329],
+    trails: [
+      { name: "DH El Guarda by Nelson",                  startCoords: [-72.278685, -35.198329], distanceKm: 14.99, ascent: 600,  descent: 595  },
+      { name: "XCM Putu Pedalea",                        startCoords: [-72.293312, -35.234609], distanceKm: 50.58, ascent: 1105, descent: 1104 },
+      { name: "Reconocimiento Oficial Putu Pedalea 4.0", startCoords: [-72.284423, -35.208964], distanceKm: 56.52, ascent: 1348, descent: 1350 },
+      { name: "Putú Pedalea Recargado",                  startCoords: [-72.284059, -35.211638], distanceKm: 63.01, ascent: 2456, descent: 2470 }
+    ],
+    description: "4 rutas en torno al evento Putú Pedalea. Incluye: DH El Guarda by Nelson, XCM Putu Pedalea, Reconocimiento Oficial 4.0 y Putú Pedalea Recargado."
   },
   // RUTA 015 - REEMPLAZADA POR RUKA RACE (ver abajo)
   {
