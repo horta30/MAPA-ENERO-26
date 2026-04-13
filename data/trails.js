@@ -466,11 +466,11 @@ const TRAILS = [
     gpx: "gpx/cumbres-de-nahuelbuta.gpx",
     startCoords: [-73.351359, -37.690323],
     trails: [
-      { name: "Vuelta 2", startCoords: [-73.360974, -37.691117], distanceKm: 27.05, ascent: 828, descent: 830 }
-      { name: "Caramavida 1", startCoords: [-73.351359, -37.690323], distanceKm: 21.89, ascent: 665, descent: 668 }
-      { name: "Caramávida - Cuyinco Alto", startCoords: [-73.362784, -37.684873], distanceKm: 16.82, ascent: 725, descent: 193 }
-      { name: "Tres-Río Caramavida", startCoords: [-73.403723, -37.626700], distanceKm: 23.13, ascent: 473, descent: 579 }
-      { name: "Desafío COMPLETO XCM Caramavida", startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
+      { name: "Vuelta 2",                          startCoords: [-73.360974, -37.691117], distanceKm: 27.05, ascent: 828,  descent: 830  },
+      { name: "Caramavida 1",                      startCoords: [-73.351359, -37.690323], distanceKm: 21.89, ascent: 665,  descent: 668  },
+      { name: "Caramávida - Cuyinco Alto",         startCoords: [-73.362784, -37.684873], distanceKm: 16.82, ascent: 725,  descent: 193  },
+      { name: "Tres-Río Caramavida",               startCoords: [-73.403723, -37.626700], distanceKm: 23.13, ascent: 473,  descent: 579  },
+      { name: "Desafío COMPLETO XCM Caramavida",   startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
     ],
     description: "5 rutas XC en Nahuelbuta. Incluye: Vuelta 2, Caramavida 1, Caramávida - Cuyinco Alto, Tres-Río Caramavida, Desafío COMPLETO XCM Caramavida."
   }
