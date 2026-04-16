@@ -473,6 +473,32 @@ const TRAILS = [
       { name: "Desafío COMPLETO XCM Caramavida",   startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
     ],
     description: "5 rutas XC en Nahuelbuta. Incluye: Vuelta 2, Caramavida 1, Caramávida - Cuyinco Alto, Tres-Río Caramavida, Desafío COMPLETO XCM Caramavida."
+  },
+  {
+    id: "ruta-109",
+    name: "Parque Las Melozas",
+    type: "BIKE PARK",
+    club: "Assem Maule / Arauco",
+    difficulty: "",
+    distanceKm: 3.84,
+    ascent: 128,
+    descent: 355,
+    location: "Colbún",
+    region: "Maule",
+    kmz: "kmz/PARQUE_LAS_MELOZAS.kmz",
+    gpx: null,
+    startCoords: [-71.28973, -35.71533],
+    trails: [
+      { name: "Fernandua",              difficulty: "Azul",   distanceKm: 0.45, ascent: 7,  descent: 51  },
+      { name: "Meloza Alta",            difficulty: "Azul",   distanceKm: 0.31, ascent: 4,  descent: 38  },
+      { name: "Meloza Media",           difficulty: "Azul",   distanceKm: 0.66, ascent: 2,  descent: 93  },
+      { name: "Meloza Baja",            difficulty: "Azul",   distanceKm: 0.27, ascent: 1,  descent: 33  },
+      { name: "Wolfies",                difficulty: "Azul",   distanceKm: 0.52, ascent: 6,  descent: 36  },
+      { name: "Pro Line Coguile",       difficulty: "Negra",  distanceKm: 0.34, ascent: 2,  descent: 58  },
+      { name: "Lobitas",                difficulty: "Verde",  distanceKm: 0.51, ascent: 20, descent: 15  },
+      { name: "Madre de la Culebra",    difficulty: "Mixto",  distanceKm: 0.78, ascent: 86, descent: 31  }
+    ],
+    description: "Bike Park en Colbún, Maule, gestionado por Assem Maule y Arauco. Cuenta con trails para todos los niveles: senderos azules encadenados de Las Melozas, la línea negra Pro Line Coguile y trails mixtos en bosque nativo."
   }
 ];
 
