@@ -230,21 +230,7 @@ const TRAILS = [
     description: "4 rutas en torno al evento Putú Pedalea. Incluye: DH El Guarda by Nelson, XCM Putu Pedalea, Reconocimiento Oficial 4.0 y Putú Pedalea Recargado."
   },
   // RUTA 015 - REEMPLAZADA POR RUKA RACE (ver abajo)
-  {
-    id: "ruta-016",
-    name: "Meloza",
-    type: "DH",
-    club: "ASSEM",
-    difficulty: "negro",
-    distanceKm: 2.17,
-    ascent: 0,
-    descent: 0,
-    location: "COLBÚN",
-    region: "Maule",
-    kmz: "kmz/ASSEM_Maule_DH_Colbun_Meloza_NEGRO.kmz",
-    gpx: "gpx/assem-meloza-negro.gpx",
-    startCoords: [-71.2897, -35.7153]
-  },
+
 
   // ========================================================================
   // NUEVAS PISTAS DH - V8.0
