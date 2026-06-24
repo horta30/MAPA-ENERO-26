@@ -1,7 +1,7 @@
 // ============================================================================
-// MAPA BOSQUE ABIERTO MTB V9.0 - BASE DE DATOS DE RUTAS
+// MAPA BOSQUE ABIERTO MTB V9.1 - BASE DE DATOS DE RUTAS
 // ============================================================================
-// Versión 9.0 - Enero 2026
+// Versión 9.1 - Junio 2026
 // - 16 rutas originales
 // - 2 nuevas pistas DH (Temuco, Paillaco)
 // - 4 nuevos Bike Parks / Parques
@@ -9,6 +9,7 @@
 // - 2 NUEVOS BIKE PARKS: Lota y Santa Juana (Enero 20, 2026)
 // - Total: 23 ubicaciones
 // - ruta-107: Cumbres de Nahuelbuta (Marzo 2026)
+// - ruta-110: Lanco Bike Park - Econauta Expediciones (Junio 2026)
 // ============================================================================
 
 const TRAILS = [
@@ -436,7 +437,6 @@ const TRAILS = [
     gpx: "gpx/circuito-xco-yungay.gpx",
     startCoords: [-72.071464, -37.118327]
   },
-
   {
     id: "ruta-107",
     name: "Cumbres de Nahuelbuta",
@@ -485,6 +485,32 @@ const TRAILS = [
       { name: "Madre de la Culebra",    difficulty: "Mixto",  distanceKm: 0.78, ascent: 86, descent: 31  }
     ],
     description: "Bike Park en Colbún, Maule, gestionado por Assem Maule y Arauco. Cuenta con trails para todos los niveles: senderos azules encadenados de Las Melozas, la línea negra Pro Line Coguile y trails mixtos en bosque nativo."
+  },
+
+  // ========================================================================
+  // NUEVAS UBICACIONES - JUNIO 2026
+  // ========================================================================
+
+  {
+    id: "ruta-110",
+    name: "Lanco Bike Park",
+    type: "BIKE PARK",
+    club: "Econauta Expediciones",
+    difficulty: "negro",
+    distanceKm: 3.68,
+    ascent: 122,
+    descent: 636,
+    location: "LANCO",
+    region: "Los Ríos",
+    kmz: "kmz/LANCO_BIKE_PARK.kmz",
+    gpx: null,
+    startCoords: [-72.80451603, -39.43420297],
+    trails: [
+      { name: "Clásica", difficulty: "negro", startCoords: [-72.80451603, -39.43420297], distanceKm: 1.32, ascent: 18, descent: 213 },
+      { name: "20 Mil",  difficulty: "negro", startCoords: [-72.80462030, -39.43420412], distanceKm: 1.06, ascent: 25, descent: 213 },
+      { name: "420",     difficulty: "negro", startCoords: [-72.80489587, -39.43407612], distanceKm: 1.30, ascent: 79, descent: 210 }
+    ],
+    description: "3 pistas DH. Incluye: Clásica, 20 Mil, 420."
   }
 ];
 
