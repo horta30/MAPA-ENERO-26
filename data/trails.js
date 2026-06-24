@@ -1,7 +1,7 @@
 // ============================================================================
-// MAPA BOSQUE ABIERTO MTB V9.1 - BASE DE DATOS DE RUTAS
+// MAPA BOSQUE ABIERTO MTB V9.2 - BASE DE DATOS DE RUTAS
 // ============================================================================
-// Versión 9.1 - Junio 2026
+// Versión 9.2 - Junio 2026
 // - 16 rutas originales
 // - 2 nuevas pistas DH (Temuco, Paillaco)
 // - 4 nuevos Bike Parks / Parques
@@ -10,6 +10,7 @@
 // - Total: 23 ubicaciones
 // - ruta-107: Cumbres de Nahuelbuta (Marzo 2026)
 // - ruta-110: Lanco Bike Park - Econauta Expediciones (Junio 2026)
+// - ruta-111: Cifon Rock DH - Itata Racing Club, Coelemu (Junio 2026)
 // ============================================================================
 
 const TRAILS = [
@@ -46,8 +47,8 @@ const TRAILS = [
     gpx: "gpx/los-lagos-bike-park.gpx",
     startCoords: [-72.81857, -39.86870],
     trails: [
-      { name: "Villa Esperanza",       startCoords: [-72.820534, -39.871716], distanceKm: 2.17, ascent: 3, descent: 358 },
-      { name: "Pista Clásica Antigua", startCoords: [-72.82336, -39.86199], distanceKm: 3.19,  ascent: 426, descent: 8 }
+      { name: "Villa Esperanza",       startCoords: [-72.820534, -39.871716], distanceKm: 2.17, ascent: 3,   descent: 358 },
+      { name: "Pista Clásica Antigua", startCoords: [-72.82336,  -39.86199],  distanceKm: 3.19, ascent: 426, descent: 8   }
     ],
     description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
   },
@@ -452,11 +453,11 @@ const TRAILS = [
     gpx: "gpx/cumbres-de-nahuelbuta.gpx",
     startCoords: [-73.351359, -37.690323],
     trails: [
-      { name: "Vuelta 2",                          startCoords: [-73.360974, -37.691117], distanceKm: 27.05, ascent: 828,  descent: 830  },
-      { name: "Caramavida 1",                      startCoords: [-73.351359, -37.690323], distanceKm: 21.89, ascent: 665,  descent: 668  },
-      { name: "Caramávida - Cuyinco Alto",         startCoords: [-73.362784, -37.684873], distanceKm: 16.82, ascent: 725,  descent: 193  },
-      { name: "Tres-Río Caramavida",               startCoords: [-73.403723, -37.626700], distanceKm: 23.13, ascent: 473,  descent: 579  },
-      { name: "Desafío COMPLETO XCM Caramavida",   startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
+      { name: "Vuelta 2",                        startCoords: [-73.360974, -37.691117], distanceKm: 27.05, ascent: 828,  descent: 830  },
+      { name: "Caramavida 1",                    startCoords: [-73.351359, -37.690323], distanceKm: 21.89, ascent: 665,  descent: 668  },
+      { name: "Caramávida - Cuyinco Alto",       startCoords: [-73.362784, -37.684873], distanceKm: 16.82, ascent: 725,  descent: 193  },
+      { name: "Tres-Río Caramavida",             startCoords: [-73.403723, -37.626700], distanceKm: 23.13, ascent: 473,  descent: 579  },
+      { name: "Desafío COMPLETO XCM Caramavida", startCoords: [-73.356682, -37.692766], distanceKm: 69.53, ascent: 1684, descent: 1684 }
     ],
     description: "5 rutas XC en Nahuelbuta. Incluye: Vuelta 2, Caramavida 1, Caramávida - Cuyinco Alto, Tres-Río Caramavida, Desafío COMPLETO XCM Caramavida."
   },
@@ -475,14 +476,14 @@ const TRAILS = [
     gpx: null,
     startCoords: [-71.28973, -35.71533],
     trails: [
-      { name: "Fernandua",              difficulty: "Azul",   distanceKm: 0.45, ascent: 7,  descent: 51  },
-      { name: "Meloza Alta",            difficulty: "Azul",   distanceKm: 0.31, ascent: 4,  descent: 38  },
-      { name: "Meloza Media",           difficulty: "Azul",   distanceKm: 0.66, ascent: 2,  descent: 93  },
-      { name: "Meloza Baja",            difficulty: "Azul",   distanceKm: 0.27, ascent: 1,  descent: 33  },
-      { name: "Wolfies",                difficulty: "Azul",   distanceKm: 0.52, ascent: 6,  descent: 36  },
-      { name: "Pro Line Coguile",       difficulty: "Negra",  distanceKm: 0.34, ascent: 2,  descent: 58  },
-      { name: "Lobitas",                difficulty: "Verde",  distanceKm: 0.51, ascent: 20, descent: 15  },
-      { name: "Madre de la Culebra",    difficulty: "Mixto",  distanceKm: 0.78, ascent: 86, descent: 31  }
+      { name: "Fernandua",           difficulty: "Azul",  distanceKm: 0.45, ascent: 7,  descent: 51 },
+      { name: "Meloza Alta",         difficulty: "Azul",  distanceKm: 0.31, ascent: 4,  descent: 38 },
+      { name: "Meloza Media",        difficulty: "Azul",  distanceKm: 0.66, ascent: 2,  descent: 93 },
+      { name: "Meloza Baja",         difficulty: "Azul",  distanceKm: 0.27, ascent: 1,  descent: 33 },
+      { name: "Wolfies",             difficulty: "Azul",  distanceKm: 0.52, ascent: 6,  descent: 36 },
+      { name: "Pro Line Coguile",    difficulty: "Negra", distanceKm: 0.34, ascent: 2,  descent: 58 },
+      { name: "Lobitas",             difficulty: "Verde", distanceKm: 0.51, ascent: 20, descent: 15 },
+      { name: "Madre de la Culebra", difficulty: "Mixto", distanceKm: 0.78, ascent: 86, descent: 31 }
     ],
     description: "Bike Park en Colbún, Maule, gestionado por Assem Maule y Arauco. Cuenta con trails para todos los niveles: senderos azules encadenados de Las Melozas, la línea negra Pro Line Coguile y trails mixtos en bosque nativo."
   },
@@ -511,6 +512,21 @@ const TRAILS = [
       { name: "420",     difficulty: "negro", startCoords: [-72.80489587, -39.43407612], distanceKm: 1.30, ascent: 79, descent: 210 }
     ],
     description: "3 pistas DH. Incluye: Clásica, 20 Mil, 420."
+  },
+  {
+    id: "ruta-111",
+    name: "Cifon Rock",
+    type: "DH",
+    club: "ITATA RACING CLUB",
+    difficulty: "negro",
+    distanceKm: 1.42,
+    ascent: 25,
+    descent: 180,
+    location: "COELEMU",
+    region: "Ñuble",
+    kmz: "kmz/ITATA_RACING_DH_COELEMU_CIFON_ROCK_NEGRO.kmz",
+    gpx: "gpx/ITATA_RACING_DH_COELEMU_CIFON_ROCK_NEGRO.gpx",
+    startCoords: [-72.731205, -36.449111]
   }
 ];
 
@@ -530,14 +546,14 @@ function getWazeUrl(lat, lng) {
 function getNavigationCoords(trailId) {
   const trail = TRAILS.find(t => t.id === trailId);
   if (!trail) return null;
-  
+
   if (trail.startCoords && trail.startCoords.length === 2) {
     return {
       lng: trail.startCoords[0],
       lat: trail.startCoords[1]
     };
   }
-  
+
   return null;
 }
 
@@ -559,29 +575,29 @@ function calculateMetrics(geometry) {
   let totalDistance = 0;
   let totalAscent = 0;
   let totalDescent = 0;
-  
-  const coords = geometry.type === 'LineString' 
-    ? [geometry.coordinates] 
+
+  const coords = geometry.type === 'LineString'
+    ? [geometry.coordinates]
     : geometry.coordinates;
-  
+
   coords.forEach(segment => {
     for (let i = 0; i < segment.length - 1; i++) {
       const [lon1, lat1, ele1 = 0] = segment[i];
       const [lon2, lat2, ele2 = 0] = segment[i + 1];
-      
+
       const R = 6371000;
       const φ1 = lat1 * Math.PI / 180;
       const φ2 = lat2 * Math.PI / 180;
       const Δφ = (lat2 - lat1) * Math.PI / 180;
       const Δλ = (lon2 - lon1) * Math.PI / 180;
-      
+
       const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
                 Math.cos(φ1) * Math.cos(φ2) *
                 Math.sin(Δλ/2) * Math.sin(Δλ/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      
+
       totalDistance += R * c;
-      
+
       const elevDiff = ele2 - ele1;
       if (elevDiff > 0) {
         totalAscent += elevDiff;
@@ -590,7 +606,7 @@ function calculateMetrics(geometry) {
       }
     }
   });
-  
+
   return {
     distanceKm: totalDistance / 1000,
     ascent: Math.round(totalAscent),
@@ -602,7 +618,7 @@ function getTotalStats() {
   const totalTrails = TRAILS.length;
   const totalKm = TRAILS.reduce((sum, t) => sum + (t.distanceKm || 0), 0);
   const totalAscent = TRAILS.reduce((sum, t) => sum + (t.ascent || 0), 0);
-  
+
   return {
     trails: totalTrails,
     kilometers: totalKm.toFixed(1),
