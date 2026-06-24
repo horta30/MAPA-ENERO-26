@@ -503,7 +503,7 @@ const TRAILS = [
     location: "LANCO",
     region: "Los Ríos",
     kmz: "kmz/LANCO_BIKE_PARK.kmz",
-    gpx: null,
+    gpx: "gpx/LANCO_BIKE_PARK.gpx",
     startCoords: [-72.80451603, -39.43420297],
     trails: [
       { name: "Clásica", difficulty: "negro", startCoords: [-72.80451603, -39.43420297], distanceKm: 1.32, ascent: 18, descent: 213 },
