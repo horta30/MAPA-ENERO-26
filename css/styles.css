@@ -1930,3 +1930,96 @@ min-height: unset;
   font-family: 'Space Grotesk', sans-serif;
   opacity: 0.8;
 }
+
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.filter-btn {
+  padding: 4px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: transparent;
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: rgba(255,255,255,0.3); color: #e5e7eb; }
+.filter-btn.active               { background: #00e5a0; border-color: #00e5a0; color: #0a0e12; }
+.filter-btn.xc.active            { background: #00BCD4; border-color: #00BCD4; color: #0a0e12; }
+.filter-btn.dh.active            { background: #FF5722; border-color: #FF5722; color: #fff; }
+.filter-btn.bikepark.active      { background: #4CAF50; border-color: #4CAF50; color: #0a0e12; }
+
+/* ============================================================
+   COLLAPSIBLE CARDS
+   ============================================================ */
+.ruta-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  gap: 8px;
+}
+.ruta-card-header:hover .ruta-title { opacity: 0.85; }
+.card-chevron {
+  font-size: 14px;
+  color: #6b7280;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s;
+  line-height: 1;
+}
+.ruta-card:not(.collapsed) .card-chevron {
+  transform: rotate(180deg);
+  color: #00e5a0;
+}
+.ruta-card.collapsed .ruta-card-body {
+  display: none;
+}
+
+/* ============================================================
+   ELEVATION PROFILE
+   ============================================================ */
+.elevation-profile {
+  margin-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 10px;
+}
+.elev-loading {
+  font-size: 11px;
+  color: #6b7280;
+  font-style: italic;
+}
+.elev-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+.elev-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #6b7280;
+  font-family: 'Space Grotesk', sans-serif;
+  min-width: 30px;
+  text-align: right;
+}
+.elev-svg {
+  flex: 1;
+  height: 52px;
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+}
