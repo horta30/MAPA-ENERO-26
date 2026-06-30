@@ -1653,8 +1653,7 @@ function escapeHtml(text) {
 const PROJECT_URL = window.location.href.split('?')[0]; // URL limpia sin parámetros
 
 // Texto base para compartir (dinámico, siempre actualizado)
-const _totalPistas = TRAILS.reduce((sum, t) => t.trails && t.trails.length > 0 ? sum + t.trails.length : sum + 1, 0);
-const SHARE_TEXT_GENERAL = `🚵 Descubre ${TRAILS.length} locaciones y ${_totalPistas} pistas MTB en Chile con Guardianes Del Bosque - Bosque Abierto #AndarEsConservar`;
+const SHARE_TEXT_GENERAL = `🚵 Descubre ${TRAILS.length} locaciones MTB en Chile con Guardianes Del Bosque - Bosque Abierto #AndarEsConservar`;
 
 /**
  * Genera URL de compartir para cada plataforma
