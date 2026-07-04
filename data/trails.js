@@ -73,18 +73,20 @@ const TRAILS = [
   {
     id: "ruta-005",
     name: "FUNDO MANCO",
-    type: "DH",
+    type: "BIKE PARK",
     club: "FUNDO MANCO",
     difficulty: "negro",
-    distanceKm: 1.16,
-    uniqueKm: 3.84,
-    ascent: 2,
-    descent: 113,
+    distanceKm: 2.58,
+    uniqueKm: 2.58,
     location: "CORONEL",
     region: "Biobío",
     kmz: "kmz/FUNDO_MANCO_DH_CORONEL_NEGRO.kmz",
     gpx: "gpx/fundo-manco-negro.gpx",
-    startCoords: [-73.1500, -37.0167]
+    startCoords: [-73.1500, -37.0167],
+    trails: [
+      { name: "Classic Line",     distanceKm: 1.42 },
+      { name: "Sugar Rabbit Mix", distanceKm: 1.16 }
+    ]
   },
   {
     id: "ruta-006",
