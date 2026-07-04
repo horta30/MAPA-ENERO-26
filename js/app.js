@@ -570,13 +570,17 @@ function extractAllGeometries(kmlDoc, trail) {
       lineStrings = placemark.getElementsByTagNameNS('*', 'LineString');
     }
     
+    // Nombre del placemark individual (para highlight de sub-tracks)
+    const nameEl = placemark.getElementsByTagName('name')[0];
+    const placemarkName = nameEl ? nameEl.textContent.trim() : '';
+
     for (let j = 0; j < lineStrings.length; j++) {
       const coordinates = extractCoordinates(lineStrings[j]);
       if (coordinates.length > 0) {
-        features.push(createFeature(trail, coordinates, 'LineString'));
+        features.push(createFeature(trail, coordinates, 'LineString', placemarkName));
       }
     }
-    
+
     // Buscar Polygon/LinearRing (circuitos guardados como polígonos en Google Earth)
     if (lineStrings.length === 0) {
       let polygons = placemark.getElementsByTagName('Polygon');
@@ -587,7 +591,7 @@ function extractAllGeometries(kmlDoc, trail) {
         for (let k = 0; k < rings.length; k++) {
           const coordinates = extractCoordinates(rings[k]);
           if (coordinates.length > 0) {
-            features.push(createFeature(trail, coordinates, 'LineString'));
+            features.push(createFeature(trail, coordinates, 'LineString', placemarkName));
           }
         }
       }
@@ -647,7 +651,7 @@ function parseCoordinatesText(text) {
     .filter(coord => coord !== null);
 }
 
-function createFeature(trail, coordinates, geometryType) {
+function createFeature(trail, coordinates, geometryType, trackName = '') {
   return {
     type: 'Feature',
     geometry: {
@@ -657,6 +661,7 @@ function createFeature(trail, coordinates, geometryType) {
     properties: {
       id: trail.id,
       nombre: trail.name,
+      trackName: trackName || trail.name,
       type: trail.type,
       disciplina: trail.type,
       club: trail.club,
@@ -745,6 +750,21 @@ function addTrailLayers() {
       },
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       filter: ['==', ['get', 'id'], '']
+    });
+  }
+
+  if (!map.getLayer('trail-subtrack-highlight')) {
+    map.addLayer({
+      id: 'trail-subtrack-highlight',
+      type: 'line',
+      source: 'trails',
+      filter: ['==', ['get', 'trackName'], ''],
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': '#FFD700',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 8, 5, 12, 7, 16, 9],
+        'line-opacity': 0.95
+      }
     });
   }
 
@@ -1098,12 +1118,13 @@ function createRutaCard(trail) {
         <span class="detail-label">PISTAS</span>
         <div class="trails-list-mini">
           ${trail.trails.map(t => `
-            <div class="trail-mini-item">
+            <div class="trail-mini-item trail-mini-clickable" data-trail-id="${trail.id}" data-track-name="${escapeHtml(t.name)}">
               <span class="trail-mini-icon">◆</span>
               <div class="trail-mini-content">
                 <span class="trail-mini-name">${escapeHtml(t.name)}</span>
                 ${t.distanceKm != null ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent != null ? ` · +${t.ascent}m` : ''}${t.descent != null ? `/-${t.descent}m` : ''}</span>` : ''}
               </div>
+              <span class="trail-mini-focus-icon">→</span>
             </div>
           `).join('')}
         </div>
@@ -1185,6 +1206,21 @@ function createRutaCard(trail) {
 
   if (body) body.addEventListener('click', (e) => e.stopPropagation());
 
+  // Clicks en sub-tracks (pistas individuales)
+  card.querySelectorAll('.trail-mini-clickable').forEach(item => {
+    item.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await loadRoutesIfNeeded();
+      minimizePanelOnMobile();
+      const trackName = item.dataset.trackName;
+      const trailId = item.dataset.trailId;
+      // Quitar active de otros items
+      card.querySelectorAll('.trail-mini-clickable').forEach(i => i.classList.remove('trail-mini-active'));
+      item.classList.add('trail-mini-active');
+      highlightSubTrack(trailId, trackName);
+    });
+  });
+
   // Botón compartir pista — junto a Maps y Waze
   const navButtons = card.querySelector('.card-nav-buttons');
   if (navButtons) {
@@ -1230,6 +1266,40 @@ function createRutaCard(trail) {
   }
 
   return card;
+}
+
+function highlightSubTrack(trailId, subTrailName) {
+  if (!map || !trailsGeoJSON) return;
+
+  // Buscar feature cuyo trackName coincida con el nombre de la sub-pista
+  const normalizedTarget = subTrailName.toUpperCase().trim();
+  const match = trailsGeoJSON.features.find(f =>
+    f.properties.id === trailId &&
+    f.properties.trackName &&
+    f.properties.trackName.toUpperCase().includes(normalizedTarget.split(' ')[0])
+  );
+
+  if (!match) return;
+
+  const tn = match.properties.trackName;
+  map.setFilter('trail-subtrack-highlight', ['==', ['get', 'trackName'], tn]);
+
+  // fitBounds al sub-track con contexto
+  const bounds = new maplibregl.LngLatBounds();
+  const coords = match.geometry.type === 'LineString'
+    ? match.geometry.coordinates
+    : match.geometry.coordinates.flat();
+  coords.forEach(c => bounds.extend(c));
+
+  if (!bounds.isEmpty()) {
+    map.fitBounds(bounds, { padding: 100, duration: 1800, maxZoom: 14 });
+  }
+}
+
+function clearSubTrackHighlight() {
+  if (map && map.getLayer('trail-subtrack-highlight')) {
+    map.setFilter('trail-subtrack-highlight', ['==', ['get', 'trackName'], '']);
+  }
 }
 
 function getFeaturesForTrail(trailId) {

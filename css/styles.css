@@ -1948,6 +1948,33 @@ min-height: unset;
   color: var(--color-text-bright);
 }
 
+.trail-mini-clickable {
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  margin: 0 -8px;
+  transition: background 0.15s;
+}
+.trail-mini-clickable:hover {
+  background: rgba(255,255,255,0.07);
+}
+.trail-mini-clickable.trail-mini-active {
+  background: rgba(255, 215, 0, 0.12);
+  outline: 1px solid rgba(255, 215, 0, 0.3);
+}
+.trail-mini-focus-icon {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.4;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.trail-mini-clickable:hover .trail-mini-focus-icon,
+.trail-mini-clickable.trail-mini-active .trail-mini-focus-icon {
+  opacity: 0.9;
+  transform: translateX(2px);
+  color: #FFD700;
+}
+
 .trail-mini-icon {
   color: var(--color-accent);
   font-size: 10px;
