@@ -1269,6 +1269,46 @@ min-height: unset;
   font-size: 14px;
 }
 
+.card-nav-btn.share-trail {
+  background: linear-gradient(135deg, #4a4a6a 0%, #333355 100%);
+  color: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.card-nav-btn.share-trail:hover {
+  background: linear-gradient(135deg, #5a5a8a 0%, #44446a 100%);
+  transform: translateY(-1px);
+}
+
+.card-share-dropdown {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  background: #1e2d1e;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 200;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.card-share-dropdown.hidden { display: none; }
+.card-share-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+.card-share-dropdown button:hover {
+  background: rgba(255,255,255,0.08);
+}
+
 /* V38: Sección de navegación en popups */
 .popup-navigation-section {
   margin: var(--spacing-md) 0;

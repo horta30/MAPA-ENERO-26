@@ -17,6 +17,7 @@ let allTrailFeatures = [];
 let trailCache = new Map();
 let isMobile = false;
 let activeFilter = 'ALL';
+let pendingDeepLinkTrailId = null;
 
 // V37: Control de carga de rutas
 let routesLoaded = false;
@@ -544,6 +545,13 @@ async function loadKMZData() {
     }
 
     console.log(`✅ Source de rutas creado\n`);
+
+    // Deep link animado: muestra mapa general ~1.5s y luego vuela al track
+    if (pendingDeepLinkTrailId) {
+      const deepId = pendingDeepLinkTrailId;
+      pendingDeepLinkTrailId = null;
+      setTimeout(() => centerOnTrail(deepId), 1500);
+    }
   } catch (error) {
     console.error('❌ Error fatal:', error);
   }
@@ -1003,6 +1011,7 @@ function handleDeepLink() {
   const trail = TRAILS.find(t => t.id === trailId);
   if (!trail) return;
 
+  // Abre la tarjeta y la lista de inmediato
   const panel = document.getElementById('panel');
   if (panel) panel.classList.remove('minimized');
 
@@ -1014,6 +1023,9 @@ function handleDeepLink() {
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
   }
+
+  // El zoom animado al track se dispara después de cargar KMZ (ver loadKMZData)
+  pendingDeepLinkTrailId = trailId;
 }
 
 function renderRutasList() {
@@ -1172,6 +1184,50 @@ function createRutaCard(trail) {
   });
 
   if (body) body.addEventListener('click', (e) => e.stopPropagation());
+
+  // Botón compartir pista — junto a Maps y Waze
+  const navButtons = card.querySelector('.card-nav-buttons');
+  if (navButtons) {
+    const shareBtn = document.createElement('button');
+    shareBtn.className = 'card-nav-btn share-trail';
+    shareBtn.title = 'Compartir pista';
+    shareBtn.innerHTML = '<span class="nav-icon-mini">🔗</span> Compartir';
+
+    const shareDropdown = document.createElement('div');
+    shareDropdown.className = 'card-share-dropdown hidden';
+    shareDropdown.innerHTML = `
+      <button data-platform="whatsapp"><span>💬</span> WhatsApp</button>
+      <button data-platform="twitter"><span>✕</span> X</button>
+      <button data-platform="copy"><span>🔗</span> Copiar link</button>
+    `;
+
+    shareBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Cerrar otros dropdowns abiertos
+      document.querySelectorAll('.card-share-dropdown:not(.hidden)').forEach(d => {
+        if (d !== shareDropdown) d.classList.add('hidden');
+      });
+      shareDropdown.classList.toggle('hidden');
+    });
+
+    shareDropdown.querySelectorAll('button').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const baseUrl = window.location.href.split('?')[0];
+        const deepLinkUrl = `${baseUrl}?trail=${trail.id}`;
+        const text = `🚵 ${trail.name} — ${trail.location} · ${trail.distanceKm}km ${trail.type} | Bosque Abierto MTB #AndarEsConservar`;
+        handleShare(opt.dataset.platform, text, deepLinkUrl);
+        shareDropdown.classList.add('hidden');
+      });
+    });
+
+    document.addEventListener('click', () => shareDropdown.classList.add('hidden'), { capture: false });
+
+    navButtons.appendChild(shareBtn);
+    const navRow = card.querySelector('.card-navigation-row');
+    if (navRow) navRow.style.position = 'relative';
+    navRow.appendChild(shareDropdown);
+  }
 
   return card;
 }
