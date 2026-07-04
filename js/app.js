@@ -569,6 +569,22 @@ function extractAllGeometries(kmlDoc, trail) {
       }
     }
     
+    // Buscar Polygon/LinearRing (circuitos guardados como polígonos en Google Earth)
+    if (lineStrings.length === 0) {
+      let polygons = placemark.getElementsByTagName('Polygon');
+      if (polygons.length === 0) polygons = placemark.getElementsByTagNameNS('*', 'Polygon');
+      for (let j = 0; j < polygons.length; j++) {
+        let rings = polygons[j].getElementsByTagName('LinearRing');
+        if (rings.length === 0) rings = polygons[j].getElementsByTagNameNS('*', 'LinearRing');
+        for (let k = 0; k < rings.length; k++) {
+          const coordinates = extractCoordinates(rings[k]);
+          if (coordinates.length > 0) {
+            features.push(createFeature(trail, coordinates, 'LineString'));
+          }
+        }
+      }
+    }
+
     // Buscar MultiGeometry con y sin namespace
     let multiGeometries = placemark.getElementsByTagName('MultiGeometry');
     if (multiGeometries.length === 0) {
