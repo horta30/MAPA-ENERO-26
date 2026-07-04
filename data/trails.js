@@ -121,7 +121,7 @@ const TRAILS = [
   },
   {
     id: "ruta-008",
-    name: "LEFU XC",
+    name: "LEFU XCM",
     type: "XC",
     club: "LEFU BIKE",
     difficulty: "azul",
