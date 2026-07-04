@@ -996,7 +996,7 @@ function handleDeepLink() {
   if (card) {
     card.classList.remove('collapsed');
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    if (trail.gpx) loadElevationProfile(trail, card);
+    if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
   }
 }
 
@@ -1136,7 +1136,7 @@ function createRutaCard(trail) {
       ${statsRow}
       ${trailsListHTML}
           ${navigationHTML}
-      ${trail.gpx ? '<div class="elevation-profile"></div>' : ''}
+      ${trail.gpx && !trail.trails ? '<div class="elevation-profile"></div>' : ''}
     </div>
   `;
 
@@ -1151,7 +1151,7 @@ function createRutaCard(trail) {
       selectTrail(trail.id);
       centerOnTrail(trail.id);
       minimizePanelOnMobile();
-      if (trail.gpx) loadElevationProfile(trail, card);
+      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
     }
   });
 
