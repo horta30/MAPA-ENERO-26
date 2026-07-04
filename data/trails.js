@@ -140,7 +140,7 @@ const TRAILS = [
     type: "XC",
     club: "MAULEN RIDERS",
     difficulty: "azul",
-    distanceKm: 18.75,
+    distanceKm: 21.98,
     ascent: 904,
     descent: 907,
     location: "GORBEA",
