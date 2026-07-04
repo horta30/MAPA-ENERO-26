@@ -177,7 +177,7 @@ const TRAILS = [
     region: "Biobío",
     kmz: "kmz/MTB_LOS_ALAMOS_XC_ARAUCO_LOS_ALAMOS_XC_AZUL.kmz",
     gpx: "gpx/los-alamos-xc-azul.gpx",
-    startCoords: [-73.6411, -37.5841],
+    startCoords: [-73.3571, -37.6927],
     trails: [
       { name: "Ruta para la Cooperativa", distanceKm: 58.94, ascent: 1732, descent: 1677 },
       { name: "Circuito Pilpilco",         distanceKm: 3.82,  ascent: 164,  descent: 164  },
