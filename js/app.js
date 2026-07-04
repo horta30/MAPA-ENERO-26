@@ -1760,13 +1760,9 @@ function updateHeaderStats() {
       return sum + 1;
     }, 0);
 
-    // KM totales: si tiene trails[] con distanceKm los suma, si no usa distanceKm del top level
+    // KM totales: usa uniqueKm (terreno único sin duplicados) si existe, si no distanceKm
     const totalKm = TRAILS.reduce((sum, trail) => {
-      if (trail.trails && trail.trails.length > 0) {
-        const subKm = trail.trails.reduce((s, t) => s + (t.distanceKm || 0), 0);
-        if (subKm > 0) return sum + subKm;
-      }
-      return sum + (trail.distanceKm || 0);
+      return sum + (trail.uniqueKm || trail.distanceKm || 0);
     }, 0);
 
     count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas · ${totalKm.toFixed(0)} km`;
