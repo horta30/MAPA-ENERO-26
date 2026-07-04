@@ -117,15 +117,17 @@ const TRAILS = [
     type: "XC",
     club: "LANPU BIKE",
     difficulty: "azul",
-    distanceKm: 43.23,
-    uniqueKm: 58.09,
-    ascent: 0,
-    descent: 0,
+    distanceKm: 47.98,
+    uniqueKm: 47.98,
     location: "ARAUCO",
     region: "Biobío",
     kmz: "kmz/LANPU_BIKE_XC_ARAUCO_LOS_CASTANOS_AZUL.kmz",
     gpx: "gpx/arauco-los-castan-os-bike-azul.gpx",
-    startCoords: [-72.9894, -36.7479]
+    startCoords: [-72.9894, -36.7479],
+    trails: [
+      { name: "Potrerito Molino Pichilo", distanceKm: 43.23 },
+      { name: "XC Los Castaños 2025",    distanceKm: 4.75  }
+    ]
   },
   {
     id: "ruta-008",
