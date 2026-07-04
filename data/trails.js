@@ -126,8 +126,8 @@ const TRAILS = [
     club: "LEFU BIKE",
     difficulty: "azul",
     distanceKm: 66.91,
-    ascent: 0,
-    descent: 0,
+    ascent: 1392,
+    descent: 1254,
     location: "LEBU",
     region: "Biobío",
     kmz: "kmz/LEFU_BIKE_XC_LEBU_AZUL.kmz",
@@ -171,13 +171,18 @@ const TRAILS = [
     club: "MTB LOS ALAMOS",
     difficulty: "azul",
     distanceKm: 66.53,
-    ascent: 0,
-    descent: 0,
+    ascent: 1974,
+    descent: 1920,
     location: "LOS ALAMOS",
     region: "Biobío",
     kmz: "kmz/MTB_LOS_ALAMOS_XC_ARAUCO_LOS_ALAMOS_XC_AZUL.kmz",
     gpx: "gpx/los-alamos-xc-azul.gpx",
-    startCoords: [-73.6411, -37.5841]
+    startCoords: [-73.6411, -37.5841],
+    trails: [
+      { name: "Ruta para la Cooperativa", distanceKm: 58.94, ascent: 1732, descent: 1677 },
+      { name: "Circuito Pilpilco",         distanceKm: 3.82,  ascent: 164,  descent: 164  },
+      { name: "Circuito Cupaño",           distanceKm: 3.77,  ascent: 78,   descent: 79   }
+    ]
   },
   {
     id: "ruta-012",
