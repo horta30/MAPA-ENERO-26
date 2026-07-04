@@ -1766,6 +1766,8 @@ function updateHeaderStats() {
     }, 0);
 
     count.textContent = `${TRAILS.length} locaciones · ${totalPistas} pistas · ${totalKm.toFixed(0)} km`;
+    const badge = document.getElementById('mobile-menu-badge');
+    if (badge) badge.textContent = TRAILS.length;
   }
 }
 
