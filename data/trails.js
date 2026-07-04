@@ -125,7 +125,7 @@ const TRAILS = [
     type: "XC",
     club: "LEFU BIKE",
     difficulty: "azul",
-    distanceKm: 48.85,
+    distanceKm: 66.91,
     ascent: 0,
     descent: 0,
     location: "LEBU",
