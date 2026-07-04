@@ -170,7 +170,7 @@ const TRAILS = [
     type: "XC",
     club: "MTB LOS ALAMOS",
     difficulty: "azul",
-    distanceKm: 58.3,
+    distanceKm: 66.53,
     ascent: 0,
     descent: 0,
     location: "LOS ALAMOS",
