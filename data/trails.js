@@ -50,7 +50,7 @@ const TRAILS = [
     startCoords: [-72.81857, -39.86870],
     trails: [
       { name: "Villa Esperanza",       startCoords: [-72.820534, -39.871716], distanceKm: 2.17, ascent: 3,   descent: 358 },
-      { name: "Pista Clásica Antigua", startCoords: [-72.82336,  -39.86199],  distanceKm: 3.19, ascent: 426, descent: 8   }
+      { name: "Pista Clásica Antigua", startCoords: [-72.82336,  -39.86199],  distanceKm: 3.19, ascent: 8,   descent: 426 }
     ],
     description: "2 pistas DH. Incluye: Villa Esperanza, Pista Clásica Antigua."
   },
