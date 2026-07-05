@@ -235,9 +235,9 @@ const TRAILS = [
   {
     id: "ruta-014",
     name: "PUTÚ PEDALEA",
-    type: "BIKE PARK",
+    type: "XC",
     club: "PUTU BIKE",
-    difficulty: "",
+    difficulty: "azul",
     distanceKm: 63.01,
     uniqueKm: 63.8,
     ascent: 1735,
