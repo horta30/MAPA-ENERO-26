@@ -726,7 +726,7 @@ function addTrailLayers() {
           'case',
           ['==', ['get', 'dificultad'], 'negro'], '#ffffff',
           ['==', ['get', 'dificultad'], 'azul'], '#60a5fa',
-          ['==', ['get', 'type'], 'BIKE PARK'], '#4ade80',
+          ['==', ['get', 'type'], 'PARQUE'], '#4ade80',
           ['==', ['get', 'type'], 'PARQUE'], '#66cc66',
           '#4ade80'
         ],
@@ -994,7 +994,7 @@ function renderFilterBar() {
     <button class="filter-btn active" data-filter="ALL">Todos</button>
     <button class="filter-btn xc" data-filter="XC">XC</button>
     <button class="filter-btn dh" data-filter="DH">DH</button>
-    <button class="filter-btn bikepark" data-filter="BIKE PARK">Bike Park</button>
+    <button class="filter-btn parque" data-filter="PARQUE">Parque</button>
     <button class="filter-btn trail" data-filter="TRAIL">Trail Run</button>
   `;
   list.parentNode.insertBefore(bar, list);
@@ -1113,7 +1113,7 @@ function createRutaCard(trail) {
     difficultyText = trail.difficulty === 'negro' ? 'MUY EXIGENTE' : 'EXIGENTE';
     geometryIcon = '<span class="geometry-icon dh-geometry">◆◆</span>';
   } else if (trail.type === 'BIKE PARK') {
-    geometryIcon = '<span class="geometry-icon bikepark-geometry">🏔️</span>';
+    geometryIcon = '<span class="geometry-icon parque-geometry">🌲</span>';
     showDifficulty = false;
   } else if (trail.type === 'PARQUE') {
     geometryIcon = '<span class="geometry-icon parque-geometry">🌲</span>';
@@ -1162,7 +1162,7 @@ function createRutaCard(trail) {
   ` : '';
   
   // Stats solo para rutas individuales (no Bike Parks)
-  const showStats = trail.type !== 'BIKE PARK' && trail.type !== 'PARQUE' && (trail.distanceKm > 0 || trail.ascent > 0);
+  const showStats = trail.type !== 'PARQUE' && (trail.distanceKm > 0 || trail.ascent > 0);
   const statsRow = showStats ? `
       <div class="ruta-stats-grid">
         <div class="stat-box">

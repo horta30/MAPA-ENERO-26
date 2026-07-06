@@ -2013,6 +2013,7 @@ min-height: unset;
    ============================================================ */
 .filter-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   padding: 8px 12px 10px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -2036,7 +2037,7 @@ min-height: unset;
 .filter-btn.active               { background: #00e5a0; border-color: #00e5a0; color: #0a0e12; }
 .filter-btn.xc.active            { background: #00BCD4; border-color: #00BCD4; color: #0a0e12; }
 .filter-btn.dh.active            { background: #FF5722; border-color: #FF5722; color: #fff; }
-.filter-btn.bikepark.active      { background: #4CAF50; border-color: #4CAF50; color: #0a0e12; }
+.filter-btn.parque.active        { background: #4CAF50; border-color: #4CAF50; color: #0a0e12; }
 .filter-btn.trail.active         { background: #FF7043; border-color: #FF7043; color: #fff; }
 
 /* Discipline badges en sub-tracks */

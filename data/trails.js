@@ -73,7 +73,7 @@ const TRAILS = [
   {
     id: "ruta-005",
     name: "FUNDO MANCO",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "FUNDO MANCO",
     difficulty: "negro",
     distanceKm: 2.58,
@@ -91,7 +91,7 @@ const TRAILS = [
   {
     id: "ruta-006",
     name: "BikePark Penco",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "HIJOS DE PENCO",
     difficulty: "",
     distanceKm: 4.36,
@@ -318,7 +318,7 @@ const TRAILS = [
   {
     id: "ruta-101",
     name: "Bustamante Bike Park",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "Mountain BUSTA",
     difficulty: "",
     distanceKm: 6.25,
@@ -342,7 +342,7 @@ const TRAILS = [
   {
     id: "ruta-102",
     name: "Colorado Bike Park",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "",
     difficulty: "",
     distanceKm: 38.89,
@@ -358,7 +358,7 @@ const TRAILS = [
   {
     id: "ruta-103",
     name: "La Misión Bike Park",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "",
     difficulty: "",
     distanceKm: 7.46,
@@ -413,7 +413,7 @@ const TRAILS = [
   {
     id: "ruta-105",
     name: "BikePark Lota",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "Bike Park Lota",
     difficulty: "",
     distanceKm: 12.88,
@@ -448,7 +448,7 @@ const TRAILS = [
   {
     id: "ruta-106",
     name: "BikePark Santa Juana",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "Mountain BUSTA",
     difficulty: "",
     distanceKm: 6.96,
@@ -493,7 +493,7 @@ const TRAILS = [
   {
     id: "ruta-107",
     name: "Cumbres de Nahuelbuta",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "MTB Curanilahue",
     difficulty: "",
     distanceKm: 158.42,
@@ -516,7 +516,7 @@ const TRAILS = [
   {
     id: "ruta-109",
     name: "Parque Las Melozas",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "Assem Maule / Arauco",
     difficulty: "",
     distanceKm: 3.84,
@@ -548,7 +548,7 @@ const TRAILS = [
   {
     id: "ruta-110",
     name: "Lanco Bike Park",
-    type: "BIKE PARK",
+    type: "PARQUE",
     club: "Econauta Expediciones",
     difficulty: "negro",
     distanceKm: 3.68,
