@@ -2037,6 +2037,28 @@ min-height: unset;
 .filter-btn.xc.active            { background: #00BCD4; border-color: #00BCD4; color: #0a0e12; }
 .filter-btn.dh.active            { background: #FF5722; border-color: #FF5722; color: #fff; }
 .filter-btn.bikepark.active      { background: #4CAF50; border-color: #4CAF50; color: #0a0e12; }
+.filter-btn.trail.active         { background: #FF7043; border-color: #FF7043; color: #fff; }
+
+/* Discipline badges en sub-tracks */
+.trail-mini-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.disc-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.disc-badge.disc-tr   { background: rgba(255,112,67,0.2);  color: #FF7043; border: 1px solid rgba(255,112,67,0.4); }
+.disc-badge.disc-xc   { background: rgba(0,188,212,0.15);  color: #00BCD4; border: 1px solid rgba(0,188,212,0.3); }
+.disc-badge.disc-dh   { background: rgba(255,87,34,0.15);  color: #FF5722; border: 1px solid rgba(255,87,34,0.3); }
+.disc-badge.disc-rp   { background: rgba(158,158,158,0.15);color: #9E9E9E; border: 1px solid rgba(158,158,158,0.3); }
 
 /* ============================================================
    COLLAPSIBLE CARDS

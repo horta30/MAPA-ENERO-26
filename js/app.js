@@ -995,6 +995,7 @@ function renderFilterBar() {
     <button class="filter-btn xc" data-filter="XC">XC</button>
     <button class="filter-btn dh" data-filter="DH">DH</button>
     <button class="filter-btn bikepark" data-filter="BIKE PARK">Bike Park</button>
+    <button class="filter-btn trail" data-filter="TRAIL">Trail Run</button>
   `;
   list.parentNode.insertBefore(bar, list);
 
@@ -1016,6 +1017,12 @@ function applyFilterToMap() {
     map.setPaintProperty('trails-pins', 'circle-opacity', 1);
     map.setPaintProperty('trails-pins', 'circle-stroke-opacity', 1);
     map.setPaintProperty('trails-pins-halo', 'circle-opacity', 0.3);
+  } else if (activeFilter === 'TRAIL') {
+    // Parque Collico es la única locación con TRAIL por ahora
+    const match = ['==', ['get', 'id'], 'ruta-104'];
+    map.setPaintProperty('trails-pins', 'circle-opacity', ['case', match, 1, 0.15]);
+    map.setPaintProperty('trails-pins', 'circle-stroke-opacity', ['case', match, 1, 0.2]);
+    map.setPaintProperty('trails-pins-halo', 'circle-opacity', ['case', match, 0.3, 0.03]);
   } else {
     const match = ['==', ['get', 'type'], activeFilter];
     map.setPaintProperty('trails-pins', 'circle-opacity', ['case', match, 1, 0.15]);
@@ -1063,7 +1070,9 @@ function renderRutasList() {
 
   const filtered = activeFilter === 'ALL'
     ? sortedTrails
-    : sortedTrails.filter(t => t.type === activeFilter);
+    : activeFilter === 'TRAIL'
+      ? sortedTrails.filter(t => t.sports && t.sports.includes('TRAIL'))
+      : sortedTrails.filter(t => t.type === activeFilter);
 
   filtered.forEach(trail => {
     const card = createRutaCard(trail);
@@ -1106,6 +1115,9 @@ function createRutaCard(trail) {
   } else if (trail.type === 'BIKE PARK') {
     geometryIcon = '<span class="geometry-icon bikepark-geometry">🏔️</span>';
     showDifficulty = false;
+  } else if (trail.type === 'PARQUE') {
+    geometryIcon = '<span class="geometry-icon parque-geometry">🌲</span>';
+    showDifficulty = false;
   } else if (trail.type === 'PARQUE_DEPRECATED') {
     geometryIcon = '<span class="geometry-icon parque-geometry">🌲</span>';
     showDifficulty = false;
@@ -1117,16 +1129,24 @@ function createRutaCard(trail) {
       <div class="ruta-detail-row">
         <span class="detail-label">PISTAS</span>
         <div class="trails-list-mini">
-          ${trail.trails.map(t => `
+          ${trail.trails.map(t => {
+            const discBadges = t.disciplines
+              ? t.disciplines.map(d => `<span class="disc-badge disc-${d.toLowerCase()}">${d}</span>`).join('')
+              : '';
+            const diffClass = t.difficulty ? `diff-${t.difficulty}` : '';
+            return `
             <div class="trail-mini-item trail-mini-clickable" data-trail-id="${trail.id}" data-track-name="${escapeHtml(t.name)}">
               <span class="trail-mini-icon">◆</span>
               <div class="trail-mini-content">
                 <span class="trail-mini-name">${escapeHtml(t.name)}</span>
-                ${t.distanceKm != null ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent != null ? ` · +${t.ascent}m` : ''}${t.descent != null ? `/-${t.descent}m` : ''}</span>` : ''}
+                <div class="trail-mini-meta">
+                  ${t.distanceKm != null ? `<span class="trail-mini-stats">${t.distanceKm} km${t.ascent != null ? ` · +${t.ascent}m` : ''}${t.descent != null ? `/-${t.descent}m` : ''}</span>` : ''}
+                  ${discBadges}
+                </div>
               </div>
               <span class="trail-mini-focus-icon">→</span>
-            </div>
-          `).join('')}
+            </div>`;
+          }).join('')}
         </div>
       </div>
     ` : '';
@@ -1142,7 +1162,7 @@ function createRutaCard(trail) {
   ` : '';
   
   // Stats solo para rutas individuales (no Bike Parks)
-  const showStats = trail.type !== 'BIKE PARK' && (trail.distanceKm > 0 || trail.ascent > 0);
+  const showStats = trail.type !== 'BIKE PARK' && trail.type !== 'PARQUE' && (trail.distanceKm > 0 || trail.ascent > 0);
   const statsRow = showStats ? `
       <div class="ruta-stats-grid">
         <div class="stat-box">

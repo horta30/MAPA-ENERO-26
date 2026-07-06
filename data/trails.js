@@ -374,18 +374,36 @@ const TRAILS = [
   {
     id: "ruta-104",
     name: "Parque Collico",
-    type: "BIKE PARK",
+    type: "PARQUE",
+    sports: ["MTB", "TRAIL"],
     club: "",
     difficulty: "",
-    distanceKm: 54.68,
-    uniqueKm: 78.99,
+    distanceKm: 30.41,
+    uniqueKm: 30.41,
     ascent: 2228,
     descent: 1946,
     location: "VALDIVIA",
     region: "Los Ríos",
     kmz: "kmz/PARQUE_COLLICO_VALDIVIA.kmz",
     gpx: "gpx/parque-collico-valdivia.gpx",
-    startCoords: [-73.2026, -39.8189]
+    startCoords: [-73.2026, -39.8189],
+    trails: [
+      { name: "Budicali",               distanceKm: 1.35, disciplines: ["TR","XC"],        difficulty: "facil",        direction: "bidireccional" },
+      { name: "Mirador Kunstmann",       distanceKm: 1.04, disciplines: ["RP","TR"],        difficulty: "facil",        direction: "bidireccional" },
+      { name: "Conejo",                  distanceKm: 0.63, disciplines: ["TR","XC","DH"],   difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Androides",               distanceKm: 1.79, disciplines: ["DH","XC"],        difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Mirador del Puma",        distanceKm: 5.07, disciplines: ["RP","TR"],        difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Suaveton",                distanceKm: 0.66, disciplines: ["TR","XC"],        difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Camino Principal (Ripio)",distanceKm: 7.72, disciplines: ["RP","TR","XC"],   difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Collico 1",               distanceKm: 4.91, disciplines: ["TR","XC","DH"],   difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Los Helechos",            distanceKm: 0.68, disciplines: ["TR","XC"],        difficulty: "moderado",     direction: "bidireccional" },
+      { name: "Spot 23",                 distanceKm: 1.89, disciplines: ["DH","XC"],        difficulty: "dificil",      direction: "unidireccional ↓" },
+      { name: "Suavetona Lex One",       distanceKm: 0.75, disciplines: ["TR"],             difficulty: "dificil",      direction: "bidireccional" },
+      { name: "El Muro",                 distanceKm: 1.59, disciplines: ["TR","XC"],        difficulty: "dificil",      direction: "bidireccional" },
+      { name: "Lalo Cura",               distanceKm: 1.12, disciplines: ["DH"],             difficulty: "muy-dificil",  direction: "unidireccional ↓" },
+      { name: "Vietnam",                 distanceKm: 0.66, disciplines: ["TR"],             difficulty: "muy-dificil",  direction: "bidireccional" },
+      { name: "La Cascada",              distanceKm: 0.55, disciplines: ["TR"],             difficulty: "muy-dificil",  direction: "bidireccional" }
+    ]
   },
 
   // ========================================================================
