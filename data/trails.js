@@ -353,7 +353,18 @@ const TRAILS = [
     region: "Biobío",
     kmz: "kmz/COLORADO_BIKE_PARK.kmz",
     gpx: "gpx/colorado-bike-park.gpx",
-    startCoords: [-73.3279, -37.4926]
+    startCoords: [-73.3279, -37.4926],
+    trails: [
+      { name: "XCM", distanceKm: 9.11 },
+      { name: "Borde Rio", distanceKm: 4.78 },
+      { name: "Lagunazo DH", distanceKm: 2.01 },
+      { name: "Speedline DH", distanceKm: 1.06 },
+      { name: "Los Viejos DH", distanceKm: 1.02 },
+      { name: "Nueva DH", distanceKm: 0.81 },
+      { name: "Moai DH", distanceKm: 0.76 },
+      { name: "Tobogan DH", distanceKm: 0.52 },
+      { name: "Cuneta Short DH", distanceKm: 0.41 }
+    ]
   },
   {
     id: "ruta-103",
