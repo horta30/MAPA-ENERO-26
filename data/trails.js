@@ -346,7 +346,7 @@ const TRAILS = [
     club: "",
     difficulty: "",
     distanceKm: 43.49,
-    uniqueKm: 13.29,
+    uniqueKm: 43.49,
     ascent: 2254,
     descent: 1958,
     location: "CURANILAHUE",
