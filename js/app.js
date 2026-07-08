@@ -482,55 +482,60 @@ function updatePinsWithRealCoords() {
 // CARGA Y PROCESAMIENTO DE DATOS KMZ
 // ============================================================================
 
+async function loadOneKMZ(trail) {
+  if (trailCache.has(trail.id)) {
+    return trailCache.get(trail.id);
+  }
+
+  try {
+    console.log(`📍 [${trail.id}] ${trail.name}`);
+
+    const kmzUrl = encodeURI(trail.kmz).replace(/#/g, '%23');
+    const response = await fetch(kmzUrl);
+    if (!response.ok) {
+      console.error(`   ❌ HTTP ${response.status}`);
+      return [];
+    }
+
+    const blob = await response.blob();
+    const zip = await JSZip.loadAsync(blob);
+    const kmlFile = Object.keys(zip.files).find(n => n.toLowerCase().endsWith('.kml'));
+
+    if (!kmlFile) {
+      console.error(`   ❌ No KML found`);
+      return [];
+    }
+
+    const kmlText = await zip.files[kmlFile].async('string');
+    const parser = new DOMParser();
+    const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
+    const features = extractAllGeometries(kmlDoc, trail);
+
+    trailCache.set(trail.id, features);
+    console.log(`   ✅ ${features.length} features`);
+    return features;
+  } catch (error) {
+    console.error(`   ❌ Error:`, error.message);
+    return [];
+  }
+}
+
 async function loadKMZData() {
   try {
     console.log('🚀 V38 - Cargando KMZ...');
     console.log(`📊 Total rutas: ${TRAILS.length}`);
-    
-    const loadPromises = TRAILS.map(async (trail) => {
-      if (trailCache.has(trail.id)) {
-        return trailCache.get(trail.id);
-      }
 
-      try {
-        console.log(`📍 [${trail.id}] ${trail.name}`);
-        
-        const kmzUrl = encodeURI(trail.kmz).replace(/#/g, '%23');
-        const response = await fetch(kmzUrl);
-        if (!response.ok) {
-          console.error(`   ❌ HTTP ${response.status}`);
-          return [];
-        }
+    // Prioridad: trails visibles en el viewport actual (+ deep link si hay)
+    const bounds = map.getBounds();
+    const isVisible = t => t.startCoords && bounds.contains(t.startCoords);
+    let priority = TRAILS.filter(t => isVisible(t) || t.id === pendingDeepLinkTrailId);
+    if (priority.length === 0) priority = TRAILS;
+    const rest = TRAILS.filter(t => !priority.includes(t));
 
-        const blob = await response.blob();
-        const zip = await JSZip.loadAsync(blob);
-        const kmlFile = Object.keys(zip.files).find(n => n.toLowerCase().endsWith('.kml'));
-        
-        if (!kmlFile) {
-          console.error(`   ❌ No KML found`);
-          return [];
-        }
+    console.log(`⚡ Carga priorizada: ${priority.length} visibles, ${rest.length} en background`);
 
-        const kmlText = await zip.files[kmlFile].async('string');
-        const parser = new DOMParser();
-        const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-        const features = extractAllGeometries(kmlDoc, trail);
-        
-        trailCache.set(trail.id, features);
-        console.log(`   ✅ ${features.length} features`);
-        return features;
-      } catch (error) {
-        console.error(`   ❌ Error:`, error.message);
-        return [];
-      }
-    });
-
-    const results = await Promise.all(loadPromises);
+    const results = await Promise.all(priority.map(loadOneKMZ));
     allTrailFeatures = results.flat().filter(f => f !== null);
-
-    console.log(`\n📊 RESUMEN:`);
-    console.log(`   Features totales: ${allTrailFeatures.length}`);
-    console.log(`   Rutas cargadas: ${trailCache.size}/${TRAILS.length}\n`);
 
     trailsGeoJSON = {
       type: 'FeatureCollection',
@@ -544,13 +549,25 @@ async function loadKMZData() {
       });
     }
 
-    console.log(`✅ Source de rutas creado\n`);
+    console.log(`✅ Source de rutas creado (${allTrailFeatures.length} features visibles)\n`);
 
     // Deep link animado: muestra mapa general ~1.5s y luego vuela al track
     if (pendingDeepLinkTrailId) {
       const deepId = pendingDeepLinkTrailId;
       pendingDeepLinkTrailId = null;
       setTimeout(() => centerOnTrail(deepId), 1500);
+    }
+
+    // Resto de trails en segundo plano, sin bloquear el primer render
+    if (rest.length > 0) {
+      Promise.all(rest.map(loadOneKMZ)).then(restResults => {
+        allTrailFeatures = allTrailFeatures.concat(restResults.flat().filter(f => f !== null));
+        trailsGeoJSON = { type: 'FeatureCollection', features: allTrailFeatures };
+        const source = map.getSource('trails');
+        if (source) source.setData(trailsGeoJSON);
+        updatePinsWithRealCoords();
+        console.log(`✅ Background: ${trailCache.size}/${TRAILS.length} rutas cargadas`);
+      }).catch(err => console.error('❌ Error carga background:', err));
     }
   } catch (error) {
     console.error('❌ Error fatal:', error);
