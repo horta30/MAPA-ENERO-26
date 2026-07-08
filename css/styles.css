@@ -2094,6 +2094,19 @@ min-height: unset;
 .disc-badge.disc-dh   { background: rgba(255,87,34,0.15);  color: #FF5722; border: 1px solid rgba(255,87,34,0.3); }
 .disc-badge.disc-rp   { background: rgba(158,158,158,0.15);color: #9E9E9E; border: 1px solid rgba(158,158,158,0.3); }
 
+/* Leyenda de siglas de disciplina (tarjetas con sub-pistas multi-deporte) */
+.disc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+  font-size: 10px;
+  color: #9ca3af;
+}
+
 /* ============================================================
    COLLAPSIBLE CARDS
    ============================================================ */

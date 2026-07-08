@@ -1018,7 +1018,7 @@ function renderFilterBar() {
       <button class="filter-btn xc" data-filter="XC">XC</button>
       <button class="filter-btn dh" data-filter="DH">DH</button>
       <button class="filter-btn parque" data-filter="PARQUE">Parque</button>
-      <button class="filter-btn trail" data-filter="TRAIL">Trail Run</button>
+      <button class="filter-btn trail" data-filter="TRAIL">Trail Running</button>
     </div>
     <div class="filter-row">
       <select id="region-select" class="region-select">
@@ -1214,6 +1214,13 @@ function createRutaCard(trail) {
             </div>`;
           }).join('')}
         </div>
+        ${trail.trails.some(t => t.disciplines) ? `
+        <div class="disc-legend">
+          <span class="disc-badge disc-tr">TR</span> Trail Running
+          <span class="disc-badge disc-xc">XC</span> Cross Country
+          <span class="disc-badge disc-dh">DH</span> Downhill
+          <span class="disc-badge disc-rp">RP</span> Ripio
+        </div>` : ''}
       </div>
     ` : '';
   // Fila de dificultad solo si corresponde
