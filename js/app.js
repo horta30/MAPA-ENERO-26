@@ -67,13 +67,12 @@ function initMap() {
         osm: {
           type: 'raster',
           tiles: [
-            'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-            'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-            'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-            'https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
           ],
           tileSize: 256,
-          attribution: '© OpenStreetMap contributors © CARTO',
+          attribution: '© OpenStreetMap contributors',
           minzoom: 0,
           maxzoom: 19
         }
@@ -92,11 +91,7 @@ function initMap() {
           type: 'raster',
           source: 'osm',
           minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            'raster-brightness-min': 0.18,
-            'raster-contrast': -0.05
-          }
+          maxzoom: 22
         }
       ]
     },
