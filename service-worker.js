@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v6";
+const VERSION = "bosque-abierto-v7";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
