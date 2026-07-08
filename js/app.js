@@ -17,6 +17,8 @@ let allTrailFeatures = [];
 let trailCache = new Map();
 let isMobile = false;
 let activeFilter = 'ALL';
+let activeRegion = 'ALL';
+let searchQuery = '';
 let pendingDeepLinkTrailId = null;
 
 // V37: Control de carga de rutas
@@ -65,12 +67,13 @@ function initMap() {
         osm: {
           type: 'raster',
           tiles: [
-            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+            'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+            'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+            'https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
           ],
           tileSize: 256,
-          attribution: '© OpenStreetMap contributors',
+          attribution: '© OpenStreetMap contributors © CARTO',
           minzoom: 0,
           maxzoom: 19
         }
@@ -818,7 +821,7 @@ function setupMobileExperience() {
   if (panelToggleBtn && isMobile) {
     panelToggleBtn.addEventListener('click', () => {
       const trigger = document.getElementById('mobile-menu-trigger');
-      if (trigger) trigger.style.opacity = '1';
+      if (trigger) trigger.classList.remove('oculto');
       const mHint = document.getElementById('menu-hint');
       if (mHint) mHint.classList.add('hidden');
     });
@@ -979,13 +982,13 @@ function toggleMobileMenu() {
     // Abrir panel
     panel.classList.remove('minimized');
     panel.classList.remove('minimized-mobile');
-    if (trigger) trigger.style.opacity = '0';
+    if (trigger) trigger.classList.add('oculto');
     if (menuHint) menuHint.classList.add('hidden');
     if (interactionHint) interactionHint.classList.add('hidden');
   } else {
     // Cerrar panel
     panel.classList.add('minimized');
-    if (trigger) trigger.style.opacity = '1';
+    if (trigger) trigger.classList.remove('oculto');
     // No volver a mostrar los hints una vez cerrados
   }
 
@@ -1004,15 +1007,26 @@ function renderFilterBar() {
   const list = document.getElementById('rutas-list');
   if (!list) return;
 
+  const regiones = [...new Set(TRAILS.map(t => t.region).filter(Boolean))];
+
   const bar = document.createElement('div');
   bar.id = 'filter-bar';
   bar.className = 'filter-bar';
   bar.innerHTML = `
-    <button class="filter-btn active" data-filter="ALL">Todos</button>
-    <button class="filter-btn xc" data-filter="XC">XC</button>
-    <button class="filter-btn dh" data-filter="DH">DH</button>
-    <button class="filter-btn parque" data-filter="PARQUE">Parque</button>
-    <button class="filter-btn trail" data-filter="TRAIL">Trail Run</button>
+    <input type="search" id="trail-search" class="trail-search" placeholder="🔍 Buscar locación, club o comuna..." autocomplete="off" />
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="ALL">Todos</button>
+      <button class="filter-btn xc" data-filter="XC">XC</button>
+      <button class="filter-btn dh" data-filter="DH">DH</button>
+      <button class="filter-btn parque" data-filter="PARQUE">Parque</button>
+      <button class="filter-btn trail" data-filter="TRAIL">Trail Run</button>
+    </div>
+    <div class="filter-row">
+      <select id="region-select" class="region-select">
+        <option value="ALL">📍 Todas las regiones</option>
+        ${regiones.map(r => `<option value="${r}">${r}</option>`).join('')}
+      </select>
+    </div>
   `;
   list.parentNode.insertBefore(bar, list);
 
@@ -1026,22 +1040,43 @@ function renderFilterBar() {
       applyFilterToMap();
     });
   });
+
+  const searchInput = bar.querySelector('#trail-search');
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim().toLowerCase();
+    renderRutasList();
+  });
+  searchInput.addEventListener('click', e => e.stopPropagation());
+
+  const regionSelect = bar.querySelector('#region-select');
+  regionSelect.addEventListener('change', () => {
+    activeRegion = regionSelect.value;
+    renderRutasList();
+    applyFilterToMap();
+  });
+  regionSelect.addEventListener('click', e => e.stopPropagation());
 }
 
 function applyFilterToMap() {
   if (!map || !map.getSource('trail-pins')) return;
-  if (activeFilter === 'ALL') {
+
+  const conditions = [];
+  if (activeFilter === 'TRAIL') {
+    // Parque Collico es la única locación con TRAIL por ahora
+    conditions.push(['==', ['get', 'id'], 'ruta-104']);
+  } else if (activeFilter !== 'ALL') {
+    conditions.push(['==', ['get', 'type'], activeFilter]);
+  }
+  if (activeRegion !== 'ALL') {
+    conditions.push(['==', ['get', 'region'], activeRegion]);
+  }
+
+  if (conditions.length === 0) {
     map.setPaintProperty('trails-pins', 'circle-opacity', 1);
     map.setPaintProperty('trails-pins', 'circle-stroke-opacity', 1);
     map.setPaintProperty('trails-pins-halo', 'circle-opacity', 0.3);
-  } else if (activeFilter === 'TRAIL') {
-    // Parque Collico es la única locación con TRAIL por ahora
-    const match = ['==', ['get', 'id'], 'ruta-104'];
-    map.setPaintProperty('trails-pins', 'circle-opacity', ['case', match, 1, 0.15]);
-    map.setPaintProperty('trails-pins', 'circle-stroke-opacity', ['case', match, 1, 0.2]);
-    map.setPaintProperty('trails-pins-halo', 'circle-opacity', ['case', match, 0.3, 0.03]);
   } else {
-    const match = ['==', ['get', 'type'], activeFilter];
+    const match = conditions.length === 1 ? conditions[0] : ['all', ...conditions];
     map.setPaintProperty('trails-pins', 'circle-opacity', ['case', match, 1, 0.15]);
     map.setPaintProperty('trails-pins', 'circle-stroke-opacity', ['case', match, 1, 0.2]);
     map.setPaintProperty('trails-pins-halo', 'circle-opacity', ['case', match, 0.3, 0.03]);
@@ -1058,6 +1093,8 @@ function handleDeepLink() {
   // Abre la tarjeta y la lista de inmediato
   const panel = document.getElementById('panel');
   if (panel) panel.classList.remove('minimized');
+  const dlTrigger = document.getElementById('mobile-menu-trigger');
+  if (dlTrigger) dlTrigger.classList.add('oculto');
 
   selectTrail(trailId);
 
@@ -1085,11 +1122,24 @@ function renderRutasList() {
     return latB - latA;
   });
 
-  const filtered = activeFilter === 'ALL'
+  let filtered = activeFilter === 'ALL'
     ? sortedTrails
     : activeFilter === 'TRAIL'
       ? sortedTrails.filter(t => t.sports && t.sports.includes('TRAIL'))
       : sortedTrails.filter(t => t.type === activeFilter);
+
+  if (activeRegion !== 'ALL') {
+    filtered = filtered.filter(t => t.region === activeRegion);
+  }
+
+  if (searchQuery) {
+    filtered = filtered.filter(t =>
+      (t.name || '').toLowerCase().includes(searchQuery) ||
+      (t.club || '').toLowerCase().includes(searchQuery) ||
+      (t.location || '').toLowerCase().includes(searchQuery) ||
+      (t.region || '').toLowerCase().includes(searchQuery)
+    );
+  }
 
   filtered.forEach(trail => {
     const card = createRutaCard(trail);
@@ -1104,7 +1154,7 @@ function minimizePanelOnMobile() {
     if (panel && !panel.classList.contains('minimized')) {
       panel.classList.add('minimized');
       // V39: Mostrar botón flotante al cerrar panel
-      if (trigger) trigger.style.opacity = '1';
+      if (trigger) trigger.classList.remove('oculto');
     }
   }
 }

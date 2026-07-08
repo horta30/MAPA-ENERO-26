@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v7";
+const VERSION = "bosque-abierto-v8";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -94,6 +94,7 @@ self.addEventListener("fetch", event => {
   // Tiles OSM y recursos externos: siempre network, sin cache
   if (
     url.hostname.includes("tile.openstreetmap.org") ||
+    url.hostname.includes("basemaps.cartocdn.com") ||
     url.hostname.includes("unpkg.com") ||
     url.hostname.includes("cdnjs.cloudflare.com") ||
     url.hostname.includes("demotiles.maplibre.org") ||
