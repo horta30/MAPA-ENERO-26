@@ -92,7 +92,11 @@ function initMap() {
           type: 'raster',
           source: 'osm',
           minzoom: 0,
-          maxzoom: 22
+          maxzoom: 22,
+          paint: {
+            'raster-brightness-min': 0.18,
+            'raster-contrast': -0.05
+          }
         }
       ]
     },
