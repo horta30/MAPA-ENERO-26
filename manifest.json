@@ -1,7 +1,7 @@
 {
   "name": "Bosque Abierto MTB — Guardianes del Bosque",
   "short_name": "Bosque Abierto",
-  "description": "Mapa interactivo de rutas MTB. 25 locaciones, 41 pistas. Andar es conservar.",
+  "description": "Mapa interactivo de rutas MTB. 27 locaciones, 88 pistas. Andar es conservar.",
   "start_url": "/MAPA-ENERO-26/",
   "scope": "/MAPA-ENERO-26/",
   "display": "standalone",
@@ -10,9 +10,14 @@
   "theme_color": "#1a3a1a",
   "icons": [
     {
-      "src": "assets/og/og-map.jpg",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }
