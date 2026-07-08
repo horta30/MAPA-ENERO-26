@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v11";
+const VERSION = "bosque-abierto-v12";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -40,7 +40,8 @@ const KMZ_ASSETS = [
   "/MAPA-ENERO-26/kmz/LOTA_LIMPIO.kmz",
   "/MAPA-ENERO-26/kmz/BIKE_PARK_SANTA_JUANA.kmz",
   "/MAPA-ENERO-26/kmz/Yungay_XCO_MTB.kmz",
-  "/MAPA-ENERO-26/kmz/CUMBRES_DE_NAHUELBUTA.KMZ"
+  "/MAPA-ENERO-26/kmz/CUMBRES_DE_NAHUELBUTA.KMZ",
+  "/MAPA-ENERO-26/kmz/MONTANA_CANETE_XCM.kmz"
 ];
 
 // ============================================================================
