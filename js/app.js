@@ -815,16 +815,7 @@ function setupMobileExperience() {
     });
   }
 
-  // V39: Click en el botón de toggle del panel también cierra en móvil
-  const panelToggleBtn = document.getElementById('panel-toggle');
-  if (panelToggleBtn && isMobile) {
-    panelToggleBtn.addEventListener('click', () => {
-      const trigger = document.getElementById('mobile-menu-trigger');
-      if (trigger) trigger.classList.remove('oculto');
-      const mHint = document.getElementById('menu-hint');
-      if (mHint) mHint.classList.add('hidden');
-    });
-  }
+  // V40: el toggle del panel se maneja en setupEventListeners (tap y drag)
 
   const welcomeClose = document.getElementById('welcome-close');
   const welcomeOverlay = document.getElementById('welcome-overlay');
@@ -846,16 +837,18 @@ function setupMobileExperience() {
     }, 1500);  // VERSION FINAL: 1.5 segundos
   }
 
-  // V39: Asegurar que el panel inicia minimizado en móvil
+  // V40: en móvil la hoja arranca en estado mínimo con drag habilitado
   if (isMobile) {
     const panel = document.getElementById('panel');
     if (panel) {
-      panel.classList.add('minimized');
+      panel.classList.remove('minimized');
+      panel.classList.remove('sheet-mid');
     }
+    setupSheetDrag();
   }
 
-  // V13: Setup interaction hint
-  setupInteractionHint();
+  // V13: Setup interaction hint (solo desktop — en móvil la hoja ya guía)
+  if (!isMobile) setupInteractionHint();
 }
 
 // ============================================================================
@@ -968,33 +961,58 @@ function hideMiniPopups() {
 }
 
 function toggleMobileMenu() {
+  // V40: en móvil la hoja siempre está visible — solo alterna mínima/expandida
   const panel = document.getElementById('panel');
-  const trigger = document.getElementById('mobile-menu-trigger');
-  const menuHint = document.getElementById('menu-hint');
-  const interactionHint = document.getElementById('interaction-hint');
   if (!panel) return;
-
-  const isHidden = panel.classList.contains('minimized') || 
-                   panel.classList.contains('minimized-mobile');
-
-  if (isHidden) {
-    // Abrir panel
-    panel.classList.remove('minimized');
-    panel.classList.remove('minimized-mobile');
-    if (trigger) trigger.classList.add('oculto');
-    if (menuHint) menuHint.classList.add('hidden');
-    if (interactionHint) interactionHint.classList.add('hidden');
-  } else {
-    // Cerrar panel
-    panel.classList.add('minimized');
-    if (trigger) trigger.classList.remove('oculto');
-    // No volver a mostrar los hints una vez cerrados
-  }
-
+  panel.classList.toggle('sheet-mid');
   const panelToggle = document.getElementById('panel-toggle');
   if (panelToggle) {
-    panelToggle.setAttribute('aria-expanded', isHidden);
+    panelToggle.setAttribute('aria-expanded', panel.classList.contains('sheet-mid'));
   }
+}
+
+// V40: Drag táctil de la hoja inferior
+let sheetDragMoved = false;
+const SHEET_PEEK_PX = 235;
+
+function setupSheetDrag() {
+  const panel = document.getElementById('panel');
+  const handle = document.getElementById('panel-toggle');
+  if (!panel || !handle) return;
+
+  let startY = 0, startOffset = 0, dragging = false;
+  const peekOffset = () => window.innerHeight * 0.82 - SHEET_PEEK_PX;
+  const midOffset = () => window.innerHeight * 0.10;
+  const currentOffset = () => {
+    const t = getComputedStyle(panel).transform;
+    return (t && t !== 'none') ? new DOMMatrixReadOnly(t).m42 : peekOffset();
+  };
+
+  handle.addEventListener('touchstart', (e) => {
+    dragging = true;
+    sheetDragMoved = false;
+    startY = e.touches[0].clientY;
+    startOffset = currentOffset();
+    panel.classList.add('sheet-dragging');
+  }, { passive: true });
+
+  handle.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    const dy = e.touches[0].clientY - startY;
+    if (Math.abs(dy) > 6) sheetDragMoved = true;
+    const y = Math.min(Math.max(startOffset + dy, midOffset()), peekOffset());
+    panel.style.transform = `translateY(${y}px)`;
+  }, { passive: true });
+
+  handle.addEventListener('touchend', () => {
+    if (!dragging) return;
+    dragging = false;
+    panel.classList.remove('sheet-dragging');
+    const y = currentOffset();
+    panel.style.transform = '';
+    panel.classList.toggle('sheet-mid', y < (peekOffset() + midOffset()) / 2);
+    setTimeout(() => { sheetDragMoved = false; }, 80);
+  });
 }
 
 // ============================================================================
@@ -1089,23 +1107,78 @@ function handleDeepLink() {
   const trail = TRAILS.find(t => t.id === trailId);
   if (!trail) return;
 
-  // Abre la tarjeta y la lista de inmediato
-  const panel = document.getElementById('panel');
-  if (panel) panel.classList.remove('minimized');
-  const dlTrigger = document.getElementById('mobile-menu-trigger');
-  if (dlTrigger) dlTrigger.classList.add('oculto');
+  if (isMobile) {
+    // V40: deep link limpio en móvil — solo el mapa, la hoja mínima y una mini-tarjeta
+    const panel = document.getElementById('panel');
+    if (panel) {
+      panel.classList.remove('minimized');
+      panel.classList.remove('sheet-mid');
+    }
+    selectTrail(trailId);
+    setTimeout(() => showDeepLinkMiniCard(trail), 2200);
+  } else {
+    // Desktop: abre la tarjeta y la lista de inmediato
+    const panel = document.getElementById('panel');
+    if (panel) panel.classList.remove('minimized');
 
-  selectTrail(trailId);
+    selectTrail(trailId);
 
-  const card = document.querySelector(`.ruta-card[data-id="${trailId}"]`);
-  if (card) {
-    card.classList.remove('collapsed');
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
+    const card = document.querySelector(`.ruta-card[data-id="${trailId}"]`);
+    if (card) {
+      card.classList.remove('collapsed');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
+    }
   }
 
   // El zoom animado al track se dispara después de cargar KMZ (ver loadKMZData)
   pendingDeepLinkTrailId = trailId;
+}
+
+// V40: Mini-tarjeta flotante al abrir un link compartido en móvil
+function showDeepLinkMiniCard(trail) {
+  if (!isMobile) return;
+  const existing = document.querySelector('.deeplink-mini');
+  if (existing) existing.remove();
+
+  const el = document.createElement('div');
+  el.className = 'deeplink-mini';
+  const stats = [
+    trail.distanceKm ? `${trail.distanceKm} km` : '',
+    trail.ascent ? `+${trail.ascent}m` : '',
+    trail.descent ? `-${trail.descent}m` : ''
+  ].filter(Boolean).join(' · ');
+  el.innerHTML = `
+    <div class="dl-info">
+      <strong>${escapeHtml(trail.name)}</strong>
+      <span>${stats}</span>
+    </div>
+    <div class="dl-actions">
+      <button class="dl-primary" id="dl-detail">Ver detalle</button>
+      <button id="dl-nav">Navegar</button>
+      <button id="dl-close" aria-label="Cerrar">✕</button>
+    </div>`;
+  document.getElementById('app').appendChild(el);
+
+  el.querySelector('#dl-detail').addEventListener('click', () => {
+    const panel = document.getElementById('panel');
+    if (panel) panel.classList.add('sheet-mid');
+    const card = document.querySelector(`.ruta-card[data-id="${trail.id}"]`);
+    if (card) {
+      card.classList.remove('collapsed');
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
+    }
+    el.remove();
+  });
+
+  el.querySelector('#dl-nav').addEventListener('click', () => {
+    const c = realStartCoords.get(trail.id) ||
+      (trail.startCoords ? { lng: trail.startCoords[0], lat: trail.startCoords[1] } : null);
+    if (c) window.open(getGoogleMapsUrl(c.lat, c.lng, trail.name), '_blank');
+  });
+
+  el.querySelector('#dl-close').addEventListener('click', () => el.remove());
 }
 
 function renderRutasList() {
@@ -1147,14 +1220,10 @@ function renderRutasList() {
 }
 
 function minimizePanelOnMobile() {
+  // V40: colapsar la hoja a estado mínimo (el mapa toma protagonismo)
   if (isMobile) {
     const panel = document.getElementById('panel');
-    const trigger = document.getElementById('mobile-menu-trigger');
-    if (panel && !panel.classList.contains('minimized')) {
-      panel.classList.add('minimized');
-      // V39: Mostrar botón flotante al cerrar panel
-      if (trigger) trigger.classList.remove('oculto');
-    }
+    if (panel) panel.classList.remove('sheet-mid');
   }
 }
 
@@ -1678,11 +1747,15 @@ function setupEventListeners() {
   if (panelToggle) {
     panelToggle.addEventListener('click', () => {
       const panel = document.getElementById('panel');
-      if (panel) {
-        panel.classList.toggle('minimized');
-        const isMinimized = panel.classList.contains('minimized');
-        panelToggle.setAttribute('aria-expanded', !isMinimized);
+      if (!panel) return;
+      if (isMobile) {
+        // V40: tap en el handle alterna la hoja (si no fue un drag)
+        if (!sheetDragMoved) toggleMobileMenu();
+        return;
       }
+      panel.classList.toggle('minimized');
+      const isMinimized = panel.classList.contains('minimized');
+      panelToggle.setAttribute('aria-expanded', !isMinimized);
     });
   }
 
