@@ -960,20 +960,33 @@ function hideMiniPopups() {
   miniPopupElements = [];
 }
 
+// V41: Tres estados de la hoja — micro (banner), peek (buscador+filtros), mid (lista)
+function getSheetState(panel) {
+  if (panel.classList.contains('sheet-mid')) return 'mid';
+  if (panel.classList.contains('sheet-micro')) return 'micro';
+  return 'peek';
+}
+
+function setSheetState(panel, state) {
+  panel.classList.remove('sheet-mid', 'sheet-micro');
+  if (state === 'mid') panel.classList.add('sheet-mid');
+  else if (state === 'micro') panel.classList.add('sheet-micro');
+  const panelToggle = document.getElementById('panel-toggle');
+  if (panelToggle) panelToggle.setAttribute('aria-expanded', state === 'mid');
+}
+
 function toggleMobileMenu() {
-  // V40: en móvil la hoja siempre está visible — solo alterna mínima/expandida
+  // V41: cada tap en el handle sube un nivel; desde arriba vuelve al banner
   const panel = document.getElementById('panel');
   if (!panel) return;
-  panel.classList.toggle('sheet-mid');
-  const panelToggle = document.getElementById('panel-toggle');
-  if (panelToggle) {
-    panelToggle.setAttribute('aria-expanded', panel.classList.contains('sheet-mid'));
-  }
+  const next = { micro: 'peek', peek: 'mid', mid: 'micro' };
+  setSheetState(panel, next[getSheetState(panel)]);
 }
 
 // V40: Drag táctil de la hoja inferior
 let sheetDragMoved = false;
 const SHEET_PEEK_PX = 235;
+const SHEET_MICRO_PX = 96;
 
 function setupSheetDrag() {
   const panel = document.getElementById('panel');
@@ -981,6 +994,7 @@ function setupSheetDrag() {
   if (!panel || !handle) return;
 
   let startY = 0, startOffset = 0, dragging = false;
+  const microOffset = () => window.innerHeight * 0.82 - SHEET_MICRO_PX;
   const peekOffset = () => window.innerHeight * 0.82 - SHEET_PEEK_PX;
   const midOffset = () => window.innerHeight * 0.10;
   const currentOffset = () => {
@@ -1000,7 +1014,7 @@ function setupSheetDrag() {
     if (!dragging) return;
     const dy = e.touches[0].clientY - startY;
     if (Math.abs(dy) > 6) sheetDragMoved = true;
-    const y = Math.min(Math.max(startOffset + dy, midOffset()), peekOffset());
+    const y = Math.min(Math.max(startOffset + dy, midOffset()), microOffset());
     panel.style.transform = `translateY(${y}px)`;
   }, { passive: true });
 
@@ -1010,7 +1024,14 @@ function setupSheetDrag() {
     panel.classList.remove('sheet-dragging');
     const y = currentOffset();
     panel.style.transform = '';
-    panel.classList.toggle('sheet-mid', y < (peekOffset() + midOffset()) / 2);
+    // Snap al estado más cercano de los tres
+    const stops = [
+      { state: 'mid', off: midOffset() },
+      { state: 'peek', off: peekOffset() },
+      { state: 'micro', off: microOffset() }
+    ];
+    stops.sort((a, b) => Math.abs(a.off - y) - Math.abs(b.off - y));
+    setSheetState(panel, stops[0].state);
     setTimeout(() => { sheetDragMoved = false; }, 80);
   });
 }
@@ -1108,11 +1129,11 @@ function handleDeepLink() {
   if (!trail) return;
 
   if (isMobile) {
-    // V40: deep link limpio en móvil — solo el mapa, la hoja mínima y una mini-tarjeta
+    // V41: deep link limpio en móvil — mapa protagonista, hoja en banner micro
     const panel = document.getElementById('panel');
     if (panel) {
       panel.classList.remove('minimized');
-      panel.classList.remove('sheet-mid');
+      setSheetState(panel, 'micro');
     }
     selectTrail(trailId);
     setTimeout(() => showDeepLinkMiniCard(trail), 2200);
@@ -1162,7 +1183,7 @@ function showDeepLinkMiniCard(trail) {
 
   el.querySelector('#dl-detail').addEventListener('click', () => {
     const panel = document.getElementById('panel');
-    if (panel) panel.classList.add('sheet-mid');
+    if (panel) setSheetState(panel, 'mid');
     const card = document.querySelector(`.ruta-card[data-id="${trail.id}"]`);
     if (card) {
       card.classList.remove('collapsed');
@@ -1220,10 +1241,10 @@ function renderRutasList() {
 }
 
 function minimizePanelOnMobile() {
-  // V40: colapsar la hoja a estado mínimo (el mapa toma protagonismo)
+  // V41: colapsar la hoja al banner micro (el mapa toma protagonismo)
   if (isMobile) {
     const panel = document.getElementById('panel');
-    if (panel) panel.classList.remove('sheet-mid');
+    if (panel) setSheetState(panel, 'micro');
   }
 }
 

@@ -935,6 +935,10 @@ min-height: unset;
   .panel.sheet-mid {
     transform: translateY(10vh);
   }
+  /* V41: estado micro — solo el banner con handle, logo, título y stats */
+  .panel.sheet-micro {
+    transform: translateY(calc(82vh - 96px));
+  }
   .panel.sheet-dragging {
     transition: none;
   }
@@ -1254,6 +1258,10 @@ min-height: unset;
   .panel.minimized.sheet-mid,
   .panel.minimized-mobile.sheet-mid {
     transform: translateY(10vh);
+  }
+  .panel.minimized.sheet-micro,
+  .panel.minimized-mobile.sheet-micro {
+    transform: translateY(calc(82vh - 96px));
   }
 
   /* Welcome overlay solo en móvil */
