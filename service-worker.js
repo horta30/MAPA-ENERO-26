@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v14";
+const VERSION = "bosque-abierto-v15";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -33,7 +33,7 @@ const KMZ_ASSETS = [
   "/MAPA-ENERO-26/kmz/ARAUCANIA_DH_TEMUCO.kmz",
   "/MAPA-ENERO-26/kmz/EL_NADI_PAILLACO_DH.kmz",
   "/MAPA-ENERO-26/kmz/RUKA_RACE_COELEMU_DH.kmz",
-  "/MAPA-ENERO-26/kmz/BUSTAMANTE_BIKE_PARK.kmz",
+  "/MAPA-ENERO-26/kmz/MONTANA_BUSTAMANTE.kmz",
   "/MAPA-ENERO-26/kmz/COLORADO_BIKE_PARK.kmz",
   "/MAPA-ENERO-26/kmz/LA_MISION_BIKE_PARK.kmz",
   "/MAPA-ENERO-26/kmz/PARQUE_COLLICO_VALDIVIA.kmz",

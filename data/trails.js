@@ -317,27 +317,29 @@ const TRAILS = [
 
   {
     id: "ruta-101",
-    name: "Bustamante Bike Park",
+    name: "Montaña Bustamante",
     type: "PARQUE",
     club: "Mountain BUSTA",
     difficulty: "",
-    distanceKm: 6.25,
-    uniqueKm: 6.25,
-    ascent: 652,
-    descent: 624,
+    distanceKm: 11.95,
+    uniqueKm: 11.21,
+    ascent: 141,
+    descent: 744,
     location: "COIHUECO",
     region: "Ñuble",
-    kmz: "kmz/BUSTAMANTE_BIKE_PARK.kmz",
-    gpx: "gpx/bustamante-bike-park.gpx",
-    startCoords: [-71.73776, -36.596287],
+    kmz: "kmz/MONTANA_BUSTAMANTE.kmz",
+    gpx: "gpx/montana-bustamante.gpx",
+    startCoords: [-71.737568, -36.597268],
     trails: [
-      { name: "El Boldo",             startCoords: [-71.737760, -36.596287], distanceKm: 1.33, ascent: 1, descent: 163 },
-      { name: "Downtrail Bustamante", startCoords: [-71.737681, -36.596252], distanceKm: 1.32, ascent: 0, descent: 166 },
-      { name: "La Resfalosa",         startCoords: [-71.737473, -36.595991], distanceKm: 1.31, ascent: 1, descent: 165 },
-      { name: "Hardline Plus",        startCoords: [-71.726231, -36.598460], distanceKm: 0.99, ascent: 3, descent: 151 },
-      { name: "Calabozo 2.0",         startCoords: [-71.738461, -36.603660], distanceKm: 1.30, ascent: 6, descent: 145 }
+      { name: "Pista Pato Line",           startCoords: [-71.737568, -36.597268], distanceKm: 1.38, ascent: 0, descent: 167 },
+      { name: "Pista Boldo",               startCoords: [-71.737654, -36.597188], distanceKm: 1.53, ascent: 0, descent: 137 },
+      { name: "Pista Hacha",               startCoords: [-71.724415, -36.607977], distanceKm: 1.48, ascent: 0, descent: 102 },
+      { name: "Pista Calabozo",            startCoords: [-71.738244, -36.603789], distanceKm: 1.29, ascent: 0, descent: 99 },
+      { name: "Conexión a Boldo",          startCoords: [-71.731362, -36.604275], distanceKm: 1.17, ascent: 0, descent: 22 },
+      { name: "Camino de subida 1 a Boldo", startCoords: [-71.748780, -36.596623], distanceKm: 1.78, ascent: 141, descent: 0, disciplines: ["RP"] },
+      { name: "Camino de subida 2 a Hacha", startCoords: [-71.724404, -36.608096], distanceKm: 3.33, ascent: 0, descent: 217, disciplines: ["RP"] }
     ],
-    description: "5 pistas DH. Incluye: El Boldo, Downtrail Bustamante, La Resfalosa, Hardline Plus, Calabozo 2.0."
+    description: "KMZ depurado por rider local (jul 2026). 5 pistas validadas + 2 caminos de subida (ripio). Pendiente: clasificación de especialidad y dificultad IMBA por el local."
   },
   {
     id: "ruta-102",
