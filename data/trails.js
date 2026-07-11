@@ -331,15 +331,15 @@ const TRAILS = [
     gpx: "gpx/montana-bustamante.gpx",
     startCoords: [-71.737568, -36.597268],
     trails: [
-      { name: "Pista Pato Line",           startCoords: [-71.737568, -36.597268], distanceKm: 1.38, ascent: 0, descent: 167 },
-      { name: "Pista Boldo",               startCoords: [-71.737654, -36.597188], distanceKm: 1.53, ascent: 0, descent: 137 },
-      { name: "Pista Hacha",               startCoords: [-71.724415, -36.607977], distanceKm: 1.48, ascent: 0, descent: 102 },
-      { name: "Pista Calabozo",            startCoords: [-71.738244, -36.603789], distanceKm: 1.29, ascent: 0, descent: 99 },
-      { name: "Conexión a Boldo",          startCoords: [-71.731362, -36.604275], distanceKm: 1.17, ascent: 0, descent: 22 },
-      { name: "Camino de subida 1 a Boldo", startCoords: [-71.748780, -36.596623], distanceKm: 1.78, ascent: 141, descent: 0, disciplines: ["RP"] },
-      { name: "Camino de subida 2 a Hacha", startCoords: [-71.724404, -36.608096], distanceKm: 3.33, ascent: 0, descent: 217, disciplines: ["RP"] }
+      { name: "Pista Pato Line",           startCoords: [-71.737568, -36.597268], distanceKm: 1.38, ascent: 0, descent: 167, disciplines: ["DH"], difficulty: "dificil",  direction: "unidireccional ↓" },
+      { name: "Pista Boldo",               startCoords: [-71.737654, -36.597188], distanceKm: 1.53, ascent: 0, descent: 137, disciplines: ["DH"], difficulty: "facil",    direction: "unidireccional ↓" },
+      { name: "Pista Hacha",               startCoords: [-71.724415, -36.607977], distanceKm: 1.48, ascent: 0, descent: 102, disciplines: ["DH"], difficulty: "facil",    direction: "unidireccional ↓" },
+      { name: "Pista Calabozo",            startCoords: [-71.738244, -36.603789], distanceKm: 1.29, ascent: 0, descent: 99,  disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional ↓" },
+      { name: "Conexión a Boldo",          startCoords: [-71.731362, -36.604275], distanceKm: 1.17, ascent: 22, descent: 0,  disciplines: ["RP"], direction: "subida" },
+      { name: "Camino de subida 1 a Boldo", startCoords: [-71.748780, -36.596623], distanceKm: 1.78, ascent: 141, descent: 0, disciplines: ["RP"], direction: "subida" },
+      { name: "Camino de subida 2 a Hacha", startCoords: [-71.724404, -36.608096], distanceKm: 3.33, ascent: 217, descent: 0, disciplines: ["RP"], direction: "subida" }
     ],
-    description: "KMZ depurado por rider local (jul 2026). 5 pistas validadas + 2 caminos de subida (ripio). Pendiente: clasificación de especialidad y dificultad IMBA por el local."
+    description: "KMZ depurado y clasificado por rider local (jul 2026). 4 pistas DH (IMBA: Pato Line negro, Boldo y Hacha verde, Calabozo azul) + 3 senderos/caminos de subida en ripio."
   },
   {
     id: "ruta-102",
