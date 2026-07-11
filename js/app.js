@@ -1304,13 +1304,15 @@ function createRutaCard(trail) {
             </div>`;
           }).join('')}
         </div>
-        ${trail.trails.some(t => t.disciplines) ? `
-        <div class="disc-legend">
-          <span class="disc-badge disc-tr">TR</span> Trail Running
-          <span class="disc-badge disc-xc">XC</span> Cross Country
-          <span class="disc-badge disc-dh">DH</span> Downhill
-          <span class="disc-badge disc-rp">RP</span> Ripio
-        </div>` : ''}
+        ${(() => {
+          // Leyenda dinámica: solo las disciplinas presentes en esta locación
+          const presentes = [...new Set(trail.trails.flatMap(t => t.disciplines || []))];
+          if (presentes.length === 0) return '';
+          const nombres = { TR: 'Trail Running', XC: 'Cross Country', DH: 'Downhill', RP: 'Ripio' };
+          return `<div class="disc-legend">${presentes
+            .map(d => `<span class="disc-badge disc-${d.toLowerCase()}">${d}</span> ${nombres[d] || d}`)
+            .join(' ')}</div>`;
+        })()}
       </div>
     ` : '';
   // Fila de dificultad solo si corresponde
