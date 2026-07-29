@@ -933,7 +933,7 @@ min-height: unset;
     transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .panel.sheet-mid {
-    transform: translateY(10vh);
+    transform: translateY(22vh);
   }
   /* V41: estado micro — solo el banner con handle, logo, título y stats */
   .panel.sheet-micro {
@@ -947,12 +947,12 @@ min-height: unset;
     display: flex;
   }
 
-  /* El toggle se convierte en el handle de arrastre */
+  /* El toggle se convierte en el handle de arrastre — área táctil amplia */
   .panel-toggle {
     position: relative;
     justify-content: center;
     text-align: center;
-    padding: 16px 0 4px;
+    padding: 22px 60px 8px;
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -963,13 +963,47 @@ min-height: unset;
   .panel-toggle::before {
     content: '';
     position: absolute;
-    top: 7px;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 42px;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.25);
+    width: 56px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* V42: con la hoja expandida, ocultar controles flotantes que se amontonan */
+  .panel.sheet-mid ~ .focus-toggle,
+  .panel.sheet-mid ~ .deeplink-mini {
+    display: none !important;
+  }
+
+  /* V42: botón de colapsar — siempre visible, manda la hoja al banner mínimo */
+  .sheet-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-accent, #00e5a0);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.18s, opacity 0.18s, transform 0.18s;
+  }
+  .sheet-collapse:active {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  /* En banner mínimo el botón apunta hacia arriba (expandir) */
+  .panel.sheet-micro .sheet-collapse {
+    transform: rotate(180deg);
   }
 
   /* Header compacto: logo chico + título en línea */
@@ -1257,7 +1291,7 @@ min-height: unset;
   }
   .panel.minimized.sheet-mid,
   .panel.minimized-mobile.sheet-mid {
-    transform: translateY(10vh);
+    transform: translateY(22vh);
   }
   .panel.minimized.sheet-micro,
   .panel.minimized-mobile.sheet-micro {
@@ -1283,6 +1317,11 @@ min-height: unset;
 @media (min-width: 769px) {
   /* Ocultar completamente en desktop */
   .mobile-menu-trigger {
+    display: none !important;
+  }
+
+  /* V42: el botón de colapsar es solo para la hoja móvil */
+  .sheet-collapse {
     display: none !important;
   }
 

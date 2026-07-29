@@ -112,14 +112,17 @@
 
     <!-- Panel Lateral -->
     <aside id="panel" class="panel minimized" role="complementary" aria-label="Panel de información de rutas">
-      <button 
-        id="panel-toggle" 
-        class="panel-toggle" 
+      <button
+        id="panel-toggle"
+        class="panel-toggle"
         aria-label="Minimizar o expandir panel"
         aria-expanded="false"
       >
         Rutas MTB
       </button>
+
+      <!-- V42: botón explícito para colapsar la hoja en móvil -->
+      <button id="sheet-collapse" class="sheet-collapse" aria-label="Minimizar panel y ver el mapa">▼</button>
 
       <div class="panel-inner">
         <!-- Header -->

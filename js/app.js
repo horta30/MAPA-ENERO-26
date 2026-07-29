@@ -845,6 +845,16 @@ function setupMobileExperience() {
       panel.classList.remove('sheet-mid');
     }
     setupSheetDrag();
+    setupSheetCollapseButton();
+
+    // V42: tocar el mapa colapsa la hoja al banner — gesto natural para liberar el mapa
+    const mapEl = document.getElementById('map');
+    if (mapEl) {
+      mapEl.addEventListener('touchstart', () => {
+        const p = document.getElementById('panel');
+        if (p && getSheetState(p) !== 'micro') setSheetState(p, 'micro');
+      }, { passive: true });
+    }
   }
 
   // V13: Setup interaction hint (solo desktop — en móvil la hoja ya guía)
@@ -983,6 +993,17 @@ function toggleMobileMenu() {
   setSheetState(panel, next[getSheetState(panel)]);
 }
 
+// V42: botón explícito — colapsa al banner desde cualquier estado (o expande si ya está en banner)
+function setupSheetCollapseButton() {
+  const btn = document.getElementById('sheet-collapse');
+  const panel = document.getElementById('panel');
+  if (!btn || !panel) return;
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setSheetState(panel, getSheetState(panel) === 'micro' ? 'peek' : 'micro');
+  });
+}
+
 // V40: Drag táctil de la hoja inferior
 let sheetDragMoved = false;
 const SHEET_PEEK_PX = 235;
@@ -996,7 +1017,7 @@ function setupSheetDrag() {
   let startY = 0, startOffset = 0, dragging = false;
   const microOffset = () => window.innerHeight * 0.82 - SHEET_MICRO_PX;
   const peekOffset = () => window.innerHeight * 0.82 - SHEET_PEEK_PX;
-  const midOffset = () => window.innerHeight * 0.10;
+  const midOffset = () => window.innerHeight * 0.22;
   const currentOffset = () => {
     const t = getComputedStyle(panel).transform;
     return (t && t !== 'none') ? new DOMMatrixReadOnly(t).m42 : peekOffset();
