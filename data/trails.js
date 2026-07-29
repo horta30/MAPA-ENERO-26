@@ -238,8 +238,8 @@ const TRAILS = [
     type: "XC",
     club: "PUTU BIKE",
     difficulty: "azul",
-    distanceKm: 63.01,
-    uniqueKm: 63.8,
+    distanceKm: 87.69,
+    uniqueKm: 72.52,
     ascent: 1735,
     descent: 1764,
     location: "CONSTITUCIÓN",
@@ -251,9 +251,10 @@ const TRAILS = [
       { name: "DH El Guarda by Nelson",                  startCoords: [-72.278685, -35.198329], distanceKm: 14.99, ascent: 600,  descent: 595  },
       { name: "XCM Putu Pedalea",                        startCoords: [-72.293312, -35.234609], distanceKm: 50.58, ascent: 1105, descent: 1104 },
       { name: "Reconocimiento Oficial Putu Pedalea 4.0", startCoords: [-72.284423, -35.208964], distanceKm: 56.52, ascent: 1348, descent: 1350 },
-      { name: "Putú Pedalea Recargado",                  startCoords: [-72.284059, -35.211638], distanceKm: 63.01, ascent: 2456, descent: 2470 }
+      { name: "Putú Pedalea Recargado",                  startCoords: [-72.284059, -35.211638], distanceKm: 63.01, ascent: 2456, descent: 2470 },
+      { name: "Putú Pedalea 5.0 — senderos nuevos",      startCoords: [-72.257590, -35.196080], distanceKm: 17.74 }
     ],
-    description: "4 rutas en torno al evento Putú Pedalea. Incluye: DH El Guarda by Nelson, XCM Putu Pedalea, Reconocimiento Oficial 4.0 y Putú Pedalea Recargado."
+    description: "Rutas del evento Putú Pedalea. Actualización jul 2026: KMZ 5.0 depurado y consolidado — se incorporaron 17.74 km de senderos nuevos (7 tramos) sin duplicar terreno ya validado."
   },
   // RUTA 015 - REEMPLAZADA POR RUKA RACE (ver abajo)
 
