@@ -238,16 +238,16 @@ const TRAILS = [
     type: "XC",
     club: "PUTU BIKE",
     difficulty: "azul",
-    distanceKm: 87.69,
-    uniqueKm: 72.52,
-    ascent: 2601,
-    descent: 2764,
+    distanceKm: 66.22,
+    uniqueKm: 66.22,
+    ascent: 2091,
+    descent: 2460,
     location: "CONSTITUCIÓN",
     region: "Maule",
     kmz: "kmz/PUTU_BIKE_XC_Constitucion_XCM_PUTU_PEDALES_AZUL.kmz",
     gpx: "gpx/putu-u-bike-xc-constitucio-un-pedals-azul.gpx",
-    startCoords: [-72.278685, -35.198329],
-    description: "Red de senderos del evento Putú Pedalea, Constitución. KMZ consolidado jul 2026 (72.52 km de sendero único, sin duplicados)."
+    startCoords: [-72.235950, -35.176138],
+    description: "Red de senderos del evento Putú Pedalea, Constitución. KMZ depurado jul 2026: track único sin tramos repetidos ni zona urbana — 66.22 km de sendero real."
   },
   // RUTA 015 - REEMPLAZADA POR RUKA RACE (ver abajo)
 

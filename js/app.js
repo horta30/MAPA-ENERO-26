@@ -594,6 +594,12 @@ function extractAllGeometries(kmlDoc, trail) {
     const placemarkName = nameEl ? nameEl.textContent.trim() : '';
 
     for (let j = 0; j < lineStrings.length; j++) {
+      // V43: los LineStrings dentro de un MultiGeometry se procesan más abajo
+      // (getElementsByTagName es recursivo y si no, se duplicaría el trazado)
+      if (lineStrings[j].parentNode &&
+          lineStrings[j].parentNode.nodeName.replace(/^.*:/, '') === 'MultiGeometry') {
+        continue;
+      }
       const coordinates = extractCoordinates(lineStrings[j]);
       if (coordinates.length > 0) {
         features.push(createFeature(trail, coordinates, 'LineString', placemarkName));
