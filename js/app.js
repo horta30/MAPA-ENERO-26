@@ -843,24 +843,13 @@ function setupMobileExperience() {
     }, 1500);  // VERSION FINAL: 1.5 segundos
   }
 
-  // V40: en móvil la hoja arranca en estado mínimo con drag habilitado
+  // V44: móvil arranca con el mapa limpio; la lista se abre con el botón "N rutas"
   if (isMobile) {
     const panel = document.getElementById('panel');
-    if (panel) {
-      panel.classList.remove('minimized');
-      panel.classList.remove('sheet-mid');
-    }
-    setupSheetDrag();
-    setupSheetCollapseButton();
-
-    // V42: tocar el mapa colapsa la hoja al banner — gesto natural para liberar el mapa
-    const mapEl = document.getElementById('map');
-    if (mapEl) {
-      mapEl.addEventListener('touchstart', () => {
-        const p = document.getElementById('panel');
-        if (p && getSheetState(p) !== 'micro') setSheetState(p, 'micro');
-      }, { passive: true });
-    }
+    if (panel) panel.classList.remove('minimized', 'sheet-open');
+    document.body.classList.remove('app-sheet-open');
+    setupMobileNav();
+    updateOpenListCount();
   }
 
   // V13: Setup interaction hint (solo desktop — en móvil la hoja ya guía)
@@ -976,91 +965,162 @@ function hideMiniPopups() {
   miniPopupElements = [];
 }
 
-// V41: Tres estados de la hoja — micro (banner), peek (buscador+filtros), mid (lista)
-function getSheetState(panel) {
-  if (panel.classList.contains('sheet-mid')) return 'mid';
-  if (panel.classList.contains('sheet-micro')) return 'micro';
-  return 'peek';
+// ============================================================================
+// V44 — NAVEGACIÓN MÓVIL DE DOS ESTADOS
+// A) mapa limpio (default)  B) .sheet-open = lista visible
+// ============================================================================
+
+function isSheetOpen() {
+  const p = document.getElementById('panel');
+  return !!p && p.classList.contains('sheet-open');
 }
 
-function setSheetState(panel, state) {
-  panel.classList.remove('sheet-mid', 'sheet-micro');
-  if (state === 'mid') panel.classList.add('sheet-mid');
-  else if (state === 'micro') panel.classList.add('sheet-micro');
-  const panelToggle = document.getElementById('panel-toggle');
-  if (panelToggle) panelToggle.setAttribute('aria-expanded', state === 'mid');
+function openSheet() {
+  const p = document.getElementById('panel');
+  if (!p) return;
+  hideRoutePeek();
+  p.classList.add('sheet-open');
+  document.body.classList.add('app-sheet-open');
+  p.setAttribute('aria-expanded', 'true');
+}
+
+function closeSheet() {
+  const p = document.getElementById('panel');
+  if (!p) return;
+  p.classList.remove('sheet-open');
+  document.body.classList.remove('app-sheet-open');
+  p.setAttribute('aria-expanded', 'false');
 }
 
 function toggleMobileMenu() {
-  // V41: cada tap en el handle sube un nivel; desde arriba vuelve al banner
-  const panel = document.getElementById('panel');
-  if (!panel) return;
-  const next = { micro: 'peek', peek: 'mid', mid: 'micro' };
-  setSheetState(panel, next[getSheetState(panel)]);
+  isSheetOpen() ? closeSheet() : openSheet();
 }
 
-// V42: botón explícito — colapsa al banner desde cualquier estado (o expande si ya está en banner)
-function setupSheetCollapseButton() {
-  const btn = document.getElementById('sheet-collapse');
-  const panel = document.getElementById('panel');
-  if (!btn || !panel) return;
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    setSheetState(panel, getSheetState(panel) === 'micro' ? 'peek' : 'micro');
+// --- Tarjeta compacta de la ruta seleccionada ---
+function showRoutePeek(trail) {
+  if (!isMobile || !trail) return;
+  const el = document.getElementById('route-peek');
+  if (!el) return;
+  const stats = [
+    trail.distanceKm ? `${trail.distanceKm} km` : '',
+    trail.ascent ? `+${trail.ascent}m` : '',
+    trail.descent ? `-${trail.descent}m` : ''
+  ].filter(Boolean).join(' · ');
+
+  el.innerHTML = `
+    <div class="rp-top">
+      <div>
+        <p class="rp-name">${escapeHtml(trail.name)}</p>
+        <p class="rp-stats">${stats}</p>
+      </div>
+      <button class="rp-close" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="rp-actions">
+      <button class="rp-primary" data-act="detalle">Ver detalle</button>
+      <button data-act="navegar">Navegar</button>
+    </div>`;
+  el.classList.remove('hidden');
+  document.body.classList.add('app-peek-open');
+
+  el.querySelector('.rp-close').addEventListener('click', hideRoutePeek);
+  el.querySelector('[data-act="detalle"]').addEventListener('click', () => {
+    openSheet();
+    const card = document.querySelector(`.ruta-card[data-id="${trail.id}"]`);
+    if (card) {
+      card.classList.remove('collapsed');
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
+    }
+  });
+  el.querySelector('[data-act="navegar"]').addEventListener('click', () => {
+    const c = realStartCoords.get(trail.id) ||
+      (trail.startCoords ? { lng: trail.startCoords[0], lat: trail.startCoords[1] } : null);
+    if (c) window.open(getGoogleMapsUrl(c.lat, c.lng, trail.name), '_blank');
   });
 }
 
-// V40: Drag táctil de la hoja inferior
-let sheetDragMoved = false;
-const SHEET_PEEK_PX = 235;
-const SHEET_MICRO_PX = 96;
+function hideRoutePeek() {
+  const el = document.getElementById('route-peek');
+  if (el) el.classList.add('hidden');
+  document.body.classList.remove('app-peek-open');
+}
 
+// --- Cableado de la navegación móvil ---
+function setupMobileNav() {
+  const panel = document.getElementById('panel');
+  if (!panel) return;
+
+  const openBtn = document.getElementById('open-list-btn');
+  if (openBtn) openBtn.addEventListener('click', openSheet);
+
+  // X de cierre: listener táctil propio para no depender del click sintético
+  const closeBtn = document.getElementById('sheet-close');
+  if (closeBtn) {
+    const cerrar = (e) => { e.preventDefault(); e.stopPropagation(); closeSheet(); };
+    closeBtn.addEventListener('click', cerrar);
+    closeBtn.addEventListener('touchend', cerrar);
+  }
+
+  // Buscador flotante -> mismo filtro de la lista
+  const input = document.getElementById('map-search-input');
+  if (input) {
+    input.addEventListener('input', () => {
+      searchQuery = input.value.trim().toLowerCase();
+      renderRutasList();
+      if (searchQuery && !isSheetOpen()) openSheet();
+    });
+  }
+
+  // Tocar el mapa cierra lo que esté abierto
+  const mapEl = document.getElementById('map');
+  if (mapEl) {
+    mapEl.addEventListener('touchstart', () => {
+      if (isSheetOpen()) closeSheet();
+    }, { passive: true });
+  }
+
+  setupSheetDrag();
+}
+
+// --- Arrastrar la cabecera hacia abajo para cerrar ---
 function setupSheetDrag() {
   const panel = document.getElementById('panel');
-  const handle = document.getElementById('panel-toggle');
+  const handle = document.getElementById('sheet-header');
   if (!panel || !handle) return;
 
-  let startY = 0, startOffset = 0, dragging = false;
-  const microOffset = () => window.innerHeight * 0.82 - SHEET_MICRO_PX;
-  const peekOffset = () => window.innerHeight * 0.82 - SHEET_PEEK_PX;
-  const midOffset = () => window.innerHeight * 0.22;
-  const currentOffset = () => {
-    const t = getComputedStyle(panel).transform;
-    return (t && t !== 'none') ? new DOMMatrixReadOnly(t).m42 : peekOffset();
-  };
+  let startY = 0, dy = 0, dragging = false;
 
   handle.addEventListener('touchstart', (e) => {
+    // No secuestrar el gesto si empezó sobre la X
+    if (e.target.closest('.sheet-close')) return;
     dragging = true;
-    sheetDragMoved = false;
+    dy = 0;
     startY = e.touches[0].clientY;
-    startOffset = currentOffset();
     panel.classList.add('sheet-dragging');
   }, { passive: true });
 
   handle.addEventListener('touchmove', (e) => {
     if (!dragging) return;
-    const dy = e.touches[0].clientY - startY;
-    if (Math.abs(dy) > 6) sheetDragMoved = true;
-    const y = Math.min(Math.max(startOffset + dy, midOffset()), microOffset());
-    panel.style.transform = `translateY(${y}px)`;
+    dy = Math.max(0, e.touches[0].clientY - startY);
+    panel.style.transform = `translateY(${dy}px)`;
   }, { passive: true });
 
   handle.addEventListener('touchend', () => {
     if (!dragging) return;
     dragging = false;
     panel.classList.remove('sheet-dragging');
-    const y = currentOffset();
     panel.style.transform = '';
-    // Snap al estado más cercano de los tres
-    const stops = [
-      { state: 'mid', off: midOffset() },
-      { state: 'peek', off: peekOffset() },
-      { state: 'micro', off: microOffset() }
-    ];
-    stops.sort((a, b) => Math.abs(a.off - y) - Math.abs(b.off - y));
-    setSheetState(panel, stops[0].state);
-    setTimeout(() => { sheetDragMoved = false; }, 80);
+    if (dy > 90) closeSheet();
   });
+}
+
+function updateOpenListCount() {
+  if (typeof TRAILS === 'undefined') return;
+  const txt = `${TRAILS.length} rutas`;
+  const el = document.getElementById('open-list-count');
+  if (el) el.textContent = txt;
+  const title = document.getElementById('sheet-title');
+  if (title) title.textContent = txt;
 }
 
 // ============================================================================
@@ -1156,14 +1216,12 @@ function handleDeepLink() {
   if (!trail) return;
 
   if (isMobile) {
-    // V41: deep link limpio en móvil — mapa protagonista, hoja en banner micro
+    // V44: deep link limpio — mapa protagonista + tarjeta compacta de la ruta
     const panel = document.getElementById('panel');
-    if (panel) {
-      panel.classList.remove('minimized');
-      setSheetState(panel, 'micro');
-    }
+    if (panel) panel.classList.remove('minimized');
+    closeSheet();
     selectTrail(trailId);
-    setTimeout(() => showDeepLinkMiniCard(trail), 2200);
+    setTimeout(() => showRoutePeek(trail), 2000);
   } else {
     // Desktop: abre la tarjeta y la lista de inmediato
     const panel = document.getElementById('panel');
@@ -1181,52 +1239,6 @@ function handleDeepLink() {
 
   // El zoom animado al track se dispara después de cargar KMZ (ver loadKMZData)
   pendingDeepLinkTrailId = trailId;
-}
-
-// V40: Mini-tarjeta flotante al abrir un link compartido en móvil
-function showDeepLinkMiniCard(trail) {
-  if (!isMobile) return;
-  const existing = document.querySelector('.deeplink-mini');
-  if (existing) existing.remove();
-
-  const el = document.createElement('div');
-  el.className = 'deeplink-mini';
-  const stats = [
-    trail.distanceKm ? `${trail.distanceKm} km` : '',
-    trail.ascent ? `+${trail.ascent}m` : '',
-    trail.descent ? `-${trail.descent}m` : ''
-  ].filter(Boolean).join(' · ');
-  el.innerHTML = `
-    <div class="dl-info">
-      <strong>${escapeHtml(trail.name)}</strong>
-      <span>${stats}</span>
-    </div>
-    <div class="dl-actions">
-      <button class="dl-primary" id="dl-detail">Ver detalle</button>
-      <button id="dl-nav">Navegar</button>
-      <button id="dl-close" aria-label="Cerrar">✕</button>
-    </div>`;
-  document.getElementById('app').appendChild(el);
-
-  el.querySelector('#dl-detail').addEventListener('click', () => {
-    const panel = document.getElementById('panel');
-    if (panel) setSheetState(panel, 'mid');
-    const card = document.querySelector(`.ruta-card[data-id="${trail.id}"]`);
-    if (card) {
-      card.classList.remove('collapsed');
-      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
-    }
-    el.remove();
-  });
-
-  el.querySelector('#dl-nav').addEventListener('click', () => {
-    const c = realStartCoords.get(trail.id) ||
-      (trail.startCoords ? { lng: trail.startCoords[0], lat: trail.startCoords[1] } : null);
-    if (c) window.open(getGoogleMapsUrl(c.lat, c.lng, trail.name), '_blank');
-  });
-
-  el.querySelector('#dl-close').addEventListener('click', () => el.remove());
 }
 
 function renderRutasList() {
@@ -1268,11 +1280,8 @@ function renderRutasList() {
 }
 
 function minimizePanelOnMobile() {
-  // V41: colapsar la hoja al banner micro (el mapa toma protagonismo)
-  if (isMobile) {
-    const panel = document.getElementById('panel');
-    if (panel) setSheetState(panel, 'micro');
-  }
+  // V44: al elegir una ruta se cierra la lista y manda el mapa
+  if (isMobile) closeSheet();
 }
 
 function createRutaCard(trail) {
@@ -1412,6 +1421,8 @@ function createRutaCard(trail) {
       selectTrail(trail.id);
       centerOnTrail(trail.id);
       minimizePanelOnMobile();
+      // V44: al elegir desde la lista, queda la tarjeta compacta sobre el mapa
+      if (isMobile) showRoutePeek(trail);
       if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
     }
   });
@@ -1673,7 +1684,13 @@ function setupMapInteractions() {
       const feature = e.features[0];
       await loadRoutesIfNeeded();
       selectTrail(feature.properties.id);
-      showPinPopup(e, feature);
+      if (isMobile) {
+        // V44: en móvil la tarjeta compacta reemplaza al popup sobre el mapa
+        const t = TRAILS.find(x => x.id === feature.properties.id);
+        if (t) showRoutePeek(t);
+      } else {
+        showPinPopup(e, feature);
+      }
       onUserInteraction(); // V13: Ocultar hints
     }
   });
@@ -1800,7 +1817,7 @@ function setupEventListeners() {
       if (!panel) return;
       if (isMobile) {
         // V40: tap en el handle alterna la hoja (si no fue un drag)
-        if (!sheetDragMoved) toggleMobileMenu();
+        toggleMobileMenu();
         return;
       }
       panel.classList.toggle('minimized');

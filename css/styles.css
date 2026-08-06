@@ -919,186 +919,234 @@ min-height: unset;
    ============================================================================ */
 
 @media (max-width: 768px) {
-  /* V40: Bottom sheet — hoja inferior deslizable, el mapa siempre visible */
+  /* ==========================================================================
+     V44 — Navegación móvil de DOS estados
+     Estado A (default): mapa 100% + buscador flotante + botón "N rutas"
+     Estado B (.sheet-open): lista como hoja al 72%, se cierra con X / drag / tocar mapa
+     ========================================================================== */
+
+  /* Legacy fuera */
+  .mobile-menu-trigger,
+  .menu-hint,
+  .interaction-hint,
+  .panel-toggle {
+    display: none !important;
+  }
+
+  /* --- Barra de búsqueda flotante --- */
+  .map-searchbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 14px;
+    background: var(--color-surface, #12181f);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 22px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+  .map-searchbar .ms-icon { font-size: 14px; opacity: 0.7; }
+
+  /* Los controles del mapa bajan para no quedar bajo el buscador */
+  .maplibregl-ctrl-top-right { top: 66px; }
+  .map-searchbar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text, #e5e7eb);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+  }
+  .map-searchbar input::placeholder { color: #6b7280; }
+  .app-sheet-open .map-searchbar { display: none; }
+
+  /* --- Botón "N rutas" --- */
+  .open-list-btn {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 46px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 23px;
+    background: var(--color-accent, #00e5a0);
+    color: #0a0e12;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 229, 160, 0.35);
+  }
+  .open-list-btn:active { transform: translateX(-50%) scale(0.96); }
+  .open-list-btn .olb-icon { font-size: 15px; }
+  .app-sheet-open .open-list-btn,
+  .app-peek-open .open-list-btn { display: none; }
+
+  /* --- Hoja de la lista --- */
   .panel {
     top: auto;
     bottom: 0;
     left: 0;
     right: 0;
     width: auto;
-    height: 82vh;
+    height: 72vh;
     max-height: none;
     border-radius: 18px 18px 0 0;
-    transform: translateY(calc(82vh - 235px));
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
   }
-  .panel.sheet-mid {
-    transform: translateY(22vh);
-  }
-  /* V41: estado micro — solo el banner con handle, logo, título y stats */
-  .panel.sheet-micro {
-    transform: translateY(calc(82vh - 96px));
-  }
-  .panel.sheet-dragging {
-    transition: none;
-  }
-  /* En móvil la hoja siempre muestra su contenido (minimized se ignora) */
-  .panel.minimized .panel-inner {
-    display: flex;
-  }
+  .panel.sheet-open { transform: translateY(0); }
+  .panel.sheet-dragging { transition: none; }
+  .panel.minimized .panel-inner { display: flex; }
 
-  /* El toggle se convierte en el handle de arrastre — área táctil amplia */
-  .panel-toggle {
+  /* Cabecera de la hoja: handle arrastrable + X en su propia zona */
+  .sheet-header {
     position: relative;
-    justify-content: center;
-    text-align: center;
-    padding: 22px 60px 8px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-muted, #9ca3af);
-    background: transparent;
-    touch-action: none;
-  }
-  .panel-toggle::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 5px;
-    border-radius: 3px;
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  /* V42: con la hoja expandida, ocultar controles flotantes que se amontonan */
-  .panel.sheet-mid ~ .focus-toggle,
-  .panel.sheet-mid ~ .deeplink-mini {
-    display: none !important;
-  }
-
-  /* V42: botón de colapsar — siempre visible, manda la hoja al banner mínimo */
-  .sheet-collapse {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    justify-content: center;
+    padding: 18px 8px 10px 18px;
+    flex-shrink: 0;
+  }
+  .sheet-handle {
     position: absolute;
     top: 8px;
-    right: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.28);
+  }
+  .sheet-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text, #e5e7eb);
+  }
+  .sheet-close {
     width: 44px;
     height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--color-accent, #00e5a0);
-    font-size: 16px;
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--color-text, #e5e7eb);
+    font-size: 17px;
     line-height: 1;
     cursor: pointer;
-    z-index: 3;
-    transition: background 0.18s, opacity 0.18s, transform 0.18s;
+    touch-action: manipulation;
   }
-  .sheet-collapse:active {
-    background: rgba(255, 255, 255, 0.18);
-  }
-  /* En banner mínimo el botón apunta hacia arriba (expandir) */
-  .panel.sheet-micro .sheet-collapse {
-    transform: rotate(180deg);
-  }
+  .sheet-close:active { background: rgba(255, 255, 255, 0.2); }
 
-  /* Header compacto: logo chico + título en línea */
-  .panel-header {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    column-gap: 10px;
-    align-items: center;
-    padding-bottom: 8px;
-  }
-  .panel-logo {
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    grid-row: 1 / 3;
-  }
-  .panel-header h1 {
-    font-size: 15px;
-    margin: 0;
-  }
-  .panel-subtitle {
-    font-size: 11px;
-    margin: 0;
-  }
+  /* El header del panel (logo + stats) se oculta: ya está en la cabecera */
+  .panel-header { display: none; }
 
   .panel-inner {
     padding: 0 var(--spacing-md) var(--spacing-md);
   }
-
   .rutas-list {
     max-height: none;
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .ruta-header h3 { font-size: 14px; }
 
-  .ruta-header h3 {
-    font-size: 14px;
-  }
+  /* El buscador de la barra de filtros se oculta (ya está arriba flotando) */
+  .filter-bar .trail-search { display: none; }
 
-  .focus-toggle {
-    bottom: var(--spacing-md);
-    right: var(--spacing-md);
-    padding: 12px 18px;
-    font-size: 13px;
-  }
-
-  /* Mini-tarjeta al abrir link compartido */
-  .deeplink-mini {
+  /* --- Tarjeta compacta de ruta seleccionada --- */
+  .route-peek {
     position: absolute;
     left: 12px;
     right: 12px;
-    bottom: 250px;
+    bottom: 14px;
     z-index: 1002;
-    background: var(--color-surface);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 10px 14px;
+    background: var(--color-surface, #12181f);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+    padding: 12px 14px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s;
+  }
+  .route-peek.hidden { display: none; }
+  .app-sheet-open .route-peek { display: none; }
+  .rp-top {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
-  .deeplink-mini .dl-info strong {
-    display: block;
-    font-size: 14px;
-    color: var(--color-text);
+  .rp-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text, #e5e7eb);
+    margin: 0;
   }
-  .deeplink-mini .dl-info span {
+  .rp-stats {
     font-size: 12px;
     color: #9ca3af;
+    margin: 3px 0 0;
   }
-  .deeplink-mini .dl-actions {
+  .rp-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-  .deeplink-mini button {
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: transparent;
-    color: var(--color-text);
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 999px;
-    padding: 6px 12px;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #9ca3af;
+    font-size: 15px;
     cursor: pointer;
-    font-family: inherit;
+    touch-action: manipulation;
   }
-  .deeplink-mini button.dl-primary {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+  .rp-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .rp-actions button {
+    flex: 1;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--color-text, #e5e7eb);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .rp-actions button.rp-primary {
+    background: var(--color-accent, #00e5a0);
+    border-color: var(--color-accent, #00e5a0);
     color: #0a0e12;
   }
+
+  .focus-toggle { display: none !important; }
+  .deeplink-mini { display: none !important; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -1282,35 +1330,24 @@ min-height: unset;
     display: none !important;
   }
 
-  /* V40: minimized ya no oculta la hoja — queda en estado mínimo */
+  /* V44: la hoja se controla solo con .sheet-open; minimized es legacy y no aplica */
   .panel.minimized,
   .panel.minimized-mobile {
-    transform: translateY(calc(82vh - 235px));
     opacity: 1;
     pointer-events: auto;
   }
-  .panel.minimized.sheet-mid,
-  .panel.minimized-mobile.sheet-mid {
-    transform: translateY(22vh);
+  .panel.minimized:not(.sheet-open),
+  .panel.minimized-mobile:not(.sheet-open) {
+    transform: translateY(100%);
   }
-  .panel.minimized.sheet-micro,
-  .panel.minimized-mobile.sheet-micro {
-    transform: translateY(calc(82vh - 96px));
+  .panel.minimized.sheet-open,
+  .panel.minimized-mobile.sheet-open {
+    transform: translateY(0);
   }
 
   /* Welcome overlay solo en móvil */
   .welcome-overlay {
     display: flex;
-  }
-
-  /* Ajuste de focus toggle en móvil */
-  .focus-toggle {
-    bottom: 80px;
-  }
-
-  /* V39: Ocultar botón flotante cuando panel está abierto */
-  .mobile-menu-trigger.oculto {
-    display: none !important;
   }
 }
 
@@ -1320,8 +1357,11 @@ min-height: unset;
     display: none !important;
   }
 
-  /* V42: el botón de colapsar es solo para la hoja móvil */
-  .sheet-collapse {
+  /* V44: controles exclusivos de la navegación móvil */
+  .map-searchbar,
+  .open-list-btn,
+  .route-peek,
+  .sheet-header {
     display: none !important;
   }
 
@@ -2039,7 +2079,7 @@ min-height: unset;
 /* Responsive */
 @media (max-width: 768px) {
   .share-general-btn {
-    top: 140px;
+    top: 206px;
     right: 12px;
     width: 42px;
     height: 42px;
