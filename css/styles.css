@@ -2363,3 +2363,88 @@ min-height: unset;
   border-radius: 4px;
   overflow: hidden;
 }
+
+/* ============================================================================
+   V45 — DESKTOP COMPACTO: menos cabecera, más lista de pistas
+   ============================================================================ */
+@media (min-width: 769px) {
+  /* Barra superior más delgada */
+  .panel-toggle {
+    padding: 10px var(--spacing-md);
+    font-size: 13px;
+  }
+
+  .panel-inner {
+    padding: var(--spacing-md);
+    gap: 10px;
+  }
+
+  /* Cabecera en una línea: logo chico + título + stats debajo */
+  .panel-header {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    column-gap: 10px;
+    align-items: center;
+    padding-bottom: 8px;
+  }
+  .panel-logo {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    grid-row: 1 / 3;
+  }
+  .panel-header h1 {
+    font-size: 17px;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .panel-subtitle {
+    font-size: 11px;
+    margin: 0;
+  }
+
+  /* Filtros compactos: buscador y región comparten fila */
+  .filter-bar {
+    padding: 6px 10px 8px;
+    gap: 6px;
+  }
+  .trail-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .region-select {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 122px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .filter-bar > .trail-search {
+    order: -1;
+  }
+  .filter-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "search region"
+      "chips chips";
+    align-items: center;
+  }
+  .filter-bar .trail-search { grid-area: search; }
+  .filter-bar .filter-row:has(.region-select) { grid-area: region; }
+  .filter-bar .filter-row:has(.filter-btn) { grid-area: chips; }
+  .filter-btn {
+    padding: 3px 11px;
+    font-size: 10px;
+  }
+
+  /* La lista se queda con todo el alto restante */
+  .rutas-list {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+  }
+}
