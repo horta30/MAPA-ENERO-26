@@ -1129,6 +1129,7 @@ min-height: unset;
   .rp-actions button {
     flex: 1;
     height: 38px;
+    padding: 0 12px;
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 10px;
     background: transparent;
@@ -1143,6 +1144,12 @@ min-height: unset;
     background: var(--color-accent, #00e5a0);
     border-color: var(--color-accent, #00e5a0);
     color: #0a0e12;
+  }
+  /* Botón secundario compacto: solo lo ancho que necesita */
+  .rp-actions button.rp-go {
+    flex: 0 0 auto;
+    min-width: 68px;
+    padding: 0 18px;
   }
 
   .focus-toggle { display: none !important; }

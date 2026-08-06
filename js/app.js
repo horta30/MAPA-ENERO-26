@@ -1017,7 +1017,7 @@ function showRoutePeek(trail) {
     </div>
     <div class="rp-actions">
       <button class="rp-primary" data-act="detalle">Ver detalle</button>
-      <button data-act="navegar">Navegar</button>
+      <button data-act="navegar" class="rp-go">Ir</button>
     </div>`;
   el.classList.remove('hidden');
   document.body.classList.add('app-peek-open');
