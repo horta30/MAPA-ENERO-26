@@ -368,15 +368,23 @@ const TRAILS = [
     type: "PARQUE",
     club: "",
     difficulty: "",
-    distanceKm: 7.37,
-    uniqueKm: 4.51,
-    ascent: 267,
-    descent: 378,
+    distanceKm: 3.16,
+    uniqueKm: 3.11,
+    ascent: 58,
+    descent: 190,
     location: "OSORNO",
     region: "Los Lagos",
     kmz: "kmz/LA_MISION_BIKE_PARK.kmz",
     gpx: "gpx/la-mision-bike-park.gpx",
-    startCoords: [-73.2973, -40.5322]
+    startCoords: [-73.296863, -40.531019],
+    trails: [
+      { name: "Directizima",         distanceKm: 0.29, ascent: 0,  descent: 38, disciplines: ["DH"], difficulty: "dificil",  direction: "unidireccional ↓" },
+      { name: "Mirador",             distanceKm: 0.50, ascent: 0,  descent: 55, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional ↓" },
+      { name: "Las Teles",           distanceKm: 0.61, ascent: 1,  descent: 43, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional ↓" },
+      { name: "Subida Pedaleable",   distanceKm: 0.95, ascent: 7,  descent: 49, disciplines: ["RP"], direction: "subida" },
+      { name: "Subida Pedaleable 2", distanceKm: 0.81, ascent: 50, descent: 5,  disciplines: ["RP"], direction: "subida" }
+    ],
+    description: "KMZ depurado y clasificado por el club local (ago 2026). 3 pistas de descenso (Directizima negra, Mirador y Las Teles azules) + 2 subidas pedaleables en ripio."
   },
   {
     id: "ruta-104",
