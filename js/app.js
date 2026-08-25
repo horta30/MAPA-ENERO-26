@@ -642,7 +642,9 @@ function extractAllGeometries(kmlDoc, trail) {
         }
       }
       if (allCoords.length > 0) {
-        features.push(createFeature(trail, allCoords, 'MultiLineString'));
+        // V46: conservar el nombre del placemark también en MultiGeometry,
+        // si no el track quedaba con el nombre de la locación
+        features.push(createFeature(trail, allCoords, 'MultiLineString', placemarkName));
       }
     }
   }
