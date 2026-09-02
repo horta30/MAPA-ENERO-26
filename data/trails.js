@@ -645,6 +645,27 @@ const TRAILS = [
       { name: "Copa de Agua XCM", startCoords: [-72.384937, -35.318261], distanceKm: 36.83, ascent: 1015, descent: 701, disciplines: ["XC"] }
     ],
     description: "3 rutas XCM del Club MTB Constitución. KMZ depurado ago 2026: se eliminaron 28.5 km de recorrido duplicado en Cuevas de Quivolgo."
+  },
+  {
+    id: "ruta-114",
+    name: "Urban Kids DH",
+    type: "DH",
+    club: "URBAN KIDS",
+    difficulty: "negro",
+    distanceKm: 3.6,
+    uniqueKm: 3.56,
+    ascent: 85,
+    descent: 478,
+    location: "QUIRIHUE",
+    region: "Ñuble",
+    kmz: "kmz/URBAN_KIDS_DH_QUIRIHUE.kmz",
+    gpx: "gpx/urban-kids-dh-quirihue.gpx",
+    startCoords: [-72.506767, -36.261868],
+    trails: [
+      { name: "Chipre", startCoords: [-72.506767, -36.261868], distanceKm: 2.46, ascent: 85, descent: 364, disciplines: ["DH"], difficulty: "dificil" },
+      { name: "La Virgen", startCoords: [-72.508768, -36.26699], distanceKm: 1.14, ascent: 0, descent: 114, disciplines: ["DH"], difficulty: "dificil" }
+    ],
+    description: "2 pistas DH del Club Urban Kids, Quirihue. Ambas dificultad negro (IMBA). KMZ verificado sin tramos duplicados."
   }
 ];
 
