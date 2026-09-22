@@ -20,6 +20,7 @@ let isMobile = false;
 // V37: Control de carga de rutas
 let routesLoaded = false;
 let routesLoading = false;
+let routesLoadingPromise = null;
 const ZOOM_THRESHOLD = 9.5;
 
 // V38: Almacén de coordenadas reales de puntos de inicio
@@ -397,22 +398,27 @@ function checkZoomAndLoadRoutes() {
 }
 
 async function loadRoutesIfNeeded() {
-  if (routesLoaded || routesLoading) return;
-  
+  if (routesLoaded) return;
+  if (routesLoadingPromise) return routesLoadingPromise;
+
   routesLoading = true;
   console.log('🚀 V38: Iniciando carga lazy de rutas...');
 
-  try {
-    await loadKMZData();
-    addTrailLayers();
-    updatePinsWithRealCoords();
-    routesLoaded = true;
-    console.log('✅ V38: Rutas cargadas exitosamente');
-  } catch (error) {
-    console.error('❌ V38: Error cargando rutas:', error);
-  } finally {
-    routesLoading = false;
-  }
+  routesLoadingPromise = (async () => {
+    try {
+      await loadKMZData();
+      addTrailLayers();
+      updatePinsWithRealCoords();
+      routesLoaded = true;
+      console.log('✅ V38: Rutas cargadas exitosamente');
+    } catch (error) {
+      console.error('❌ V38: Error cargando rutas:', error);
+    } finally {
+      routesLoading = false;
+    }
+  })();
+
+  return routesLoadingPromise;
 }
 
 function updatePinsWithRealCoords() {
