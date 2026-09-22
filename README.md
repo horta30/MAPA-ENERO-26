@@ -1,11 +1,23 @@
 # 🚵 Mapa Interactivo MTB - Bosque Abierto ARAUCO
 
-## Versión 9.0 - Enero 20, 2026
+## Versión 9.2 - Septiembre 22, 2026
 
-Mapa interactivo de rutas de Mountain Bike en Chile, región del Biobío y zonas aledañas.
+Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde el Maule hasta Los Lagos (norte a sur).
 
 **Proyecto:** Guardianes del Bosque / Bosque Abierto MTB
 **Cliente:** Forestal ARAUCO
+
+---
+
+## 🆕 NOVEDADES - Septiembre 22, 2026
+
+### 1 Nueva Locación DH Agregada
+
+**✅ ITATA Racing Club DH**
+- Ubicación: Coelemu, Región de Ñuble
+- 2 pistas DH: Pista BITI (0.59 km, 51 m descenso) y Pista Matadero DH (0.38 km, 47 m descenso)
+- Total: 0.97 km, 98 m de descenso
+- Club: ITATA Racing Club
 
 ---
 
@@ -22,16 +34,16 @@ Mapa interactivo de rutas de Mountain Bike en Chile, región del Biobío y zonas
 **✅ BikePark Santa Juana**
 - Ubicación: Santa Juana, Región del Biobío
 - 5 rutas MTB
-- 10 puntos de interés  
+- 10 puntos de interés
 - Rutas: Pista EnduHuaso, Pista Anfiteatro, Lanzador DH, Pista Sultan
 
 ---
 
 ## 📊 Estadísticas
 
-- **23 ubicaciones MTB** total
-- **6 Bike Parks** completos
-- **Regiones:** Biobío, Los Ríos, Los Lagos, Maule, Ñuble, Araucanía
+- **26 ubicaciones MTB** total
+- **8 Bike Parks** completos
+- **6 Regiones:** Maule, Biobío, Ñuble, La Araucanía, Los Ríos, Los Lagos
 
 ---
 
@@ -41,4 +53,4 @@ MIT License - Copyright (c) 2026 ARAUCO
 
 ---
 
-**Última actualización:** 20 de Enero, 2026
+**Última actualización:** 22 de Septiembre, 2026

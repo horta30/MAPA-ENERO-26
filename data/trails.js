@@ -666,6 +666,26 @@ const TRAILS = [
       { name: "La Virgen", startCoords: [-72.508768, -36.26699], distanceKm: 1.14, ascent: 0, descent: 114, disciplines: ["DH"], difficulty: "dificil" }
     ],
     description: "2 pistas DH del Club Urban Kids, Quirihue. Ambas dificultad negro (IMBA). KMZ verificado sin tramos duplicados."
+  },
+  {
+    id: "ruta-115",
+    name: "ITATA Racing Club DH",
+    type: "DH",
+    club: "ITATA RACING CLUB",
+    difficulty: "negro",
+    distanceKm: 0.97,
+    uniqueKm: 0.97,
+    ascent: 2,
+    descent: 98,
+    location: "COELEMU",
+    region: "Ñuble",
+    kmz: "kmz/ITATA_RACING_CLUB_DH_COELEMU_NEGRO.kmz",
+    startCoords: [-72.712324, -36.478897],
+    trails: [
+      { name: "Pista BITI",       startCoords: [-72.712324, -36.478897], distanceKm: 0.59, ascent: 1, descent: 51, disciplines: ["DH"], difficulty: "negro" },
+      { name: "Pista Matadero DH", startCoords: [-72.708134, -36.47875],  distanceKm: 0.38, ascent: 1, descent: 47, disciplines: ["DH"], difficulty: "negro" }
+    ],
+    description: "2 pistas DH del ITATA Racing Club en Coelemu, región de Ñuble. Pista BITI y Pista Matadero DH."
   }
 ];
 
