@@ -52,7 +52,7 @@ Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde 
 
 ## 📊 Estadísticas
 
-- **27 ubicaciones MTB** total
+- **26 ubicaciones MTB** total
 - **8 Bike Parks** completos
 - **6 Regiones:** Maule, Biobío, Ñuble, La Araucanía, Los Ríos, Los Lagos
 

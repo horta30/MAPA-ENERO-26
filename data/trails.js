@@ -609,22 +609,6 @@ const TRAILS = [
     startCoords: [-72.731205, -36.449111]
   },
   {
-    id: "ruta-112",
-    name: "Montaña Cañete XCM",
-    type: "XC",
-    club: "CLUB MONTAÑA CAÑETE",
-    difficulty: "azul",
-    distanceKm: 44.19,
-    uniqueKm: 43.89,
-    ascent: 1935,
-    descent: 1935,
-    location: "CAÑETE",
-    region: "Biobío",
-    kmz: "kmz/MONTANA_CANETE_XCM.kmz",
-    gpx: "gpx/montana-canete-xcm.gpx",
-    startCoords: [-73.3589, -37.7925]
-  },
-  {
     id: "ruta-113",
     name: "MTB Constitución XC",
     type: "XC",
