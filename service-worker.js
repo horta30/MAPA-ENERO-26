@@ -44,7 +44,8 @@ const KMZ_ASSETS = [
   "/MAPA-ENERO-26/kmz/MONTANA_CANETE_XCM.kmz",
   "/MAPA-ENERO-26/kmz/MTB_CONSTITUCION_XC.kmz",
   "/MAPA-ENERO-26/kmz/URBAN_KIDS_DH_QUIRIHUE.kmz",
-  "/MAPA-ENERO-26/kmz/ITATA_RACING_CLUB_DH_COELEMU_NEGRO.kmz"
+  "/MAPA-ENERO-26/kmz/ITATA_RACING_CLUB_DH_COELEMU_NEGRO.kmz",
+  "/MAPA-ENERO-26/kmz/MAULEN_RIDERS_DH_GORBEA_FUNDO_SOL_NEGRO.kmz"
 ];
 
 // ============================================================================

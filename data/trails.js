@@ -686,6 +686,25 @@ const TRAILS = [
       { name: "Pista Matadero DH", startCoords: [-72.708134, -36.47875],  distanceKm: 0.38, ascent: 1, descent: 47, disciplines: ["DH"], difficulty: "negro" }
     ],
     description: "2 pistas DH del ITATA Racing Club en Coelemu, región de Ñuble. Pista BITI y Pista Matadero DH."
+  },
+  {
+    id: "ruta-116",
+    name: "Fundo El Sol DH",
+    type: "DH",
+    club: "MAULEN RIDERS",
+    difficulty: "negro",
+    distanceKm: 3.45,
+    uniqueKm: 3.45,
+    ascent: 19,
+    descent: 422,
+    location: "GORBEA",
+    region: "La Araucanía",
+    kmz: "kmz/MAULEN_RIDERS_DH_GORBEA_FUNDO_SOL_NEGRO.kmz",
+    startCoords: [-72.73492566, -39.07941066],
+    trails: [
+      { name: "Fdo El Sol completo", startCoords: [-72.73492566, -39.07941066], distanceKm: 3.45, ascent: 19, descent: 422, disciplines: ["DH"], difficulty: "negro" }
+    ],
+    description: "Pista DH del Fundo El Sol, Maulen Riders, Gorbea. 3.45 km con 422 m de descenso."
   }
 ];
 

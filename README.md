@@ -9,6 +9,17 @@ Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde 
 
 ---
 
+## 🆕 NOVEDADES - Septiembre 23, 2026
+
+### 1 Nueva Locación DH Agregada
+
+**✅ Fundo El Sol DH — Maulen Riders**
+- Ubicación: Gorbea, Región de La Araucanía
+- 1 pista DH: Fdo El Sol completo — 3.45 km, 422 m de descenso
+- Club: Maulen Riders
+
+---
+
 ## 🆕 NOVEDADES - Septiembre 22, 2026
 
 ### 1 Nueva Locación DH Agregada
@@ -41,7 +52,7 @@ Mapa interactivo de rutas de Mountain Bike en Chile, cubriendo 6 regiones desde 
 
 ## 📊 Estadísticas
 
-- **26 ubicaciones MTB** total
+- **27 ubicaciones MTB** total
 - **8 Bike Parks** completos
 - **6 Regiones:** Maule, Biobío, Ñuble, La Araucanía, Los Ríos, Los Lagos
 
@@ -53,4 +64,4 @@ MIT License - Copyright (c) 2026 ARAUCO
 
 ---
 
-**Última actualización:** 22 de Septiembre, 2026
+**Última actualización:** 23 de Septiembre, 2026
