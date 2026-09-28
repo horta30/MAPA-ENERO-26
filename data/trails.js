@@ -692,7 +692,7 @@ const TRAILS = [
   },
   {
     id: "ruta-117",
-    name: "Angol Runners Arauco",
+    name: "Angol Runners",
     type: "TRAIL",
     sports: ["TRAIL"],
     club: "ANGOL RUNNERS",
@@ -707,9 +707,9 @@ const TRAILS = [
     gpx: "gpx/angol-runners-arauco.gpx",
     startCoords: [-72.729337, -37.846424],
     trails: [
-      { name: "Angol Runners Arauco", startCoords: [-72.729337, -37.846424], distanceKm: 6.23, ascent: 472, descent: 93, disciplines: ["TR"] }
+      { name: "Angol Runners", startCoords: [-72.729337, -37.846424], distanceKm: 6.23, ascent: 472, descent: 93, disciplines: ["TR"] }
     ],
-    description: "Sendero de trail running del Club Angol Runners. Track único de 6,23 km, punto a punto, que transita íntegramente por predios de Forestal Arauco (Deuco Arau 3,19 km y San Carlos 2,99 km). Sin metros duplicados."
+    description: "Sendero de trail running del Club Angol Runners, Angol. Track único de 6,23 km, punto a punto, que transita íntegramente por predios de Forestal Arauco (Deuco Arau 3,19 km y San Carlos 2,99 km). Sin metros duplicados."
   }
 ];
 
