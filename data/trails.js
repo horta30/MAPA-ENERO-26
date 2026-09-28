@@ -689,6 +689,27 @@ const TRAILS = [
       { name: "Fdo El Sol completo", startCoords: [-72.73492566, -39.07941066], distanceKm: 3.45, ascent: 19, descent: 422, disciplines: ["DH"], difficulty: "negro" }
     ],
     description: "Pista DH del Fundo El Sol, Maulen Riders, Gorbea. 3.45 km con 422 m de descenso."
+  },
+  {
+    id: "ruta-117",
+    name: "Angol Runners Arauco",
+    type: "TRAIL",
+    sports: ["TRAIL"],
+    club: "ANGOL RUNNERS",
+    difficulty: "",
+    distanceKm: 6.23,
+    uniqueKm: 6.23,
+    ascent: 472,
+    descent: 93,
+    location: "ANGOL",
+    region: "La Araucanía",
+    kmz: "kmz/ANGOL_RUNNERS_ARAUCO.kmz",
+    gpx: "gpx/angol-runners-arauco.gpx",
+    startCoords: [-72.729337, -37.846424],
+    trails: [
+      { name: "Angol Runners Arauco", startCoords: [-72.729337, -37.846424], distanceKm: 6.23, ascent: 472, descent: 93, disciplines: ["TR"] }
+    ],
+    description: "Sendero de trail running del Club Angol Runners. Track único de 6,23 km, punto a punto, que transita íntegramente por predios de Forestal Arauco (Deuco Arau 3,19 km y San Carlos 2,99 km). Sin metros duplicados."
   }
 ];
 

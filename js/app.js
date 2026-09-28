@@ -277,7 +277,8 @@ function initStaticPins() {
         ubicacion: trail.location,
         region: trail.region,
         gpx: trail.gpx,
-        pinColor: trail.type === 'XC' ? '#00BCD4' : trail.type === 'DH' ? '#FF5722' : '#4CAF50',
+        is_trail: !!(trail.sports && trail.sports.includes('TRAIL')),
+        pinColor: trail.type === 'XC' ? '#00BCD4' : trail.type === 'DH' ? '#FF5722' : trail.type === 'TRAIL' ? '#FF7043' : '#4CAF50',
         // V38: Guardar coordenadas para navegación
         nav_lat: coords[1],
         nav_lng: coords[0]
@@ -468,7 +469,8 @@ function updatePinsWithRealCoords() {
         ubicacion: trail.location,
         region: trail.region || '',
         gpx: trail.gpx,
-        pinColor: trail.type === 'XC' ? '#00BCD4' : trail.type === 'DH' ? '#FF5722' : '#4CAF50',
+        is_trail: !!(trail.sports && trail.sports.includes('TRAIL')),
+        pinColor: trail.type === 'XC' ? '#00BCD4' : trail.type === 'DH' ? '#FF5722' : trail.type === 'TRAIL' ? '#FF7043' : '#4CAF50',
         // V38: Coordenadas de navegación
         nav_lat: coord[1],
         nav_lng: coord[0]
@@ -759,8 +761,8 @@ function addTrailLayers() {
           'case',
           ['==', ['get', 'dificultad'], 'negro'], '#ffffff',
           ['==', ['get', 'dificultad'], 'azul'], '#60a5fa',
+          ['==', ['get', 'type'], 'TRAIL'], '#FF7043',
           ['==', ['get', 'type'], 'PARQUE'], '#4ade80',
-          ['==', ['get', 'type'], 'PARQUE'], '#66cc66',
           '#4ade80'
         ],
         'line-opacity': 0.25,
@@ -1195,8 +1197,7 @@ function applyFilterToMap() {
 
   const conditions = [];
   if (activeFilter === 'TRAIL') {
-    // Parque Collico es la única locación con TRAIL por ahora
-    conditions.push(['==', ['get', 'id'], 'ruta-104']);
+    conditions.push(['==', ['get', 'is_trail'], true]);
   } else if (activeFilter !== 'ALL') {
     conditions.push(['==', ['get', 'type'], activeFilter]);
   }
@@ -1312,6 +1313,9 @@ function createRutaCard(trail) {
     difficultyIcon = '<span class="difficulty-icon dh-icon">◆◆</span>';
     difficultyText = trail.difficulty === 'negro' ? 'MUY EXIGENTE' : 'EXIGENTE';
     geometryIcon = '<span class="geometry-icon dh-geometry">◆◆</span>';
+  } else if (trail.type === 'TRAIL') {
+    geometryIcon = '<span class="geometry-icon trail-geometry">🏃</span>';
+    showDifficulty = false;
   } else if (trail.type === 'BIKE PARK') {
     geometryIcon = '<span class="geometry-icon parque-geometry">🌲</span>';
     showDifficulty = false;
@@ -1550,7 +1554,7 @@ function getFeaturesForTrail(trailId) {
 
     const trailMeta = TRAILS.find(t => t.id === trailId);
     if (trailMeta) cached.forEach(f => {
-      if (f && f.properties) f.properties.lineColor = trailMeta.type === 'XC' ? '#00BCD4' : trailMeta.type === 'DH' ? '#FF5722' : '#4CAF50';
+      if (f && f.properties) f.properties.lineColor = trailMeta.type === 'XC' ? '#00BCD4' : trailMeta.type === 'DH' ? '#FF5722' : trailMeta.type === 'TRAIL' ? '#FF7043' : '#4CAF50';
     });
 
     if (map && map.getSource && map.getSource('trails')) {
