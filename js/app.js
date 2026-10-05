@@ -817,11 +817,6 @@ function addTrailLayers() {
 // ============================================================================
 
 function setupMobileExperience() {
-  const menuTrigger = document.getElementById('mobile-menu-trigger');
-  if (menuTrigger) {
-    menuTrigger.addEventListener('click', toggleMobileMenu);
-  }
-
   // V17: Click en el hint del menú también abre el menú
   const menuHint = document.getElementById('menu-hint');
   if (menuHint) {
@@ -835,8 +830,12 @@ function setupMobileExperience() {
 
   const welcomeClose = document.getElementById('welcome-close');
   const welcomeOverlay = document.getElementById('welcome-overlay');
-  
-  if (welcomeClose && welcomeOverlay) {
+
+  // En móvil no se muestra: aparecía 1,5 s sobre un mapa oscurecido y lo único
+  // que lograba era retrasar el primer contacto con el mapa.
+  if (isMobile && welcomeOverlay) {
+    welcomeOverlay.classList.add('hidden');
+  } else if (welcomeClose && welcomeOverlay) {
     welcomeClose.addEventListener('click', () => {
       welcomeOverlay.classList.add('hidden');
       localStorage.setItem('welcomeShown', 'true');
@@ -1011,6 +1010,10 @@ function showRoutePeek(trail) {
   if (!isMobile || !trail) return;
   const el = document.getElementById('route-peek');
   if (!el) return;
+  // Simétrico con openSheet(), que oculta el peek: las dos superficies nunca
+  // coexisten. Si no, un deep link dejaba la tarjeta encima de la lista abierta,
+  // con dos botones de cierre compitiendo.
+  closeSheet();
   const stats = [
     trail.distanceKm ? `${trail.distanceKm} km` : '',
     trail.ascent ? `+${trail.ascent}m` : '',

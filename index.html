@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- viewport-fit=cover: la app ocupa toda la pantalla del iPhone (bajo el notch y
+       el indicador de inicio). El CSS usa env(safe-area-inset-*) para no quedar tapado. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <!-- SEO PRO -->
   <title>Mapa MTB — Bosque Abierto | Guardianes del Bosque</title>
@@ -61,18 +63,7 @@
     <!-- Mapa -->
     <div id="map" role="application" aria-label="Mapa interactivo de senderos MTB"></div>
 
-    <!-- Botón flotante móvil (legacy, oculto en V44) -->
-    <button
-      id="mobile-menu-trigger"
-      class="mobile-menu-trigger"
-      aria-label="Abrir menú de rutas"
-    >
-      <span class="menu-icon">☰</span>
-      <span class="menu-text">Ver Rutas MTB</span>
-      <span class="menu-badge" id="mobile-menu-badge">27</span>
-    </button>
-
-    <!-- Hint para desplegar menú -->
+    <!-- Hint para desplegar menú (solo desktop) -->
     <div id="menu-hint" class="menu-hint">
       👇 ¡Despliega el menú de pistas!
     </div>

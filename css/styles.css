@@ -926,19 +926,32 @@ min-height: unset;
      ========================================================================== */
 
   /* Legacy fuera */
-  .mobile-menu-trigger,
   .menu-hint,
   .interaction-hint,
+  .welcome-overlay,
   .panel-toggle {
     display: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Áreas seguras (iPhone con notch/Dynamic Island e indicador de inicio, y
+     Android con gestos). Sin esto el buscador queda bajo la isla y el botón
+     "N rutas" bajo el indicador de inicio. En pantallas sin recorte env() vale
+     0 y todo queda exactamente como estaba.
+     -------------------------------------------------------------------------- */
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
   }
 
   /* --- Barra de búsqueda flotante --- */
   .map-searchbar {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
+    top: calc(12px + var(--safe-top));
+    left: calc(12px + var(--safe-left));
+    right: calc(12px + var(--safe-right));
     z-index: 1001;
     display: flex;
     align-items: center;
@@ -953,7 +966,10 @@ min-height: unset;
   .map-searchbar .ms-icon { font-size: 14px; opacity: 0.7; }
 
   /* Los controles del mapa bajan para no quedar bajo el buscador */
-  .maplibregl-ctrl-top-right { top: 66px; }
+  .maplibregl-ctrl-top-right { top: calc(66px + var(--safe-top)); }
+  /* Targets tactiles: el minimo recomendado es 44px; venian en 29px */
+  .maplibregl-ctrl button { width: 44px; height: 44px; }
+  .maplibregl-ctrl button .maplibregl-ctrl-icon { background-size: 20px 20px; }
   .map-searchbar input {
     flex: 1;
     min-width: 0;
@@ -970,14 +986,14 @@ min-height: unset;
   /* --- Botón "N rutas" --- */
   .open-list-btn {
     position: absolute;
-    bottom: 18px;
+    bottom: calc(18px + var(--safe-bottom));
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
     display: flex;
     align-items: center;
     gap: 8px;
-    height: 46px;
+    min-height: 48px;
     padding: 0 22px;
     border: none;
     border-radius: 23px;
@@ -1001,8 +1017,9 @@ min-height: unset;
     left: 0;
     right: 0;
     width: auto;
-    height: 72vh;
+    height: 72dvh;
     max-height: none;
+    padding-bottom: var(--safe-bottom);
     border-radius: 18px 18px 0 0;
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
@@ -1072,12 +1089,37 @@ min-height: unset;
   /* El buscador de la barra de filtros se oculta (ya está arriba flotando) */
   .filter-bar .trail-search { display: none; }
 
+  /* Chips de filtro: medían 23px de alto, la mitad del mínimo táctil (44px).
+     Se mantiene la tipografía compacta y el área de toque sube a 44px.
+     Además pasan a una sola fila deslizable en vez de apelmazarse en dos. */
+  .filter-bar .filter-row:has(.filter-btn) {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .filter-bar .filter-row:has(.filter-btn)::-webkit-scrollbar { display: none; }
+  .filter-bar .filter-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    touch-action: manipulation;
+  }
+  /* El selector de región también al mínimo táctil */
+  .filter-bar .region-select { min-height: 44px; }
+
   /* --- Tarjeta compacta de ruta seleccionada --- */
   .route-peek {
     position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 14px;
+    left: calc(12px + var(--safe-left));
+    right: calc(12px + var(--safe-right));
+    bottom: calc(14px + var(--safe-bottom));
     z-index: 1002;
     background: var(--color-surface, #12181f);
     border: 1px solid rgba(255, 255, 255, 0.10);
@@ -2086,10 +2128,10 @@ min-height: unset;
 /* Responsive */
 @media (max-width: 768px) {
   .share-general-btn {
-    top: 206px;
-    right: 12px;
-    width: 42px;
-    height: 42px;
+    top: calc(206px + var(--safe-top));
+    right: calc(12px + var(--safe-right));
+    width: 48px;
+    height: 48px;
   }
   
   .share-icon svg {
