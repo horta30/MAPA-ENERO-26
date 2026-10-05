@@ -1106,19 +1106,16 @@ function setupMobileNav() {
   if (!panel) return;
 
   const openBtn = document.getElementById('open-list-btn');
-  if (openBtn) openBtn.addEventListener('click', () => {
-    if (enDetalle()) volverALista();
-    openSheet();
-  });
+  // Reabre la hoja en el modo en que estaba: si estabas viendo una locación,
+  // vuelves a ella (y desde ahí, con la flecha, a la lista completa).
+  if (openBtn) openBtn.addEventListener('click', openSheet);
 
   // X de cierre: listener táctil propio para no depender del click sintético
   const closeBtn = document.getElementById('sheet-close');
   if (closeBtn) {
-    const cerrar = (e) => {
-      e.preventDefault(); e.stopPropagation();
-      closeSheet();
-      if (enDetalle()) volverALista();   // la próxima apertura muestra la lista
-    };
+    // Cerrar = minimizar. No sale del detalle: el camino a la lista es la
+    // flecha "←" de la cabecera, y "Menú" devuelve a donde estabas.
+    const cerrar = (e) => { e.preventDefault(); e.stopPropagation(); closeSheet(); };
     closeBtn.addEventListener('click', cerrar);
     closeBtn.addEventListener('touchend', cerrar);
   }
@@ -1178,11 +1175,12 @@ function setupSheetDrag() {
 
 function updateOpenListCount() {
   if (typeof TRAILS === 'undefined') return;
-  const txt = `${TRAILS.length} rutas`;
+  // El botón dice "Menú", no el número de rutas: estando sobre un trazado con la
+  // hoja minimizada, es el camino de vuelta al detalle y a las demás pistas.
   const el = document.getElementById('open-list-count');
-  if (el) el.textContent = txt;
+  if (el) el.textContent = 'Menú';
   const title = document.getElementById('sheet-title');
-  if (title) title.textContent = txt;
+  if (title && !enDetalle()) title.textContent = `${TRAILS.length} rutas`;
 }
 
 // ============================================================================
