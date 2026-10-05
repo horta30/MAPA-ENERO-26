@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v36";
+const VERSION = "bosque-abierto-v38";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -111,7 +111,29 @@ self.addEventListener("fetch", event => {
     return; // Dejar pasar sin interceptar
   }
 
-  // Para todo lo demás: stale-while-revalidate
+  // El código de la app (HTML/CSS/JS/datos) va NETWORK-FIRST: con
+  // stale-while-revalidate el teléfono seguía mostrando la versión anterior
+  // después de cada despliegue, incluso con el VERSION cambiado.
+  const esCodigo = /\.(html|css|js)$/.test(url.pathname) ||
+                   url.pathname.endsWith("/MAPA-ENERO-26/") ||
+                   url.pathname === "/MAPA-ENERO-26";
+
+  if (esCodigo) {
+    event.respondWith(
+      fetch(event.request)
+        .then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            const copia = networkResponse.clone();
+            caches.open(VERSION).then(cache => cache.put(event.request, copia));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.open(VERSION).then(c => c.match(event.request)))
+    );
+    return;
+  }
+
+  // Los KMZ y GPX no cambian salvo que los editemos: cache primero
   event.respondWith(
     caches.open(VERSION).then(cache => {
       return cache.match(event.request).then(cachedResponse => {
@@ -123,11 +145,9 @@ self.addEventListener("fetch", event => {
             return networkResponse;
           })
           .catch(() => {
-            // Sin red y sin cache: nada que hacer
             console.warn("[SW] Sin red para:", event.request.url);
           });
 
-        // Servir cache inmediatamente, actualizar en background
         return cachedResponse || fetchPromise;
       });
     })

@@ -1007,8 +1007,7 @@ min-height: unset;
   }
   .open-list-btn:active { transform: translateX(-50%) scale(0.96); }
   .open-list-btn .olb-icon { font-size: 15px; }
-  .app-sheet-open .open-list-btn,
-  .app-peek-open .open-list-btn { display: none; }
+  .app-sheet-open .open-list-btn { display: none; }
 
   /* --- Hoja de la lista --- */
   .panel {
@@ -1143,6 +1142,47 @@ min-height: unset;
   .rc-diff-negro { background: rgba(255, 87, 34, 0.18);  color: #ff8a65; }
   /* La tarjeta cerrada ya no necesita tanto aire vertical */
   .ruta-card.collapsed { padding-top: 12px; padding-bottom: 12px; }
+
+  /* --------------------------------------------------------------------------
+     MODO DETALLE — la hoja muestra una sola locación, con flecha para volver.
+     Antes el detalle se abría como acordeón dentro de la lista y empujaba las
+     demás tarjetas; ahora reemplaza la lista por completo.
+     -------------------------------------------------------------------------- */
+  .sheet-header { grid-template-columns: auto 1fr auto; }
+  .sheet-back {
+    width: 44px;
+    height: 44px;
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--color-text, #e5e7eb);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .sheet-back:active { opacity: 0.5; }
+  .sheet-title-detalle {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* La tarjeta de detalle no se ve como tarjeta: es el contenido de la hoja */
+  .card-detalle {
+    background: transparent;
+    border: none;
+    padding: 0 0 24px;
+    box-shadow: none;
+  }
+  .card-detalle::before { display: none; }
+  .card-detalle .ruta-card-header { display: none; }
+  .card-detalle .ruta-card-body { display: block; }
+  /* En detalle la hoja ocupa más: es el contenido principal */
+  .app-detalle .panel { height: 62dvh; }   /* deja ver el mapa arriba */
   /* La lista es un contenedor flex: sin esto las tarjetas se encogen hasta
      recortar el texto en vez de dejar que la lista haga scroll. */
   .ruta-card { flex-shrink: 0; }
@@ -1239,86 +1279,6 @@ min-height: unset;
     animation: mlPulse 1s ease-in-out infinite;
   }
   @keyframes mlPulse { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
-
-  /* --- Tarjeta compacta de ruta seleccionada --- */
-  .route-peek {
-    position: absolute;
-    left: calc(12px + var(--safe-left));
-    right: calc(12px + var(--safe-right));
-    bottom: calc(14px + var(--safe-bottom));
-    z-index: 1002;
-    background: var(--color-surface, #12181f);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 16px;
-    padding: 12px 14px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s;
-  }
-  .route-peek.hidden { display: none; }
-  .app-sheet-open .route-peek { display: none; }
-  .rp-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .rp-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--color-text, #e5e7eb);
-    margin: 0;
-  }
-  .rp-stats {
-    font-size: 12px;
-    color: #9ca3af;
-    margin: 3px 0 0;
-  }
-  .rp-close {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: #9ca3af;
-    font-size: 15px;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  .rp-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .rp-actions button {
-    flex: 1;
-    height: 38px;
-    padding: 0 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 10px;
-    background: transparent;
-    color: var(--color-text, #e5e7eb);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  .rp-actions button.rp-primary {
-    background: var(--color-accent, #00e5a0);
-    border-color: var(--color-accent, #00e5a0);
-    color: #0a0e12;
-  }
-  /* Botón secundario compacto: solo lo ancho que necesita */
-  .rp-actions button.rp-go {
-    flex: 0 0 auto;
-    min-width: 68px;
-    padding: 0 18px;
-  }
 
   .focus-toggle { display: none !important; }
   .deeplink-mini { display: none !important; }
@@ -1543,7 +1503,6 @@ min-height: unset;
   /* V44: controles exclusivos de la navegación móvil */
   .map-searchbar,
   .open-list-btn,
-  .route-peek,
   .sheet-header {
     display: none !important;
   }

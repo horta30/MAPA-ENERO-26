@@ -999,6 +999,78 @@ function hideMiniPopups() {
 // A) mapa limpio (default)  B) .sheet-open = lista visible
 // ============================================================================
 
+// ============================================================================
+// UX MÓVIL — La hoja tiene DOS MODOS: lista y detalle
+// Antes había dos superficies (la hoja y una tarjeta flotante) que había que
+// mantener mutuamente excluyentes a mano, y el detalle se abría como acordeón
+// DENTRO de la lista, empujando las demás tarjetas. Ese era el enredo.
+// Ahora: una sola superficie. Elegir una locación la lleva a modo detalle,
+// con una flecha para volver. No hay nada más flotando sobre el mapa.
+// ============================================================================
+
+let modoDetalleId = null;   // id de la locación en pantalla, o null = lista
+
+function enDetalle() { return modoDetalleId !== null; }
+
+function abrirDetalle(trailId) {
+  const trail = TRAILS.find(t => t.id === trailId);
+  if (!trail) return;
+  modoDetalleId = trailId;
+  document.body.classList.add('app-detalle');
+  pintarSheetHeader();
+  pintarDetalle(trail);
+  openSheet();
+}
+
+function volverALista() {
+  modoDetalleId = null;
+  document.body.classList.remove('app-detalle');
+  pintarSheetHeader();
+  renderRutasList();
+}
+
+function pintarSheetHeader() {
+  const titulo = document.getElementById('sheet-title');
+  const header = document.getElementById('sheet-header');
+  if (!titulo || !header) return;
+  let volver = document.getElementById('sheet-back');
+
+  if (enDetalle()) {
+    const trail = TRAILS.find(t => t.id === modoDetalleId);
+    if (!volver) {
+      volver = document.createElement('button');
+      volver.id = 'sheet-back';
+      volver.className = 'sheet-back';
+      volver.setAttribute('aria-label', 'Volver a la lista');
+      volver.textContent = '←';
+      volver.addEventListener('click', e => { e.stopPropagation(); volverALista(); });
+      volver.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); volverALista(); });
+      header.insertBefore(volver, header.firstChild);
+    }
+    titulo.textContent = trail ? trail.name : '';
+    titulo.classList.add('sheet-title-detalle');
+  } else {
+    if (volver) volver.remove();
+    titulo.textContent = `${TRAILS.length} rutas`;
+    titulo.classList.remove('sheet-title-detalle');
+  }
+}
+
+// El detalle usa la MISMA tarjeta de siempre, ya expandida y sin el acordeón:
+// así no se duplica el contenido ni se pierde nada de lo que ya funcionaba.
+function pintarDetalle(trail) {
+  const list = document.getElementById('rutas-list');
+  if (!list) return;
+  const barra = document.getElementById('filter-bar');
+  if (barra) barra.remove();          // en detalle no hay filtros: menos ruido
+  list.innerHTML = '';
+  const card = createRutaCard(trail);
+  card.classList.remove('collapsed');
+  card.classList.add('card-detalle');
+  list.appendChild(card);
+  if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
+}
+
 function isSheetOpen() {
   const p = document.getElementById('panel');
   return !!p && p.classList.contains('sheet-open');
@@ -1007,7 +1079,6 @@ function isSheetOpen() {
 function openSheet() {
   const p = document.getElementById('panel');
   if (!p) return;
-  hideRoutePeek();
   p.classList.add('sheet-open');
   document.body.classList.add('app-sheet-open');
   p.setAttribute('aria-expanded', 'true');
@@ -1016,6 +1087,7 @@ function openSheet() {
 function closeSheet() {
   const p = document.getElementById('panel');
   if (!p) return;
+  p.style.transform = '';   // por si un arrastre interrumpido dejó estilo en línea
   p.classList.remove('sheet-open');
   document.body.classList.remove('app-sheet-open');
   p.setAttribute('aria-expanded', 'false');
@@ -1025,71 +1097,25 @@ function toggleMobileMenu() {
   isSheetOpen() ? closeSheet() : openSheet();
 }
 
-// --- Tarjeta compacta de la ruta seleccionada ---
-function showRoutePeek(trail) {
-  if (!isMobile || !trail) return;
-  const el = document.getElementById('route-peek');
-  if (!el) return;
-  // Simétrico con openSheet(), que oculta el peek: las dos superficies nunca
-  // coexisten. Si no, un deep link dejaba la tarjeta encima de la lista abierta,
-  // con dos botones de cierre compitiendo.
-  closeSheet();
-  const stats = [
-    trail.distanceKm ? `${trail.distanceKm} km` : '',
-    trail.ascent ? `+${trail.ascent}m` : '',
-    trail.descent ? `-${trail.descent}m` : ''
-  ].filter(Boolean).join(' · ');
-
-  el.innerHTML = `
-    <div class="rp-top">
-      <div>
-        <p class="rp-name">${escapeHtml(trail.name)}</p>
-        <p class="rp-stats">${stats}</p>
-      </div>
-      <button class="rp-close" aria-label="Cerrar">✕</button>
-    </div>
-    <div class="rp-actions">
-      <button class="rp-primary" data-act="detalle">Ver detalle</button>
-      <button data-act="navegar" class="rp-go">Ir</button>
-    </div>`;
-  el.classList.remove('hidden');
-  document.body.classList.add('app-peek-open');
-
-  el.querySelector('.rp-close').addEventListener('click', hideRoutePeek);
-  el.querySelector('[data-act="detalle"]').addEventListener('click', () => {
-    openSheet();
-    const card = document.querySelector(`.ruta-card[data-id="${trail.id}"]`);
-    if (card) {
-      card.classList.remove('collapsed');
-      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
-    }
-  });
-  el.querySelector('[data-act="navegar"]').addEventListener('click', () => {
-    const c = realStartCoords.get(trail.id) ||
-      (trail.startCoords ? { lng: trail.startCoords[0], lat: trail.startCoords[1] } : null);
-    if (c) window.open(getGoogleMapsUrl(c.lat, c.lng, trail.name), '_blank');
-  });
-}
-
-function hideRoutePeek() {
-  const el = document.getElementById('route-peek');
-  if (el) el.classList.add('hidden');
-  document.body.classList.remove('app-peek-open');
-}
-
 // --- Cableado de la navegación móvil ---
 function setupMobileNav() {
   const panel = document.getElementById('panel');
   if (!panel) return;
 
   const openBtn = document.getElementById('open-list-btn');
-  if (openBtn) openBtn.addEventListener('click', openSheet);
+  if (openBtn) openBtn.addEventListener('click', () => {
+    if (enDetalle()) volverALista();
+    openSheet();
+  });
 
   // X de cierre: listener táctil propio para no depender del click sintético
   const closeBtn = document.getElementById('sheet-close');
   if (closeBtn) {
-    const cerrar = (e) => { e.preventDefault(); e.stopPropagation(); closeSheet(); };
+    const cerrar = (e) => {
+      e.preventDefault(); e.stopPropagation();
+      closeSheet();
+      if (enDetalle()) volverALista();   // la próxima apertura muestra la lista
+    };
     closeBtn.addEventListener('click', cerrar);
     closeBtn.addEventListener('touchend', cerrar);
   }
@@ -1099,7 +1125,7 @@ function setupMobileNav() {
   if (input) {
     input.addEventListener('input', () => {
       searchQuery = input.value.trim().toLowerCase();
-      renderRutasList();
+      if (enDetalle()) volverALista(); else renderRutasList();
       if (searchQuery && !isSheetOpen()) openSheet();
     });
   }
@@ -1260,11 +1286,9 @@ function handleDeepLink() {
     // V44: deep link limpio — mapa protagonista + tarjeta compacta de la ruta
     const panel = document.getElementById('panel');
     if (panel) panel.classList.remove('minimized');
-    closeSheet();
     selectTrail(trailId);
-    // Antes esperaba 2 s fijos: quien abría un link compartido veía el mapa
-    // vacío sin saber qué estaba pasando. Ahora la tarjeta sale de inmediato.
-    showRoutePeek(trail);
+    // Un link compartido abre directo el detalle de esa locación.
+    abrirDetalle(trailId);
   } else {
     // Desktop: abre la tarjeta y la lista de inmediato
     const panel = document.getElementById('panel');
@@ -1586,14 +1610,20 @@ function createRutaCard(trail) {
 
   header.addEventListener('click', async (e) => {
     e.stopPropagation();
+    // En móvil la tarjeta no se despliega como acordeón: la hoja pasa a
+    // modo detalle y muestra solo esta locación.
+    if (isMobile && !card.classList.contains('card-detalle')) {
+      await loadRoutesIfNeeded();
+      selectTrail(trail.id);
+      abrirDetalle(trail.id);
+      centerOnTrail(trail.id);
+      return;
+    }
     const isNowCollapsed = card.classList.toggle('collapsed');
     if (!isNowCollapsed) {
       await loadRoutesIfNeeded();
       selectTrail(trail.id);
       centerOnTrail(trail.id);
-      minimizePanelOnMobile();
-      // V44: al elegir desde la lista, queda la tarjeta compacta sobre el mapa
-      if (isMobile) showRoutePeek(trail);
       if (trail.gpx && !trail.trails) loadElevationProfile(trail, card);
     }
   });
@@ -1605,7 +1635,9 @@ function createRutaCard(trail) {
     item.addEventListener('click', async (e) => {
       e.stopPropagation();
       await loadRoutesIfNeeded();
-      minimizePanelOnMobile();
+      // En modo detalle la hoja NO se cierra: el encuadre enfoca la pista en la
+      // franja de mapa que queda libre arriba (ver paddingVisible).
+      if (!enDetalle()) minimizePanelOnMobile();
       const trackName = item.dataset.trackName;
       const trailId = item.dataset.trailId;
       // Quitar active de otros items
@@ -1778,15 +1810,9 @@ function paddingVisible() {
     return r.height > 0 && getComputedStyle(n).display !== 'none' ? r.height : 0;
   };
 
-  let abajo = 24;
-  if (isSheetOpen()) {
-    abajo = altoDe('#panel') + 16;
-  } else {
-    const peek = el('#route-peek');
-    abajo = (peek && !peek.classList.contains('hidden'))
-      ? altoDe('#route-peek') + 28
-      : altoDe('#open-list-btn') + 28;
-  }
+  const abajo = isSheetOpen()
+    ? altoDe('#panel') + 16
+    : altoDe('#open-list-btn') + 28;
 
   const arriba = altoDe('#map-searchbar') + 24 || 72;
 
@@ -1905,9 +1931,8 @@ function setupMapInteractions() {
       await loadRoutesIfNeeded();
       selectTrail(feature.properties.id);
       if (isMobile) {
-        // V44: en móvil la tarjeta compacta reemplaza al popup sobre el mapa
-        const t = TRAILS.find(x => x.id === feature.properties.id);
-        if (t) showRoutePeek(t);
+        // Una sola superficie: el pin abre la hoja en modo detalle
+        abrirDetalle(feature.properties.id);
       } else {
         showPinPopup(e, feature);
       }
