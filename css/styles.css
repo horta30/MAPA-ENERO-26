@@ -925,11 +925,15 @@ min-height: unset;
      Estado B (.sheet-open): lista como hoja al 72%, se cierra con X / drag / tocar mapa
      ========================================================================== */
 
-  /* Legacy fuera */
+  /* Legacy fuera. En móvil NADA se dibuja sobre el mapa salvo el buscador, el
+     botón de rutas y la hoja: los popups del mapa y las etiquetas flotantes
+     quedan bloqueados también por CSS, por si algún camino se escapa en JS. */
   .menu-hint,
   .interaction-hint,
   .welcome-overlay,
-  .panel-toggle {
+  .panel-toggle,
+  .maplibregl-popup,
+  .mini-popup {
     display: none !important;
   }
 

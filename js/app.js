@@ -926,6 +926,9 @@ let miniPopupElements = [];
 let miniPopupTimeout = null;
 
 function showMiniPopups() {
+  // En móvil no: son etiquetas flotantes que aparecen solas sobre el mapa y
+  // compiten con la hoja. Una sola superficie.
+  if (isMobile) return;
   // Seleccionar 2-3 puntos aleatorios visibles
   const numPopups = 3;
   const shuffled = [...TRAILS].sort(() => Math.random() - 0.5);
@@ -1907,11 +1910,18 @@ function toggleFocusMode() {
 
 function setupMapInteractions() {
   // Click en línea de ruta
-  map.on('click', 'trails-line', (e) => {
+  map.on('click', 'trails-line', async (e) => {
     if (e.features.length > 0) {
       const feature = e.features[0];
       selectTrail(feature.properties.id);
-      showPopup(e, feature);
+      if (isMobile) {
+        // Este camino no tenía guarda: tocar el trazado abría el popup grande
+        // del mapa ADEMÁS de la hoja. En móvil todo va a la misma superficie.
+        await loadRoutesIfNeeded();
+        abrirDetalle(feature.properties.id);
+      } else {
+        showPopup(e, feature);
+      }
       onUserInteraction(); // V13: Ocultar hints
     }
   });
@@ -1951,6 +1961,7 @@ function setupMapInteractions() {
 
 // V38: Popup mejorado con botones de navegación
 function showPinPopup(e, feature) {
+  if (isMobile) return;   // en móvil manda la hoja
   const props = feature.properties;
   const lat = props.nav_lat || e.lngLat.lat;
   const lng = props.nav_lng || e.lngLat.lng;
@@ -2003,6 +2014,7 @@ function showPinPopup(e, feature) {
 }
 
 function showPopup(e, feature) {
+  if (isMobile) return;   // en móvil manda la hoja
   const props = feature.properties;
   const coords = getNavCoordsForTrail(props.id);
   const lat = coords ? coords.lat : e.lngLat.lat;
