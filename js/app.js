@@ -1506,13 +1506,20 @@ function createRutaCard(trail) {
 function highlightSubTrack(trailId, subTrailName) {
   if (!map || !trailsGeoJSON) return;
 
-  // Buscar feature cuyo trackName coincida con el nombre de la sub-pista
+  // Buscar feature cuyo trackName coincida con el nombre de la sub-pista.
+  // Cascada de la coincidencia más estricta a la más laxa: si el KMZ trae
+  // nombres que se contienen entre sí (p.ej. "Perrita Loca" y "Subida a
+  // Perrita Loca"), buscar solo por la primera palabra devuelve el equivocado.
   const normalizedTarget = subTrailName.toUpperCase().trim();
-  const match = trailsGeoJSON.features.find(f =>
-    f.properties.id === trailId &&
-    f.properties.trackName &&
-    f.properties.trackName.toUpperCase().includes(normalizedTarget.split(' ')[0])
+  const candidates = trailsGeoJSON.features.filter(f =>
+    f.properties.id === trailId && f.properties.trackName
   );
+  const tnOf = f => f.properties.trackName.toUpperCase().trim();
+  const match =
+    candidates.find(f => tnOf(f) === normalizedTarget) ||
+    candidates.find(f => tnOf(f).startsWith(normalizedTarget)) ||
+    candidates.find(f => tnOf(f).includes(normalizedTarget)) ||
+    candidates.find(f => tnOf(f).includes(normalizedTarget.split(' ')[0]));
 
   if (!match) return;
 

@@ -710,6 +710,33 @@ const TRAILS = [
       { name: "Angol Runners", startCoords: [-72.729337, -37.846424], distanceKm: 6.23, ascent: 472, descent: 93, disciplines: ["TR"] }
     ],
     description: "Sendero de trail running del Club Angol Runners, Angol. Track único de 6,23 km, punto a punto, que transita íntegramente por predios de Forestal Arauco (Deuco Arau 3,19 km y San Carlos 2,99 km). Sin metros duplicados."
+  },
+  {
+    id: "ruta-118",
+    name: "Indómitos Bike Valdivia",
+    type: "DH",
+    club: "INDÓMITOS BIKE",
+    difficulty: "negro",
+    distanceKm: 7.65,
+    uniqueKm: 7.27,
+    ascent: 308,
+    descent: 426,
+    location: "VALDIVIA",
+    region: "Los Ríos",
+    kmz: "kmz/INDOMITOS_BIKE_VALDIVIA.kmz",
+    gpx: "gpx/indomitos-bike-valdivia.gpx",
+    startCoords: [-73.189478, -39.775056],
+    trails: [
+      { name: "Bosque de Indomitos", startCoords: [-73.164217, -39.775316], distanceKm: 0.32, ascent: 0, descent: 52, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional \u2193" },
+      { name: "Perrita Loca", startCoords: [-73.169059, -39.777371], distanceKm: 1.20, ascent: 5, descent: 126, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional \u2193" },
+      { name: "Puma Line", startCoords: [-73.168892, -39.775650], distanceKm: 0.81, ascent: 3, descent: 96, disciplines: ["DH"], difficulty: "dificil", direction: "unidireccional \u2193" },
+      { name: "Rompe Costilla", startCoords: [-73.177248, -39.772364], distanceKm: 0.25, ascent: 0, descent: 27, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional \u2193" },
+      { name: "Kick Buttowski", startCoords: [-73.180461, -39.773899], distanceKm: 0.43, ascent: 0, descent: 25, disciplines: ["DH"], difficulty: "moderado", direction: "unidireccional \u2193" },
+      { name: "Subida a Bosque de Indomitos", startCoords: [-73.189478, -39.775056], distanceKm: 3.75, ascent: 301, descent: 40, disciplines: ["RP"], direction: "subida" },
+      { name: "Subida a Perrita Loca", startCoords: [-73.167218, -39.775704], distanceKm: 0.39, ascent: 0, descent: 16, disciplines: ["RP"], direction: "subida" },
+      { name: "Retorno a Subida Indomitos", startCoords: [-73.181700, -39.775506], distanceKm: 0.50, ascent: 0, descent: 45, disciplines: ["RP"], direction: "retorno" }
+    ],
+    description: "5 senderos DH clasificados con criterio IMBA por el club (oct 2026): Puma Line difícil, el resto moderado. Incluye 3 enlaces en subida/retorno. El KMZ marca el punto de entrada al predio de Forestal Arauco."
   }
 ];
 
