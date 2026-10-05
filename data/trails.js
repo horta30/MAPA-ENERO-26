@@ -716,7 +716,7 @@ const TRAILS = [
     name: "Indómitos Bike Valdivia",
     type: "DH",
     club: "INDÓMITOS BIKE",
-    difficulty: "negro",
+    difficulty: "azul",
     distanceKm: 7.65,
     uniqueKm: 7.27,
     ascent: 308,
