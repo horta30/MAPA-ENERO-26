@@ -421,6 +421,7 @@ async function loadRoutesIfNeeded() {
     } catch (error) {
       console.error('❌ V38: Error cargando rutas:', error);
     } finally {
+      mostrarCargando(false);
       routesLoading = false;
     }
   })();
@@ -530,8 +531,27 @@ async function loadOneKMZ(trail) {
   }
 }
 
+function mostrarCargando(on) {
+  if (!isMobile) return;
+  let el = document.getElementById('map-loading');
+  if (on) {
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'map-loading';
+      el.className = 'map-loading';
+      el.innerHTML = '<span class="ml-dot"></span> Cargando senderos…';
+      document.getElementById('app').appendChild(el);
+    }
+    el.classList.remove('hidden');
+  } else if (el) {
+    el.classList.add('hidden');
+  }
+}
+
 async function loadKMZData() {
   try {
+    mostrarCargando(true);
+    setTimeout(() => mostrarCargando(false), 15000); // red de seguridad
     console.log('🚀 V38 - Cargando KMZ...');
     console.log(`📊 Total rutas: ${TRAILS.length}`);
 
@@ -1159,11 +1179,12 @@ function renderFilterBar() {
       <button class="filter-btn parque" data-filter="PARQUE">Parque</button>
       <button class="filter-btn trail" data-filter="TRAIL">Trail Running</button>
     </div>
-    <div class="filter-row">
+    <div class="filter-row filter-row-region">
       <select id="region-select" class="region-select">
         <option value="ALL">📍 Todas las regiones</option>
         ${regiones.map(r => `<option value="${r}">${r}</option>`).join('')}
       </select>
+      <button id="cerca-btn" class="cerca-btn" type="button">📍 Cerca de mí</button>
     </div>
   `;
   list.parentNode.insertBefore(bar, list);
@@ -1178,6 +1199,14 @@ function renderFilterBar() {
       applyFilterToMap();
     });
   });
+
+  const cercaBtn = bar.querySelector('#cerca-btn');
+  if (cercaBtn) {
+    cercaBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleCercaDeMi(cercaBtn);
+    });
+  }
 
   const searchInput = bar.querySelector('#trail-search');
   searchInput.addEventListener('input', () => {
@@ -1233,7 +1262,9 @@ function handleDeepLink() {
     if (panel) panel.classList.remove('minimized');
     closeSheet();
     selectTrail(trailId);
-    setTimeout(() => showRoutePeek(trail), 2000);
+    // Antes esperaba 2 s fijos: quien abría un link compartido veía el mapa
+    // vacío sin saber qué estaba pasando. Ahora la tarjeta sale de inmediato.
+    showRoutePeek(trail);
   } else {
     // Desktop: abre la tarjeta y la lista de inmediato
     const panel = document.getElementById('panel');
@@ -1253,6 +1284,44 @@ function handleDeepLink() {
   pendingDeepLinkTrailId = trailId;
 }
 
+// --- "Cerca de mí": ordenar la lista por cercanía (solo si el usuario acepta) ---
+let ordenCercania = false;
+
+function pedirUbicacion() {
+  return new Promise(resolve => {
+    if (!navigator.geolocation) return resolve(false);
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        resolve(true);
+      },
+      () => resolve(false),
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
+    );
+  });
+}
+
+async function toggleCercaDeMi(btn) {
+  if (ordenCercania) {
+    ordenCercania = false;
+    btn.classList.remove('active');
+    renderRutasList();
+    return;
+  }
+  btn.classList.add('cargando');
+  const ok = userLocation ? true : await pedirUbicacion();
+  btn.classList.remove('cargando');
+  if (!ok) {
+    btn.classList.add('denegado');
+    btn.textContent = 'Sin ubicación';
+    setTimeout(() => { btn.classList.remove('denegado'); btn.textContent = '📍 Cerca de mí'; }, 2600);
+    return;
+  }
+  ordenCercania = true;
+  btn.classList.add('active');
+  renderRutasList();
+}
+
 function renderRutasList() {
   const list = document.getElementById('rutas-list');
   if (!list) return;
@@ -1260,11 +1329,18 @@ function renderRutasList() {
   renderFilterBar();
   list.innerHTML = '';
 
-  const sortedTrails = [...TRAILS].sort((a, b) => {
-    const latA = a.startCoords ? a.startCoords[1] : 0;
-    const latB = b.startCoords ? b.startCoords[1] : 0;
-    return latB - latA;
-  });
+  const sortedTrails = ordenCercania && userLocation
+    ? [...TRAILS].sort((a, b) => {
+        const da = distanciaAlUsuario(a), db = distanciaAlUsuario(b);
+        if (da == null) return 1;
+        if (db == null) return -1;
+        return da - db;
+      })
+    : [...TRAILS].sort((a, b) => {
+        const latA = a.startCoords ? a.startCoords[1] : 0;
+        const latB = b.startCoords ? b.startCoords[1] : 0;
+        return latB - latA;
+      });
 
   let filtered = activeFilter === 'ALL'
     ? sortedTrails
@@ -1294,6 +1370,83 @@ function renderRutasList() {
 function minimizePanelOnMobile() {
   // V44: al elegir una ruta se cierra la lista y manda el mapa
   if (isMobile) closeSheet();
+}
+
+// ============================================================================
+// UX MÓVIL — Resumen de la locación para la tarjeta colapsada
+// Antes la tarjeta cerrada mostraba solo el nombre: 33 rectángulos idénticos
+// sin forma de saber cuál queda cerca ni cuál es del nivel de uno.
+// ============================================================================
+
+let userLocation = null;   // {lat, lng} si el usuario da permiso
+
+function distanciaKm(aLng, aLat, bLng, bLat) {
+  const R = 6371;
+  const dLat = (bLat - aLat) * Math.PI / 180;
+  const dLng = (bLng - aLng) * Math.PI / 180;
+  const la1 = aLat * Math.PI / 180, la2 = bLat * Math.PI / 180;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+function distanciaAlUsuario(trail) {
+  if (!userLocation || !trail.startCoords) return null;
+  return distanciaKm(userLocation.lng, userLocation.lat, trail.startCoords[0], trail.startCoords[1]);
+}
+
+// Disciplinas presentes en la locación (de las sub-pistas, o del tipo)
+function disciplinasDe(trail) {
+  if (trail.trails && trail.trails.length) {
+    const d = [...new Set(trail.trails.flatMap(t => t.disciplines || []))];
+    if (d.length) return d;
+  }
+  if (trail.type === 'TRAIL') return ['TR'];
+  if (trail.type === 'XC' || trail.type === 'DH') return [trail.type];
+  return [];
+}
+
+function etiquetaDificultad(trail) {
+  if (trail.difficulty === 'negro') return { texto: 'Muy exigente', clase: 'negro' };
+  if (trail.difficulty === 'azul')  return { texto: 'Exigente',     clase: 'azul'  };
+  if (trail.type === 'XC')          return { texto: 'Intermedio',   clase: 'azul'  };
+  return null;
+}
+
+// Línea de resumen que se ve con la tarjeta cerrada
+// Los datos traen la comuna a veces en MAYÚSCULAS y a veces no ("CUREPTO" vs
+// "Constitución"): se normaliza solo para mostrarla, sin tocar trails.js.
+function comunaBonita(txt) {
+  return String(txt || '').toLowerCase().replace(/(^|[\s\-\/])(\p{L})/gu,
+    (m, sep, c) => sep + c.toUpperCase());
+}
+
+function resumenTarjetaHTML(trail) {
+  const lugar = [comunaBonita(trail.location), trail.region].filter(Boolean)
+    .map(x => escapeHtml(String(x))).join(' · ');
+
+  const dist = distanciaAlUsuario(trail);
+  const cerca = dist != null
+    ? `<span class="rc-cerca">a ${dist < 10 ? dist.toFixed(1) : Math.round(dist)} km</span>`
+    : '';
+
+  const chips = [];
+  if (trail.distanceKm > 0) chips.push(`<span class="rc-stat">${trail.distanceKm.toFixed(1)} km</span>`);
+  // En DH lo relevante es el descenso; en XC y trail running, el ascenso.
+  if (trail.type === 'DH' && trail.descent > 0) {
+    chips.push(`<span class="rc-stat">-${trail.descent} m</span>`);
+  } else if (trail.ascent > 0) {
+    chips.push(`<span class="rc-stat">+${trail.ascent} m</span>`);
+  } else if (trail.descent > 0) {
+    chips.push(`<span class="rc-stat">-${trail.descent} m</span>`);
+  }
+  disciplinasDe(trail).forEach(d =>
+    chips.push(`<span class="disc-badge disc-${d.toLowerCase()}">${d}</span>`));
+  const dif = etiquetaDificultad(trail);
+  if (dif) chips.push(`<span class="rc-diff rc-diff-${dif.clase}">${dif.texto}</span>`);
+
+  return `
+      <p class="ruta-sub">${lugar}${cerca}</p>
+      ${chips.length ? `<div class="ruta-chips">${chips.join('')}</div>` : ''}`;
 }
 
 function createRutaCard(trail) {
@@ -1399,7 +1552,10 @@ function createRutaCard(trail) {
 
   card.innerHTML = `
     <div class="ruta-card-header">
-      <h3 class="ruta-title">${escapeHtml(trail.name)}</h3>
+      <div class="ruta-head-main">
+        <h3 class="ruta-title">${escapeHtml(trail.name)}</h3>
+        ${resumenTarjetaHTML(trail)}
+      </div>
       <span class="card-chevron" aria-hidden="true">▾</span>
     </div>
 
@@ -1537,7 +1693,7 @@ function highlightSubTrack(trailId, subTrailName) {
   coords.forEach(c => bounds.extend(c));
 
   if (!bounds.isEmpty()) {
-    map.fitBounds(bounds, { padding: 100, duration: 1800, maxZoom: 14 });
+    map.fitBounds(bounds, { padding: paddingVisible(), duration: 1800, maxZoom: 14 });
   }
 }
 
@@ -1602,6 +1758,48 @@ function selectTrail(trailId) {
   updateFocusToggle();
 }
 
+// ============================================================================
+// UX MÓVIL — Encuadre sobre el área realmente visible
+// En móvil la hoja o la tarjeta tapan la parte baja de la pantalla. Con un
+// padding fijo de 120 px la ruta quedaba centrada DETRÁS de la hoja.
+// ============================================================================
+function paddingVisible() {
+  if (!isMobile) {
+    return { top: 120, bottom: 120, left: 120, right: 120 };
+  }
+  const alto = map ? map.getContainer().clientHeight : window.innerHeight;
+  const ancho = map ? map.getContainer().clientWidth : window.innerWidth;
+
+  const el = sel => document.querySelector(sel);
+  const altoDe = sel => {
+    const n = el(sel);
+    if (!n) return 0;
+    const r = n.getBoundingClientRect();
+    return r.height > 0 && getComputedStyle(n).display !== 'none' ? r.height : 0;
+  };
+
+  let abajo = 24;
+  if (isSheetOpen()) {
+    abajo = altoDe('#panel') + 16;
+  } else {
+    const peek = el('#route-peek');
+    abajo = (peek && !peek.classList.contains('hidden'))
+      ? altoDe('#route-peek') + 28
+      : altoDe('#open-list-btn') + 28;
+  }
+
+  const arriba = altoDe('#map-searchbar') + 24 || 72;
+
+  // Nunca dejar menos de 120 px de alto útil ni paddings negativos
+  const maxVert = Math.max(0, (alto - 120) / 2);
+  return {
+    top: Math.min(Math.max(arriba, 16), maxVert),
+    bottom: Math.min(Math.max(abajo, 16), alto - Math.min(arriba, maxVert) - 120),
+    left: Math.min(24, ancho / 4),
+    right: Math.min(24, ancho / 4)
+  };
+}
+
 function centerOnTrail(trailId) {
   if (!trailsGeoJSON || !map) return;
 
@@ -1636,7 +1834,7 @@ function centerOnTrail(trailId) {
 
   if (!bounds.isEmpty()) {
     map.fitBounds(bounds, {
-      padding: { top: 120, bottom: 120, left: 120, right: 120 },
+      padding: paddingVisible(),
       duration: 2000,
       maxZoom: 14,
       easing: (t) => t * (2 - t)

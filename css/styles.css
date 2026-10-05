@@ -1086,6 +1086,73 @@ min-height: unset;
   }
   .ruta-header h3 { font-size: 14px; }
 
+  /* --------------------------------------------------------------------------
+     Tarjetas con información (antes: solo el nombre, 33 rectángulos iguales).
+     Con la tarjeta cerrada se ve comuna, región, distancia, desnivel,
+     disciplinas y dificultad. En escritorio esto queda oculto: la tarjeta
+     sigue exactamente como estaba.
+     -------------------------------------------------------------------------- */
+  .ruta-card-header { align-items: flex-start; gap: 10px; }
+  .ruta-head-main { flex: 1; min-width: 0; }
+  .ruta-card .ruta-title {
+    font-size: 15px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+  }
+  .ruta-sub {
+    margin: 0;
+    font-size: 11.5px;
+    color: #9aa5b1;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .rc-cerca {
+    color: var(--color-accent, #00e5a0);
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .ruta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+  }
+  .rc-stat {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #c7d0d9;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 5px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .rc-diff {
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: 5px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .rc-diff-azul  { background: rgba(96, 165, 250, 0.18); color: #93c5fd; }
+  .rc-diff-negro { background: rgba(255, 87, 34, 0.18);  color: #ff8a65; }
+  /* La tarjeta cerrada ya no necesita tanto aire vertical */
+  .ruta-card.collapsed { padding-top: 12px; padding-bottom: 12px; }
+  /* La lista es un contenedor flex: sin esto las tarjetas se encogen hasta
+     recortar el texto en vez de dejar que la lista haga scroll. */
+  .ruta-card { flex-shrink: 0; }
+  /* Con la tarjeta cerrada no hace falta la línea separadora ni tanto espacio */
+  .ruta-card.collapsed .ruta-card-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
   /* El buscador de la barra de filtros se oculta (ya está arriba flotando) */
   .filter-bar .trail-search { display: none; }
 
@@ -1113,6 +1180,65 @@ min-height: unset;
   }
   /* El selector de región también al mínimo táctil */
   .filter-bar .region-select { min-height: 44px; }
+
+  /* Fila: selector de región + "Cerca de mí" */
+  .filter-bar .filter-row-region {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .filter-bar .filter-row-region .region-select { flex: 1; min-width: 0; }
+  .cerca-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    color: #c7d0d9;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .cerca-btn.active {
+    background: var(--color-accent, #00e5a0);
+    border-color: var(--color-accent, #00e5a0);
+    color: #0a0e12;
+  }
+  .cerca-btn.cargando { opacity: 0.55; }
+  .cerca-btn.denegado { border-color: rgba(255, 138, 101, 0.5); color: #ff8a65; }
+
+  /* Indicador de carga de senderos: discreto, bajo el buscador */
+  .map-loading {
+    position: absolute;
+    top: calc(68px + var(--safe-top));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 16px;
+    background: rgba(10, 14, 18, 0.88);
+    color: #c7d0d9;
+    font-size: 11.5px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    transition: opacity 0.25s;
+  }
+  .map-loading.hidden { opacity: 0; pointer-events: none; }
+  .ml-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent, #00e5a0);
+    animation: mlPulse 1s ease-in-out infinite;
+  }
+  @keyframes mlPulse { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
 
   /* --- Tarjeta compacta de ruta seleccionada --- */
   .route-peek {
@@ -1398,6 +1524,14 @@ min-height: unset;
   .welcome-overlay {
     display: flex;
   }
+}
+
+/* El resumen de la tarjeta es exclusivo de móvil: en escritorio la tarjeta
+   se mantiene idéntica a la versión original. */
+@media (min-width: 769px) {
+  .ruta-sub,
+  .ruta-chips,
+  .cerca-btn { display: none; }
 }
 
 @media (min-width: 769px) {
