@@ -740,7 +740,7 @@ const TRAILS = [
   },
   {
     id: "ruta-119",
-    name: "Balneario Municipal de Purén",
+    name: "Ciénaga de Purén",
     type: "PARQUE",
     sports: ["MTB", "TRAIL"],
     club: "CIÉNAGA DE PURÉN MTB",
