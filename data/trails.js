@@ -761,7 +761,7 @@ const TRAILS = [
       { name: "TRekking a evaluación 2 (1560 mt)", startCoords: [-73.08147, -37.98119], distanceKm: 1.63, direction: "bidireccional" },
       { name: "Trekking a evaluacion (1200 mt)",   startCoords: [-73.08434, -37.98180], distanceKm: 1.19, direction: "bidireccional" }
     ],
-    description: "5 senderos del club Ciénaga de Purén MTB, en el Balneario Municipal (un río, no costa), junto a Capitán Pastene y el Parque Nacional Nahuelbuta. Son multiespecialidad y bidireccionales: bicicleta, trekking y running comparten el mismo trazado, por eso no se etiquetan por disciplina. El KMZ del club no trae altitud, así que esta locación no tiene desnivel. Pendiente: los trazados de las carreras de 10K, 5K, 2K y 1K."
+    description: "5 senderos del club Ciénaga de Purén MTB, en el Balneario Municipal (un río, no costa), junto a Capitán Pastene y el Parque Nacional Nahuelbuta. Son multiespecialidad y bidireccionales: bicicleta, trekking y running comparten el mismo trazado, por eso no se etiquetan por disciplina. El KMZ del club no trae altitud, así que esta locación no tiene desnivel. Pendientes: los trazados de las carreras de 10K, 5K, 2K y 1K, y el sendero \"Despeje (1680 mt)\", que queda a evaluación hasta cruzarlo con la capa oficial "+ "(no se descartó por duplicar kilómetros: contra los senderos del club aporta terreno propio)."
   }
 ];
 
