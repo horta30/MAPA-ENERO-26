@@ -737,6 +737,31 @@ const TRAILS = [
       { name: "Retorno a Subida Indomitos", startCoords: [-73.181700, -39.775506], distanceKm: 0.50, ascent: 0, descent: 45, disciplines: ["RP"], direction: "retorno" }
     ],
     description: "5 senderos DH clasificados con criterio IMBA por el club (oct 2026): Puma Line difícil, el resto moderado. Incluye 3 enlaces en subida/retorno. El KMZ marca el punto de entrada al predio de Forestal Arauco."
+  },
+  {
+    id: "ruta-119",
+    name: "Balneario Municipal de Purén",
+    type: "PARQUE",
+    sports: ["MTB", "TRAIL"],
+    club: "CIÉNAGA DE PURÉN MTB",
+    difficulty: "",
+    distanceKm: 14.25,
+    uniqueKm: 14.23,
+    ascent: 0,
+    descent: 0,
+    location: "PURÉN",
+    region: "La Araucanía",
+    kmz: "kmz/CIENAGA_DE_PUREN.kmz",
+    gpx: null,
+    startCoords: [-73.08125, -37.99605],
+    trails: [
+      { name: "Mountain Bike",                     startCoords: [-73.07351, -37.99404], distanceKm: 5.37, direction: "bidireccional" },
+      { name: "Bicicletas",                        startCoords: [-73.08144, -37.99636], distanceKm: 3.53, direction: "bidireccional" },
+      { name: "Bicicletas 1",                      startCoords: [-73.08168, -37.99451], distanceKm: 2.53, direction: "bidireccional" },
+      { name: "TRekking a evaluación 2 (1560 mt)", startCoords: [-73.08147, -37.98119], distanceKm: 1.63, direction: "bidireccional" },
+      { name: "Trekking a evaluacion (1200 mt)",   startCoords: [-73.08434, -37.98180], distanceKm: 1.19, direction: "bidireccional" }
+    ],
+    description: "5 senderos del club Ciénaga de Purén MTB, en el Balneario Municipal (un río, no costa), junto a Capitán Pastene y el Parque Nacional Nahuelbuta. Son multiespecialidad y bidireccionales: bicicleta, trekking y running comparten el mismo trazado, por eso no se etiquetan por disciplina. El KMZ del club no trae altitud, así que esta locación no tiene desnivel. Pendiente: los trazados de las carreras de 10K, 5K, 2K y 1K."
   }
 ];
 
