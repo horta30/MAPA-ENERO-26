@@ -762,6 +762,29 @@ const TRAILS = [
       { name: "Trekking a evaluacion (1200 mt)",   startCoords: [-73.08434, -37.98180], distanceKm: 1.19, direction: "bidireccional" }
     ],
     description: "5 senderos del club Ciénaga de Purén MTB, en el Balneario Municipal (un río, no costa), junto a Capitán Pastene y el Parque Nacional Nahuelbuta. Son multiespecialidad y bidireccionales: bicicleta, trekking y running comparten el mismo trazado, por eso no se etiquetan por disciplina. El KMZ del club no trae altitud, así que esta locación no tiene desnivel. Pendientes: los trazados de las carreras de 10K, 5K, 2K y 1K, y el sendero \"Despeje (1680 mt)\", que queda a evaluación hasta cruzarlo con la capa oficial "+ "(no se descartó por duplicar kilómetros: contra los senderos del club aporta terreno propio)."
+  },
+  {
+    id: "ruta-120",
+    name: "San Ambrosio",
+    type: "TRAIL",
+    sports: ["TRAIL"],
+    club: "CLUB TRAIL RUN LOS LAGOS",
+    difficulty: "",
+    distanceKm: 50.27,
+    uniqueKm: 31.88,
+    ascent: 2349,
+    descent: 2349,
+    location: "LOS LAGOS",
+    region: "Los Ríos",
+    kmz: "kmz/SAN_AMBROSIO_LOS_LAGOS.kmz",
+    gpx: "gpx/san-ambrosio-los-lagos.gpx",
+    startCoords: [-72.818730, -39.867458],
+    trails: [
+      { name: "25K", startCoords: [-72.818730, -39.867458], distanceKm: 23.68, ascent: 1146, descent: 1143, disciplines: ["TR"], direction: "circuito cerrado" },
+      { name: "18K", startCoords: [-72.817190, -39.866882], distanceKm: 21.04, ascent: 907,  descent: 909,  disciplines: ["TR"], direction: "circuito cerrado" },
+      { name: "6K",  startCoords: [-72.818735, -39.867801], distanceKm: 5.55,  ascent: 296,  descent: 297,  disciplines: ["TR"], direction: "circuito cerrado" }
+    ],
+    description: "Sede de la carrera San Ambrosio del Club Trail Run Los Lagos (3ª edición: 330 inscritos y 65 niños). Tres circuitos cerrados con salida común, mitad ripio y mitad sendero, que pasan por Santa Gisela, Chapuco y San Joaquín. Solo peatonal. Los nombres son los de la carrera: medidos dan 23,68 / 21,04 / 5,55 km. Las tres comparten trazado, por eso los 50,27 km declarados son 31,88 km de terreno real. La bajada usa el sendero Villa Esperanza, que también es pista DH de la locación Los Lagos. Pendientes: los trazados de 12K, 2K e infantil."
   }
 ];
 

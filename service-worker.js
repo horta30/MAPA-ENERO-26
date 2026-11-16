@@ -5,7 +5,7 @@
 // - Actualiza en segundo plano para la próxima visita
 // ============================================================================
 
-const VERSION = "bosque-abierto-v44";
+const VERSION = "bosque-abierto-v45";
 
 const CORE_ASSETS = [
   "/MAPA-ENERO-26/",
@@ -48,7 +48,8 @@ const KMZ_ASSETS = [
   "/MAPA-ENERO-26/kmz/MAULEN_RIDERS_DH_GORBEA_FUNDO_SOL_NEGRO.kmz",
   "/MAPA-ENERO-26/kmz/ANGOL_RUNNERS_ARAUCO.kmz",
   "/MAPA-ENERO-26/kmz/INDOMITOS_BIKE_VALDIVIA.kmz",
-  "/MAPA-ENERO-26/kmz/CIENAGA_DE_PUREN.kmz"
+  "/MAPA-ENERO-26/kmz/CIENAGA_DE_PUREN.kmz",
+  "/MAPA-ENERO-26/kmz/SAN_AMBROSIO_LOS_LAGOS.kmz"
 ];
 
 // ============================================================================
